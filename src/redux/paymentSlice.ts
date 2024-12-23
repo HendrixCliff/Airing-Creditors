@@ -7,6 +7,7 @@ interface PaymentState {
   error: string | null;
   paymentData: PaymentResponse | null;
   verificationStatus: string | null;
+
 }
 
 const initialState: PaymentState = {
@@ -50,7 +51,7 @@ const paymentSlice = createSlice({
           state.error = null;
         }
       )
-      .addCase(verifyPayment.rejected, (state, action) => {
+      .addCase(verifyPayment.rejected, (state, action: PayloadAction<string | undefined>) => {
         state.loading = false;
         state.error = action.payload || 'Payment verification failed';
         state.verificationStatus = null;

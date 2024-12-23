@@ -222,13 +222,10 @@ export const verifyPayment = createAsyncThunk<
     const token = state.auth.token;
 
     try {
-      const response = await axios.post(
-        'http://localhost:7000/api/v1/payment/verifyPayment',
-        payload,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.get('http://localhost:7000/api/v1/payment/verifyPayment', {
+        headers: { Authorization: `Bearer ${token}` },
+        params: payload,
+      });
 
       return response.data;
     } catch (error) {

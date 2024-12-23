@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from './../hooks/useAppDispatch';
-import { useSelector } from 'react-redux';
-import { RootState } from './../redux/rootReducer'; 
 import { updatePassword } from './../redux/fetchData'; 
-import { clearUpdatePasswordState } from './../redux/authSlice'
-
+import { clearUpdatePasswordState } from './../redux/userSlice'
+import { useAppSelector } from './../hooks/useAppSelector';
 
 
 const UpdatePassword: React.FC = () => {
@@ -12,7 +10,7 @@ const UpdatePassword: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
 
   const dispatch = useAppDispatch();
-  const { isUpdatingPassword, updatePasswordSuccess, updatePasswordError } = useSelector((state: RootState) => state.auth);
+  const { isUpdatingPassword, updatePasswordSuccess, updatePasswordError } = useAppSelector((state) => state.user);
   
   const handleUpdatePassword = () => {
     dispatch(updatePassword({ token, newPassword }));
