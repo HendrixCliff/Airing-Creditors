@@ -4,7 +4,6 @@ import { RootState } from './rootReducer';
 
 
 interface ResetPasswordPayload {
-  token: string;
   password: string;
   confirmPassword: string;
 }
@@ -202,10 +201,9 @@ export const resetPassword = createAsyncThunk<
   { rejectValue: string }
 >(
   'auth/resetPassword',
-  async ({ token, password, confirmPassword }, { rejectWithValue }) => {
+  async ({  password, confirmPassword }, { rejectWithValue }) => {
     try {
       const response = await axios.post(`http://localhost:7000/api/v1/auth/resetPassword/:token`, { 
-        token, 
         password, 
         confirmPassword 
       });

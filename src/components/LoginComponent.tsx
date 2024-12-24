@@ -81,8 +81,8 @@ export const LoginComponent: React.FC = () => {
         className="hidden max-md:flex"
         style={{
           position: 'absolute',
-          right: '7em',
-          top: '76%',
+          right: '4em',
+          top: '69%',
           transform: 'translateY(-50%)',
           cursor: 'pointer',
         }}
@@ -91,7 +91,7 @@ export const LoginComponent: React.FC = () => {
   
   
   <button
-    className="ml-[4em] max-md:ml-[0em] text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.7rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] max-md:w-[70%]"
+    className="ml-[4em] max-md:mt-[1.5em] max-md:ml-[3em] text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.7rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] max-md:w-[70%]"
     type="submit"
   >
     Login

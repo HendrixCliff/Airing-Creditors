@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const ResetPassword = () => {
-  const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
    const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +26,7 @@ const ResetPassword = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(resetPassword({ token, password, confirmPassword }));
+    dispatch(resetPassword({ password, confirmPassword }));
   };
 
   const handleClearMessages = () => {
@@ -35,24 +34,14 @@ const ResetPassword = () => {
   };
 
   return (
-    <section  className="ml-[40em] mt-[9em]  flex flex-col overflow-hidden">
-      <h2 className="text-[1.6rem]">Reset Password</h2>
+    <section  className="ml-[40em] max-md:ml-[1em] mt-[9em] max-md:mt-[6em] flex flex-col overflow-hidden">
+      <h2 className="text-[1.6rem] max-md:text-[1.8rem] max-md:text-center max-md:w-[70%]">Reset Password</h2>
       <form onSubmit={handleSubmit}>
-      <label className="flex flex-col gap-[.5em]">
-       <h3 className="text-[1.4rem]">Token</h3>
-          <input
-             type="text"
-            className="w-[50%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-            required
-          />
-          </label>
           <label className="flex flex-col gap-[.5em]">
-         <h3> New Password </h3>
+         <h3 className="max-md:text-[1.2rem] text-[1.8rem]"> New Password </h3>
           <input
              type={showPassword ? 'text' : 'password'}
-            className="w-[50%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+            className="w-[50%] p-[.4em] max-md:w-[90%]  rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="New Password"
@@ -63,8 +52,8 @@ const ResetPassword = () => {
       onClick={togglePasswordVisibility}
       style={{
         position: 'absolute',
-        right: '23.9em',
-        top: '53%',
+        right: '5.9em',
+        top: '38%',
         transform: 'translateY(-50%)',
         cursor: 'pointer',
       }}
@@ -74,7 +63,7 @@ const ResetPassword = () => {
            <h3 className="text-[1.4rem]"> Confirm New Password </h3>
           <input
              type={showPasswordAgain ? 'text' : 'password'}
-              className="w-[50%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[50%] max-md:w-[90%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm New Password"
@@ -85,19 +74,19 @@ const ResetPassword = () => {
           onClick={togglePasswordVisibilityAgain}
           style={{
             position: 'absolute',
-            right: '24em',
-            top: '66%',
+            right: '6em',
+            top: '54%',
             transform: 'translateY(-50%)',
             cursor: 'pointer',
           }}
          />
           </label>
-        <button type="submit"  className="text-center ml-[3em] mt-[1em]
+        <button type="submit"  className="text-center ml-[3em] max-md:w-[70%] mt-[1em]
          p-[.2em] font-bold rounded-[1em] text-[#f1fffc] border-solid
-          bg-[#1f1915] w-[30%] text-[1.4rem]" disabled={loading}>
+          bg-[#1f1915] max-md:mt-[1.4em] w-[30%] text-[1.4rem]" disabled={loading}>
           {loading ? 'Loading...' : 'Reset Password'}
         </button>
-        <Link to="/authenticate" className="flex">< TiArrowBack size={20}/>Back to Login</Link>
+        <Link to="/authenticate" className="flex text-[1.3rem] max-md:mt-[1.2em] items-center font-semibold">< TiArrowBack size={20}/>Back to Login</Link>
       </form>
       {successMessage && (
         <div>
