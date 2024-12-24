@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 import { RootState } from './rootReducer';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+
 
 interface ResetPasswordPayload {
   token: string;

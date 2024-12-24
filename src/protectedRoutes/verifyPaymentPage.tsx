@@ -1,8 +1,7 @@
 import React from 'react';
 import { useAppDispatch} from '../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector'
-import { verifyPayment } from '../redux/fetchData'; // Adjust the import path as needed
-
+import { verifyPayment } from '../redux/fetchData'; 
 const PaymentVerification: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error, verificationStatus } = useAppSelector(
@@ -11,7 +10,7 @@ const PaymentVerification: React.FC = () => {
 
   const handleVerification = async () => {
     try {
-      const payload = { paymentId: 'your-payment-id' }; // Replace with actual payment ID
+      const payload = { transactionId: 'your-payment-id' }; // Replace with actual payment ID
       const result = await dispatch(verifyPayment(payload)).unwrap();
       console.log('Verification successful:', result);
     } catch (err) {

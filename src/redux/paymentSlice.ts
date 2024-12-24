@@ -1,20 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initiatePayment, verifyPayment } from './fetchData'; 
-import type { PaymentResponse, VerifyPaymentResponse } from '../redux/fetchData'; 
+import type { PaymentResponse} from '../redux/fetchData'; 
 
 interface PaymentState {
   loading: boolean;
   error: string | null;
   paymentData: PaymentResponse | null;
   verificationStatus: string | null;
+  transactionId: string | null
 
 }
+
+export interface VerifyPaymentResponse {
+  status: string;
+ 
+}
+
 
 const initialState: PaymentState = {
   loading: false,
   error: null,
   paymentData: null,
   verificationStatus: null,
+  transactionId: null,
 };
 
 const paymentSlice = createSlice({
