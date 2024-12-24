@@ -57,7 +57,7 @@ export const SignUpComponent: React.FC = () => {
             handleSignUp();
           }}>
             <label className="flex flex-col gap-[.5em] max-md-gap-[.1em]" >
-            <h3 className="text-[1.4rem]">Username</h3>
+            <h3 className="text-[1.4rem]  max-md:text-[1.2rem]">Username</h3>
               <input
               className="w-[70%] max-md:w-[95%] p-[.4em] rounded-[.1em]  border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="text"
@@ -69,8 +69,8 @@ export const SignUpComponent: React.FC = () => {
               />
             </label>
           
-            <label className="flex flex-col gap-[.5em]">
-              <h3 className="text-[1.4rem]">Email</h3>
+            <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
+              <h3 className="text-[1.4rem]  max-md:text-[1.2rem]">Email</h3>
               <input
                 className="w-[70%] max-mda:w-[95%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="email"
@@ -82,10 +82,10 @@ export const SignUpComponent: React.FC = () => {
               />
             </label>
           
-            <label className="flex flex-col gap-[.5em]">
-            <h3 className="text-[1.4rem]">Password</h3>
+            <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
+            <h3 className="text-[1.4rem] max-md:text-[1.2rem]">Password</h3>
               <input
-              className="w-[70%] position-relative p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] max-md:w-[90%] position-relative p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
@@ -96,6 +96,7 @@ export const SignUpComponent: React.FC = () => {
               <FontAwesomeIcon
                       icon={showPassword ? faEyeSlash : faEye}
                       onClick={togglePasswordVisibility}
+                      className="flex max-md:hidden"
                       style={{
                         position: 'absolute',
                         right: '15em',
@@ -104,12 +105,24 @@ export const SignUpComponent: React.FC = () => {
                         cursor: 'pointer',
                       }}
                     />
+                    <FontAwesomeIcon
+                    icon={showPassword ? faEyeSlash : faEye}
+                    className="hidden max-md:flex"
+                    style={{
+                      position: 'absolute',
+                      right: '6em',
+                      top: '39%',
+                      transform: 'translateY(-50%)',
+                      cursor: 'pointer',
+                    }}
+                    />
+
             </label>
 
-            <label className="flex flex-col gap-[.5em]">
-            <h3 className="text-[1.4rem]">Confirm Password</h3>
+            <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
+            <h3 className="text-[1.4rem] max-md:text-[1.2rem]">Confirm Password</h3>
               <input
-              className="w-[70%] rounded-[.1em]  p-[.4em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] rounded-[.1em] max-md:w-[90%]  p-[.4em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type={showPasswordAgain ? 'text' : 'password'}
                 name="confirmPassword"
                 value={formData.confirmPassword}
@@ -120,6 +133,7 @@ export const SignUpComponent: React.FC = () => {
                <FontAwesomeIcon
                       icon={showPasswordAgain ? faEyeSlash : faEye}
                       onClick={togglePasswordVisibilityAgain}
+                      className="flex max-md:hidden"
                       style={{
                         position: 'absolute',
                         right: '14.5em',
@@ -128,12 +142,24 @@ export const SignUpComponent: React.FC = () => {
                         cursor: 'pointer',
                       }}
                     />
+                     <FontAwesomeIcon
+                      icon={showPasswordAgain ? faEyeSlash : faEye}
+                      onClick={togglePasswordVisibilityAgain}
+                      className="hidden max-md:flex"
+                      style={{
+                        position: 'absolute',
+                        right: '6em',
+                        top: '53%',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                      }}
+                    />
             </label>
           
-            <label className="flex flex-col gap-[.5em]">
-            <h3 className="text-[1.4rem]">Phone Number</h3>
+            <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
+            <h3 className="text-[1.4rem]  max-md:text-[1.2rem]">Phone Number</h3>
               <input
-              className="w-[70%] p-[.4em] rounded-[.1em]  border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] max-md:w-[90%] p-[.4em] rounded-[.1em]  border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="text"
                 name="phoneNumber"
                 value={formData.phoneNumber}
@@ -143,10 +169,10 @@ export const SignUpComponent: React.FC = () => {
               />
             </label>
           
-            <label className="flex flex-col gap-[.5em]">
-            <h3 className="text-[1.4rem]">Country</h3>
+            <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
+            <h3 className="text-[1.4rem]  max-md:text-[1.2rem]">Country</h3>
               <input
-              className="w-[70%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] max-md:w-[90%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="text"
                 name="country"
                 value={formData.country}

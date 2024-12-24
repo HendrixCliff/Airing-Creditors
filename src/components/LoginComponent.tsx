@@ -82,11 +82,12 @@ export const LoginComponent: React.FC = () => {
         style={{
           position: 'absolute',
           right: '4em',
-          top: '69%',
+          top: '67%',
           transform: 'translateY(-50%)',
           cursor: 'pointer',
         }}
       />
+      
   </label>
   
   
