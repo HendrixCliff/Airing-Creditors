@@ -20,6 +20,9 @@ interface AuthResponse {
   username: string;
   cookie?: string; // Optional
 }
+interface ResetPasswordResponse {
+  message: string;
+}
 
 const initialState: AuthState = {
   token: null,
