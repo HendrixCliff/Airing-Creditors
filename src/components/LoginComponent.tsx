@@ -36,7 +36,7 @@ export const LoginComponent: React.FC = () => {
  
   
   return (
-    <div>
+    <section className="overflow-hidden">
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {!token ? (
@@ -69,7 +69,7 @@ export const LoginComponent: React.FC = () => {
         style={{
           position: 'absolute',
           right: '16em',
-          top: '73%',
+          top: '69%',
           transform: 'translateY(-50%)',
           cursor: 'pointer',
         }}
@@ -87,7 +87,7 @@ export const LoginComponent: React.FC = () => {
       ) : (
        <h3>You are logged in</h3>
       )}
-    </div>
+    </section>
   );
 };
 

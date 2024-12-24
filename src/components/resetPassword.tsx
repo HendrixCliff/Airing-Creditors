@@ -35,7 +35,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <section  className="ml-[40em] mt-[9em]  flex flex-col">
+    <section  className="ml-[40em] mt-[9em]  flex flex-col overflow-hidden">
       <h2 className="text-[1.6rem]">Reset Password</h2>
       <form onSubmit={handleSubmit}>
       <label className="flex flex-col gap-[.5em]">

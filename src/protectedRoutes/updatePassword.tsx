@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { updatePassword } from './../redux/fetchData'; 
 import { clearUpdatePasswordState } from './../redux/userSlice'
-import { useAppSelector } from './../hooks/useAppSelector';
+import { useAppSelector } from '../hooks/useAppSelector';
 
 
 const UpdatePassword: React.FC = () => {

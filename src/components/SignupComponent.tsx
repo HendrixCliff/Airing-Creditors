@@ -47,7 +47,7 @@ export const SignUpComponent: React.FC = () => {
   };
 
   return (
-    <section>
+    <section className="overflow-hidden">
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {!token ? (
