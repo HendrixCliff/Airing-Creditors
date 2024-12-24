@@ -1,20 +1,19 @@
-
+// ProtectedAccess.jsx
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from './redux/rootReducer';
-
-
-
+import { useAppSelector } from './hooks/useAppSelector'
 const ProtectedAccess: React.FC = () => {
-  const token = useSelector((state: RootState) => state.auth.token);
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
 
-  if (!token) {
-    return <Navigate to="/authenticate" replace />;
+  if (process.env.NODE_ENV === 'development') {
+    // Allow access in development mode
+    return <Outlet />;
   }
 
-  return <Outlet />;
+  // In production mode, check if the user is authenticated
+  return isLoggedIn ? <Outlet /> : <Navigate to="/authenticate" />;
 };
 
 export default ProtectedAccess;
+
 

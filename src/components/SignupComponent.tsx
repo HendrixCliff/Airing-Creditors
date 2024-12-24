@@ -51,15 +51,15 @@ export const SignUpComponent: React.FC = () => {
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {!token ? (
-        <form className="ml-[40em]  flex flex-col"
+        <form className="ml-[40em] max-md:ml-[3em]  flex flex-col"
           onSubmit={(e) => {
             e.preventDefault();
             handleSignUp();
           }}>
-            <label className="flex flex-col gap-[.5em]" >
+            <label className="flex flex-col gap-[.5em] max-md-gap-[.1em]" >
             <h3 className="text-[1.4rem]">Username</h3>
               <input
-              className="w-[70%] p-[.4em] rounded-[.1em]  border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] max-md:w-[95%] p-[.4em] rounded-[.1em]  border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="text"
                 name="username"
                 value={formData.username}
@@ -72,7 +72,7 @@ export const SignUpComponent: React.FC = () => {
             <label className="flex flex-col gap-[.5em]">
               <h3 className="text-[1.4rem]">Email</h3>
               <input
-                className="w-[70%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+                className="w-[70%] max-mda:w-[95%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="email"
                 name="email"
                 value={formData.email}
@@ -158,7 +158,7 @@ export const SignUpComponent: React.FC = () => {
           <button type="submit" className="text-center ml-[7em] p-[.2em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] text-[1.4rem]">Sign Up</button>
         </form>
       ) : (<h3>You are logged in</h3>)}
-      <section className="flex  ml-[23em] mt-[1em] justify-around text-[1.3rem]">
+      <section className="flex  ml-[23em]max-md:ml-[1em] mt-[1em] justify-around max-md:text-[1.1rem] text-[1.3rem]">
         <h3>Have an account?</h3>
          <Link to="/authenticate">Login</Link>
       </section>

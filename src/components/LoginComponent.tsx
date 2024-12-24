@@ -41,11 +41,11 @@ export const LoginComponent: React.FC = () => {
       {error && <p>Error: {error}</p>}
       {!token ? (
         
-        <form className="flex flex-col  gap-[1em]" onSubmit={handleLogin}>
-  <label className="text-[1.3rem] mt-[1.1em] flex flex-col gap-[.7em]" >
+  <form className="flex flex-col  gap-[1em] max-md:gap-[.3em]" onSubmit={handleLogin}>
+  <label className="text-[1.3rem] max-md:text-[1rem] mt-[1.1em] flex flex-col max-md:gap-[.3em] gap-[.7em]" >
     Username
     <input
-    className="w-[60%] rounded-[.1em]  p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+    className="w-[60%] max-md:w-[90%] rounded-[.1em]  p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
     type="text"
     name="username"
     placeholder="Enter your Username"
@@ -54,10 +54,10 @@ export const LoginComponent: React.FC = () => {
   </label>
   
   
-  <label className="text-[1.3rem] flex flex-col gap-[.7em]" >
+  <label className="text-[1.3rem] flex flex-col gap-[.7em] max-md:gap-[.5em]" >
     Password
     <input
-    className="w-[60%] rounded-[.1em] p-[.3em] border-[.2em] border-solid  bg-[#f1fffc] border-[#f1fffc]"
+    className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid  bg-[#f1fffc] border-[#f1fffc]"
     type={showPassword ? 'text' : 'password'}
     name="password"
     placeholder="Enter your Password"
@@ -66,6 +66,7 @@ export const LoginComponent: React.FC = () => {
    <FontAwesomeIcon
         icon={showPassword ? faEyeSlash : faEye}
         onClick={togglePasswordVisibility}
+        className="flex max-md:hidden"
         style={{
           position: 'absolute',
           right: '16em',
@@ -74,11 +75,23 @@ export const LoginComponent: React.FC = () => {
           cursor: 'pointer',
         }}
       />
+      <FontAwesomeIcon
+        icon={showPassword ? faEyeSlash : faEye}
+        onClick={togglePasswordVisibility}
+        className="hidden max-md:flex"
+        style={{
+          position: 'absolute',
+          right: '7em',
+          top: '76%',
+          transform: 'translateY(-50%)',
+          cursor: 'pointer',
+        }}
+      />
   </label>
   
   
   <button
-    className="ml-[4em] text-center font-bold rounded-[1em] text-[1.7rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%]"
+    className="ml-[4em] max-md:ml-[0em] text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.7rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] max-md:w-[70%]"
     type="submit"
   >
     Login
