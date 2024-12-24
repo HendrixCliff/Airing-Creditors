@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
- import { login, signup, protectedData, forgotPassword, checkAuth } from './fetchData';
+ import { login, signup, protectedData, forgotPassword, checkAuth, resetPassword } from './fetchData';
 
  interface AuthState {
   user: { name: string } | null;
   token: string | null;
   loading: boolean;
   error: string | null;
+  successMessage: string | null;
+  errorMessage: string | null;
   protectedMessage: string | null;
   forgotPasswordMessage: string | null;
   isLoggedIn: boolean;
@@ -23,6 +25,8 @@ const initialState: AuthState = {
   token: null,
   loading: false,
   error: null,
+  successMessage: null,
+  errorMessage: null,
   protectedMessage: null,
   forgotPasswordMessage: null,
   isLoggedIn: false,
@@ -41,6 +45,11 @@ const authSlice = createSlice({
       state.username = null;
       state.token = null;
     },
+    clearAuthMessages(state) {
+      state.successMessage = null;
+      state.errorMessage = null;
+    },
+
    
   },
   extraReducers: (builder) => {
@@ -112,6 +121,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
+      builder
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+        state.successMessage = null;
+        state.errorMessage = null;
+      })
+      .addCase(resetPassword.fulfilled, (state, action: PayloadAction<ResetPasswordResponse>) => {
+        state.loading = false;
+        state.successMessage = action.payload.message;
+      })
+      .addCase(resetPassword.rejected, (state, action: PayloadAction<string | undefined>) => {
+        state.loading = false;
+        state.errorMessage = action.payload || 'Failed to reset password';
+      });
 
       builder
       .addCase(checkAuth.fulfilled, (state, action) => {
@@ -125,5 +148,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout,  clearAuthMessages } = authSlice.actions;
 export default authSlice.reducer;

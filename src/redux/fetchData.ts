@@ -1,6 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 import { RootState } from './rootReducer';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+interface ResetPasswordPayload {
+  token: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface ResetPasswordResponse {
+  message: string;
+}
 
 interface UpdateMeResponse {
   message: string;
@@ -183,6 +195,31 @@ export const forgotPassword = createAsyncThunk<ForgotPasswordResponse, ForgotPas
     }
   }
 );
+
+
+export const resetPassword = createAsyncThunk<
+  ResetPasswordResponse,
+  ResetPasswordPayload,
+  { rejectValue: string }
+>(
+  'auth/resetPassword',
+  async ({ token, password, confirmPassword }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`http://localhost:7000/api/v1/auth/resetPassword/:token`, { 
+        token, 
+        password, 
+        confirmPassword 
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data.message || 'Failed to reset password');
+      }
+      return rejectWithValue('Failed to reset password');
+    }
+  }
+);
+
 
 export const initiatePayment = createAsyncThunk<
   PaymentResponse,

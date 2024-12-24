@@ -4,9 +4,9 @@ import Dashboard from './protectedRoutes/Dashboard';
 import AuthenticatePage from './AuthenticatePage'
 import ProtectedAccess from './ProtectedAccess';
 import Profile from './components/Profile/Profile'
-import SignUpComponent from './components/SignupComponent';
+import {SignUpComponent} from './components/SignupComponent';
 import ForgotPassword from './components/ForgotPasswordComponent';
-
+import ResetPassword from './components/resetPassword'
 
 const App: React.FC = () => {
   return (
@@ -16,6 +16,7 @@ const App: React.FC = () => {
         <Route path="/authenticate" element={<AuthenticatePage />} />
         <Route path="/signup" element={<SignUpComponent/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+       <Route path='/reset-password' element={<ResetPassword/>}/>
         {/* Protected Routes */}
         <Route element={<ProtectedAccess />}>
           <Route path="/dashboard" element={<Dashboard />} />

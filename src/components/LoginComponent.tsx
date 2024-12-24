@@ -3,12 +3,20 @@ import { useSelector } from 'react-redux';
 import { RootState } from './../redux/rootReducer';
 import {login } from './../redux/fetchData';
 import { useAppDispatch } from './../hooks/useAppDispatch'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 
 
 export const LoginComponent: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [showPassword, setShowPassword] = useState(false);
   const { token, loading, error } = useSelector((state: RootState) => state.auth);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); 
@@ -50,11 +58,22 @@ export const LoginComponent: React.FC = () => {
     Password
     <input
     className="w-[60%] rounded-[.1em] p-[.3em] border-[.2em] border-solid  bg-[#f1fffc] border-[#f1fffc]"
-    type="password"
+    type={showPassword ? 'text' : 'password'}
     name="password"
     placeholder="Enter your Password"
     required
   />
+   <FontAwesomeIcon
+        icon={showPassword ? faEyeSlash : faEye}
+        onClick={togglePasswordVisibility}
+        style={{
+          position: 'absolute',
+          right: '16em',
+          top: '73%',
+          transform: 'translateY(-50%)',
+          cursor: 'pointer',
+        }}
+      />
   </label>
   
   
