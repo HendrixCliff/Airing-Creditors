@@ -36,7 +36,7 @@ export const LoginComponent: React.FC = () => {
  
   
   return (
-    <section className="overflow-hidden">
+    <section className="overflow-hidden max-md:w-[98%]">
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {!token ? (

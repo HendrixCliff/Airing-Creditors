@@ -19,12 +19,12 @@ const ForgotPasswordComponent: React.FC = () => {
   };
 
   return (
-    <form  className="ml-[40em] mt-[14em]  flex flex-col">
+    <form  className="ml-[40em]  max-md:ml-[1em] mt-[14em]  flex flex-col">
       <label className="flex flex-col gap-[.5em]" >
-      <h3 className="text-[1.4rem]">Forgot Password?</h3>
-      <h3>No worries, we'll send you a reset instructions.</h3>
+      <h3 className="text-[1.6rem] font-semibold">Forgot Password?</h3>
+      <h3 className="text-[1.4rem]">No worries, we'll send you a reset instructions.</h3>
       <input
-        className="w-[70%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+        className="w-[70%] max-md:w-[100%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
         type="email"
         placeholder="Enter your email"
         value={email}
@@ -32,8 +32,8 @@ const ForgotPasswordComponent: React.FC = () => {
         required
       />
       </label>
-     <Link to="/reset-password"> <button type="submit" className="text-center ml-[7em] p-[.2em] mt-[1em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] text-[1.4rem]" onClick={handleForgotPassword} disabled={loading}>
-        {loading ? 'Sending...' : 'Send Reset Link'}
+     <Link to="/reset-password"> <button type="submit" className="text-center ml-[7em] max-md:ml-[1em] max-md: p-[.2em] mt-[1em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] text-[1.4rem]" onClick={handleForgotPassword} disabled={loading}>
+        {loading ? 'sending...' : 'send reset link'}
       </button>
      </Link>
       {error && <p className="text-[red]">{error}</p>}
