@@ -54,7 +54,7 @@ export const LoginComponent: React.FC = () => {
   </label>
   
   
-  <label className="text-[1.3rem] flex flex-col gap-[.7em] max-md:gap-[.5em]" >
+  <label className="text-[1.3rem] relative flex flex-col gap-[.7em] max-md:gap-[.5em]" >
     Password
     <input
     className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid  bg-[#f1fffc] border-[#f1fffc]"
@@ -70,7 +70,7 @@ export const LoginComponent: React.FC = () => {
         style={{
           position: 'absolute',
           right: '16em',
-          top: '69%',
+          top: '71%',
           transform: 'translateY(-50%)',
           cursor: 'pointer',
         }}
@@ -82,7 +82,7 @@ export const LoginComponent: React.FC = () => {
         style={{
           position: 'absolute',
           right: '4em',
-          top: '67%',
+          top: '72%',
           transform: 'translateY(-50%)',
           cursor: 'pointer',
         }}

@@ -82,7 +82,7 @@ export const SignUpComponent: React.FC = () => {
               />
             </label>
           
-            <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
+            <label className="flex flex-col gap-[.5em] relative max-md:gap-[.1em]">
             <h3 className="text-[1.4rem] max-md:text-[1.2rem]">Password</h3>
               <input
               className="w-[70%] max-md:w-[90%] position-relative p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
@@ -111,7 +111,7 @@ export const SignUpComponent: React.FC = () => {
                     style={{
                       position: 'absolute',
                       right: '6em',
-                      top: '39%',
+                      top: '69%',
                       transform: 'translateY(-50%)',
                       cursor: 'pointer',
                     }}
@@ -119,7 +119,7 @@ export const SignUpComponent: React.FC = () => {
 
             </label>
 
-            <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
+            <label className="flex flex-col relative gap-[.5em] max-md:gap-[.1em]">
             <h3 className="text-[1.4rem] max-md:text-[1.2rem]">Confirm Password</h3>
               <input
               className="w-[70%] rounded-[.1em] max-md:w-[90%]  p-[.4em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
@@ -149,7 +149,7 @@ export const SignUpComponent: React.FC = () => {
                       style={{
                         position: 'absolute',
                         right: '6em',
-                        top: '53%',
+                        top: '68.5%',
                         transform: 'translateY(-50%)',
                         cursor: 'pointer',
                       }}

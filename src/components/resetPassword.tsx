@@ -37,7 +37,7 @@ const ResetPassword = () => {
     <section  className="ml-[40em] max-md:ml-[1em] mt-[9em] max-md:mt-[6em] flex flex-col overflow-hidden">
       <h2 className="text-[1.6rem] max-md:text-[1.8rem] max-md:text-center max-md:w-[70%]">Reset Password</h2>
       <form onSubmit={handleSubmit}>
-          <label className="flex flex-col gap-[.5em]">
+          <label className="flex flex-col gap-[.5em] relative">
          <h3 className="max-md:text-[1.2rem] text-[1.8rem]"> New Password </h3>
           <input
              type={showPassword ? 'text' : 'password'}
@@ -47,9 +47,10 @@ const ResetPassword = () => {
             placeholder="New Password"
             required
           />
-      <FontAwesomeIcon
+    <FontAwesomeIcon
       icon={showPassword ? faEyeSlash : faEye}
       onClick={togglePasswordVisibility}
+      className="flex max-md:hidden"
       style={{
         position: 'absolute',
         right: '5.9em',
@@ -57,9 +58,20 @@ const ResetPassword = () => {
         transform: 'translateY(-50%)',
         cursor: 'pointer',
       }}
+    /><FontAwesomeIcon
+      icon={showPassword ? faEyeSlash : faEye}
+      onClick={togglePasswordVisibility}
+      className="hidden max-md:flex "
+      style={{
+        position: 'absolute',
+        right: '5.9em',
+        top: '68%',
+        transform: 'translateY(-50%)',
+        cursor: 'pointer',
+      }}
     />
       </label>
-          <label className="flex flex-col gap-[.5em]">
+          <label className="flex flex-col gap-[.5em] relative">
            <h3 className="text-[1.4rem]"> Confirm New Password </h3>
           <input
              type={showPasswordAgain ? 'text' : 'password'}
@@ -72,10 +84,23 @@ const ResetPassword = () => {
             <FontAwesomeIcon
           icon={showPasswordAgain ? faEyeSlash : faEye}
           onClick={togglePasswordVisibilityAgain}
+          className="flex max-md:hidden"
           style={{
             position: 'absolute',
             right: '6em',
-            top: '54%',
+            top: '59%',
+            transform: 'translateY(-50%)',
+            cursor: 'pointer',
+          }}
+         />
+           <FontAwesomeIcon
+          icon={showPasswordAgain ? faEyeSlash : faEye}
+          onClick={togglePasswordVisibilityAgain}
+          className="hidden max-md:flex"
+          style={{
+            position: 'absolute',
+            right: '6em',
+            top: '73%',
             transform: 'translateY(-50%)',
             cursor: 'pointer',
           }}
