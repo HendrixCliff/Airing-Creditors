@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
-import { useNavigate } from 'react-router-dom';
 import { initiatePayment } from '../redux/fetchData';
 
 
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.payment);
-  const navigate = useNavigate();
   const { isLoggedIn,  token } = useAppSelector((state) => state.auth);
-
+  // git remote add origin https://github.com/HendrixCliff/Airing-Creditor-Backend
+//git push -u origin master
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -18,9 +17,9 @@ const PaymentPage: React.FC = () => {
       alert('You need to be logged in to make a payment.');
 
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn]);
 
-  // State to manage payment details
+
   const [paymentDetails, setPaymentDetails] = useState({
     email: '',
     amount: 0,

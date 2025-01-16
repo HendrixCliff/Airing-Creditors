@@ -21,7 +21,10 @@ const Profile: React.FC = () => {
   useEffect(() => {
     if (!isLoggedIn) {
       alert('You need to be logged in to be able to have a profile');
-      navigate('/login'); // Redirect to login page if needed
+     
+     setTimeout(() => {
+      navigate('/login')
+     }, 3000) // Redirect to login page if needed
     }
   }, [isLoggedIn, navigate]);
 
