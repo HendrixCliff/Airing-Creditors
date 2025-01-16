@@ -62,8 +62,8 @@ const authSlice = createSlice({
       state.error = null;
     })
     .addCase(login.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-      const { token, username, cookie } = action.payload;
-      state.token = token;
+      const { username, cookie } = action.payload;
+
       state.username = username;
       state.cookie = cookie || null; // Optional
       state.isLoggedIn = true;

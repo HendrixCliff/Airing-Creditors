@@ -72,7 +72,7 @@ const ResetPassword = () => {
     />
       </label>
           <label className="flex flex-col gap-[.5em] relative">
-           <h3 className="text-[1.4rem]"> Confirm New Password </h3>
+           <h3 className="text-[1.4rem] max-md:text-[1.2rem]"> Confirm New Password </h3>
           <input
              type={showPasswordAgain ? 'text' : 'password'}
               className="w-[50%] max-md:w-[90%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"

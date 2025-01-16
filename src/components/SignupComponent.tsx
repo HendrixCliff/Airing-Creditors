@@ -3,7 +3,7 @@ import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { signup } from './../redux/fetchData'; 
 import { RootState } from './../redux/rootReducer'; 
-import { Link } from 'react-router-dom';
+import { Link,  useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,6 +13,7 @@ export const SignUpComponent: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordAgain, setShowPasswordAgain] = useState(false)
   const { token, loading, error } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: '',
@@ -41,6 +42,7 @@ export const SignUpComponent: React.FC = () => {
   const handleSignUp = async () => {
     try {
       await dispatch(signup(formData)).unwrap();
+      navigate('/')
     } catch (err) {
       console.error(err);
     }
@@ -72,7 +74,7 @@ export const SignUpComponent: React.FC = () => {
             <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
               <h3 className="text-[1.4rem]  max-md:text-[1.2rem]">Email</h3>
               <input
-                className="w-[70%] max-mda:w-[95%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+                className="w-[70%] max-md:w-[95%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="email"
                 name="email"
                 value={formData.email}
@@ -85,7 +87,7 @@ export const SignUpComponent: React.FC = () => {
             <label className="flex flex-col gap-[.5em] relative max-md:gap-[.1em]">
             <h3 className="text-[1.4rem] max-md:text-[1.2rem]">Password</h3>
               <input
-              className="w-[70%] max-md:w-[90%] position-relative p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] max-md:w-[95%] relative p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
@@ -100,7 +102,7 @@ export const SignUpComponent: React.FC = () => {
                       style={{
                         position: 'absolute',
                         right: '15em',
-                        top: '38%',
+                        top: '78%',
                         transform: 'translateY(-50%)',
                         cursor: 'pointer',
                       }}
@@ -110,7 +112,7 @@ export const SignUpComponent: React.FC = () => {
                     className="hidden max-md:flex"
                     style={{
                       position: 'absolute',
-                      right: '6em',
+                      right: '4em',
                       top: '69%',
                       transform: 'translateY(-50%)',
                       cursor: 'pointer',
@@ -122,7 +124,7 @@ export const SignUpComponent: React.FC = () => {
             <label className="flex flex-col relative gap-[.5em] max-md:gap-[.1em]">
             <h3 className="text-[1.4rem] max-md:text-[1.2rem]">Confirm Password</h3>
               <input
-              className="w-[70%] rounded-[.1em] max-md:w-[90%]  p-[.4em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] rounded-[.1em] max-md:w-[95%]  p-[.4em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type={showPasswordAgain ? 'text' : 'password'}
                 name="confirmPassword"
                 value={formData.confirmPassword}
@@ -136,8 +138,8 @@ export const SignUpComponent: React.FC = () => {
                       className="flex max-md:hidden"
                       style={{
                         position: 'absolute',
-                        right: '14.5em',
-                        top: '52%',
+                        right: '15em',
+                        top: '72%',
                         transform: 'translateY(-50%)',
                         cursor: 'pointer',
                       }}
@@ -148,7 +150,7 @@ export const SignUpComponent: React.FC = () => {
                       className="hidden max-md:flex"
                       style={{
                         position: 'absolute',
-                        right: '6em',
+                        right: '4em',
                         top: '68.5%',
                         transform: 'translateY(-50%)',
                         cursor: 'pointer',
@@ -159,7 +161,7 @@ export const SignUpComponent: React.FC = () => {
             <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
             <h3 className="text-[1.4rem]  max-md:text-[1.2rem]">Phone Number</h3>
               <input
-              className="w-[70%] max-md:w-[90%] p-[.4em] rounded-[.1em]  border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] max-md:w-[95%] p-[.4em] rounded-[.1em]  border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="text"
                 name="phoneNumber"
                 value={formData.phoneNumber}
@@ -172,7 +174,7 @@ export const SignUpComponent: React.FC = () => {
             <label className="flex flex-col gap-[.5em] max-md:gap-[.1em]">
             <h3 className="text-[1.4rem]  max-md:text-[1.2rem]">Country</h3>
               <input
-              className="w-[70%] max-md:w-[90%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[70%] max-md:w-[95%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
                 type="text"
                 name="country"
                 value={formData.country}
@@ -181,10 +183,10 @@ export const SignUpComponent: React.FC = () => {
                 required
               />
             </label>
-          <button type="submit" className="text-center ml-[7em] p-[.2em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] text-[1.4rem]">Sign Up</button>
+          <button type="submit" className=" max-md:ml-[4.5em] mt-[2em] max-md:w-[50%] max-md:mt-[.5em] max-md:py-[.2em] max-md:px-[2em] ml-[7em] p-[.2em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] text-[1.4rem]">Sign Up</button>
         </form>
       ) : (<h3>You are logged in</h3>)}
-      <section className="flex  ml-[23em]max-md:ml-[1em] mt-[1em] justify-around max-md:text-[1.1rem] text-[1.3rem]">
+      <section className="flex max-md:gap-[6em] justify-around ml-[23em] max-md:ml-[2em] max-md:w-[80%] max-md:mt-[.5em] mt-[.5em]  max-md:text-[1.1rem] text-[1.3rem]">
         <h3>Have an account?</h3>
          <Link to="/authenticate">Login</Link>
       </section>

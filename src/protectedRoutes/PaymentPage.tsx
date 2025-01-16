@@ -1,21 +1,39 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
-import { initiatePayment, verifyPayment } from '../redux/fetchData';
+import { useNavigate } from 'react-router-dom';
+import { initiatePayment } from '../redux/fetchData';
 
-const Profile: React.FC = () => {
+
+const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { token } = useAppSelector((state) => state.auth);
   const { loading, error } = useAppSelector((state) => state.payment);
- 
+  const navigate = useNavigate();
+  const { isLoggedIn,  token } = useAppSelector((state) => state.auth);
+
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      // Optionally redirect to login page or show a prompt for guests
+      alert('You need to be logged in to make a payment.');
+
+    }
+  }, [isLoggedIn, navigate]);
+
+  // State to manage payment details
   const [paymentDetails, setPaymentDetails] = useState({
     email: '',
     amount: 0,
     phone: '',
     currency: 'NGN',
-    tx_ref: `txn_${new Date().getTime()}`, // Generate a unique transaction reference
+    payment_option: 'card',
+    tx_ref: `txn_${new Date().getTime()}`,
+    card_number: '',
+    expiry_date: '',
+    cvv: ''
   });
 
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setPaymentDetails((prev) => ({
@@ -23,37 +41,39 @@ const Profile: React.FC = () => {
       [name]: name === 'amount' ? parseFloat(value) : value,
     }));
   };
+
+  // Handle initiating payment
   const handleInitiatePayment = async () => {
     try {
-      const paymentPayload = { amount: 100, recipientId: 'recipient123' }; // Example payload
+      const paymentPayload = {
+        ...paymentDetails,
+        payment_option: 'card', // Explicitly specify card payment option
+      };
+  
+      // Remove recipientId validation for card payments
       const result = await dispatch(initiatePayment(paymentPayload)).unwrap();
       console.log('Payment initiated successfully:', result);
     } catch (err) {
       console.error('Payment initiation failed:', err);
     }
   };
-
-  const handleVerifyPayment = async () => {
-    try {
-      const verificationPayload = { transactionId: 'txn12345' }; // Example payload
-      const result = await dispatch(verifyPayment(verificationPayload)).unwrap();
-      console.log('Payment verified successfully:', result);
-    } catch (err) {
-      console.error('Payment verification failed:', err);
-    }
-  };
+  
 
   return (
-      <div>
-      <div className="payment-section">
-        <h2>Payment</h2>
-        {loading && <p>Processing payment...</p>}
-        {error && <p>Error: {error}</p>}
+    <div>
+      <h2>Payment Page</h2>
+      {isLoggedIn ? (
+        <section className="payment-form">
+          {loading && <p>Processing payment...</p>}
+          {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 
-        <div className="payment-form">
+          {/* Payment Form */}
+         <form className="flex border-[.2em] border-solid ">
+          <section>
           <label>
             Email:
             <input
+              className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type="email"
               name="email"
               value={paymentDetails.email}
@@ -64,6 +84,7 @@ const Profile: React.FC = () => {
           <label>
             Amount:
             <input
+              className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type="number"
               name="amount"
               value={paymentDetails.amount}
@@ -74,6 +95,7 @@ const Profile: React.FC = () => {
           <label>
             Phone Number:
             <input
+              className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type="text"
               name="phone"
               value={paymentDetails.phone}
@@ -83,29 +105,72 @@ const Profile: React.FC = () => {
           </label>
           <label>
             Currency:
-            <select
-              name="currency"
-              value={paymentDetails.currency}
-              onChange={handleChange}
-              required
-            >
+            <select name="currency" value={paymentDetails.currency} onChange={handleChange} required>
               <option value="USD">USD</option>
               <option value="EUR">EUR</option>
               <option value="NGN">NGN</option>
-              {/* Add more currencies as needed */}
             </select>
           </label>
-        </div>
-
-        <button onClick={handleInitiatePayment} disabled={!token || loading}>
-          Initiate Payment
-        </button>
-        <button onClick={handleVerifyPayment} disabled={!token || loading}>
-          Verify Payment
-        </button>
-      </div>
+          <label>
+            Payment Option:
+            <select name="payment_option" value={paymentDetails.payment_option} onChange={handleChange} required>
+              <option value="card">Card</option>
+              <option value="mobilemoneyghana">Mobile Money (Ghana)</option>
+              <option value="ussd">USSD</option>
+            </select>
+          </label>
+          </section>
+          {/* Card Payment Details */}
+          {paymentDetails.payment_option === 'card' && (
+            <section>
+              <label>
+                Card Number:
+                <input
+                className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+                  type="text"
+                  name="card_number"
+                  value={paymentDetails.card_number}
+                  onChange={handleChange}
+                  required
+                  placeholder="1234 5678 9012 3456"
+                />
+              </label>
+              <label>
+                Expiry Date:
+                <input
+                className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+                  type="text"
+                  name="expiry_date"
+                  value={paymentDetails.expiry_date}
+                  onChange={handleChange}
+                  required
+                  placeholder="MM/YY"
+                />
+              </label>
+              <label>
+                CVV:
+                <input
+                  className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+                  type="text"
+                  name="cvv"
+                  value={paymentDetails.cvv}
+                  onChange={handleChange}
+                  required
+                  placeholder="123"
+                />
+              </label>
+            </section>
+          )}
+          <button onClick={handleInitiatePayment} disabled={!token || loading}>
+            Initiate Payment
+          </button>
+        </form>
+        </section>
+      ) : (
+        <p>Please log in to proceed with payment.</p>
+      )}
     </div>
   );
 };
 
-export default Profile;
+export default PaymentPage;

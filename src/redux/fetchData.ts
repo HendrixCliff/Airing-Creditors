@@ -95,7 +95,6 @@ export interface PaymentResponse {
   
   interface PaymentPayload {
     amount: number;
-    recipientId: string;
   }
   
   export const checkAuth = createAsyncThunk('auth/check', async (_, { rejectWithValue }) => {
@@ -137,16 +136,22 @@ export const login = createAsyncThunk<AuthResponse, LoginPayload> (
             const response = await axios.post(
               'http://localhost:7000/api/v1/auth/login',
               { username, password },
-              { withCredentials: true } // Ensures cookies are sent with the request
+              { withCredentials: true }
             );
             
-            return { username, token: response.data.token };
+            return response.data as AuthResponse;
          }
          catch (error: unknown) {
-          console.error('Login error:', error); // Debugging
-          if (axios.isAxiosError(error) && error.response) {
-            return rejectWithValue(error.response.data.message || 'Login failed');
+          console.error('Login error:', error); 
+    
+          if (axios.isAxiosError(error)) {
+            if (error.response) {
+              return rejectWithValue(error.response.data.message || 'Login failed');
+            } else {
+              return rejectWithValue('No response from server');
+            }
           }
+    
           return rejectWithValue('Login failed');
         }
         
