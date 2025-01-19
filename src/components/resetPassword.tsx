@@ -34,14 +34,16 @@ const ResetPassword = () => {
   };
 
   return (
-    <section  className="ml-[40em] max-md:ml-[1em] mt-[9em] max-md:mt-[6em] flex flex-col overflow-hidden">
+    <section className="flex ">
+       <img className="w-[56%] max-md:w-[100%] max-md:m-[.2em] object-cover h-[38em] max-md:h-[20em]"  src="/images/nature.webp"/>
+    <section  className="max-md:ml-[1em] w-[47%] ml-[8em] mt-[9em] max-md:mt-[6em] flex flex-col overflow-hidden">
       <h2 className="text-[1.6rem] max-md:text-[1.8rem] max-md:text-center max-md:w-[70%]">Reset Password</h2>
       <form onSubmit={handleSubmit}>
           <label className="flex flex-col gap-[.5em] relative">
-         <h3 className="max-md:text-[1.2rem] text-[1.8rem]"> New Password </h3>
+         <h3 className="max-md:text-[1.2rem] text-[1.4rem]"> New Password </h3>
           <input
              type={showPassword ? 'text' : 'password'}
-            className="w-[50%] p-[.4em] max-md:w-[90%]  rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+            className="w-[60%] p-[.4em] max-md:w-[90%]  rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="New Password"
@@ -53,8 +55,8 @@ const ResetPassword = () => {
       className="flex max-md:hidden"
       style={{
         position: 'absolute',
-        right: '5.9em',
-        top: '38%',
+        right: '16.9em',
+        top: '79%',
         transform: 'translateY(-50%)',
         cursor: 'pointer',
       }}
@@ -75,7 +77,7 @@ const ResetPassword = () => {
            <h3 className="text-[1.4rem] max-md:text-[1.2rem]"> Confirm New Password </h3>
           <input
              type={showPasswordAgain ? 'text' : 'password'}
-              className="w-[50%] max-md:w-[90%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[60%] max-md:w-[90%] p-[.4em] rounded-[.1em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm New Password"
@@ -87,8 +89,8 @@ const ResetPassword = () => {
           className="flex max-md:hidden"
           style={{
             position: 'absolute',
-            right: '6em',
-            top: '59%',
+            right: '17em',
+            top: '74%',
             transform: 'translateY(-50%)',
             cursor: 'pointer',
           }}
@@ -126,6 +128,8 @@ const ResetPassword = () => {
         </div>
       )}
     </section>
+    </section>
+   
   );
 };
 

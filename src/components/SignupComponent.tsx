@@ -187,7 +187,7 @@ export const SignUpComponent: React.FC = () => {
                 required
               />
             </label>
-          <button type="submit" className=" ml-[auto] mr-[auto] mt-[.1em] max-md:w-[50%] max-md:mt-[.5em] max-md:py-[.2em] max-md:px-[2em] p-[.2em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[50%] text-[1.4rem]">Sign Up</button>
+          <button type="submit" className=" ml-[auto] mr-[auto] mt-[.1em] max-md:w-[50%] max-md:mt-[.5em] max-md:py-[.2em] max-md:px-[2em] p-[.2em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[50%] text-[1.4rem] max-sm:text-[1.1rem]">Sign Up</button>
         </form>
       ) : (<h3>You are logged in</h3>)}
       <section className="flex  justify-between  max-md:ml-[2em] max-md:w-[80%] max-md:mt-[.5em] mt-[.1em]  max-md:text-[1.1rem] text-[1.3rem]">

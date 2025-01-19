@@ -19,7 +19,10 @@ const ForgotPasswordComponent: React.FC = () => {
   };
 
   return (
-    <form  className="ml-[40em]  max-md:ml-[1em] mt-[14em] max-md:mt-[10em]  flex flex-col">
+    <section>
+      <section className="flex">
+      <img className="w-[52%] max-md:w-[100%] max-md:m-[.2em] object-cover h-[38em] max-md:h-[20em]"  src="/images/tortise.webp" alt="Description" />
+      <form  className="max-md:ml-[.1em] ml-[5.5em] mt-[14em] max-md:mt-[10em]  flex flex-col">
       <label className="flex flex-col gap-[.5em]" >
       <h3 className="text-[1.6rem] font-semibold">Forgot Password?</h3>
       <h3 className="text-[1.4rem]">No worries, we'll send you a reset instructions.</h3>
@@ -32,7 +35,8 @@ const ForgotPasswordComponent: React.FC = () => {
         required
       />
       </label>
-     <Link to="/reset-password"> <button type="submit" className="text-center ml-[7em] max-md:ml-[2.5em] max-md:w-[70%] p-[.2em] mt-[1em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] text-[1.4rem]" onClick={handleForgotPassword} disabled={loading}>
+     <Link to="/reset-password">
+      <button type="submit" className="text-center ml-[6em] max-md:ml-[2.5em] max-md:w-[70%] p-[.2em] mt-[1em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] w-[40%] text-[1.4rem]" onClick={handleForgotPassword} disabled={loading}>
         {loading ? 'sending...' : 'send reset link'}
       </button>
      </Link>
@@ -40,6 +44,9 @@ const ForgotPasswordComponent: React.FC = () => {
       {forgotPasswordMessage && <p style={{ color: 'green' }}>{forgotPasswordMessage}</p>}
      <Link to="/authenticate" className="flex align-middle items-center text-[1.3rem] font-semibold">< TiArrowBack size={20}/><h3>Back to Login</h3></Link>
     </form>
+      </section>
+    </section>
+    
   );
 };
 
