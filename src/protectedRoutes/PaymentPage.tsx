@@ -7,7 +7,7 @@ import { initiatePayment } from '../redux/fetchData';
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.payment);
-  const { isLoggedIn,  token } = useAppSelector((state) => state.auth);
+  const { isLoggedIn} = useAppSelector((state) => state.auth);
   // git remote add origin https://github.com/HendrixCliff/Airing-Creditor-Backend
 //git push -u origin master
 
@@ -19,8 +19,22 @@ const PaymentPage: React.FC = () => {
     }
   }, [isLoggedIn]);
 
+  interface PaymentDetails {
+    email: string;
+    amount: number;
+    phone: string;
+    currency: string;
+    payment_option: string;
+    tx_ref: string;
+    card_number: string;
+    expiry_date: string;
+    cvv: string;
+    card_type?: string;
+    countryCode?: string;
+  }
 
-  const [paymentDetails, setPaymentDetails] = useState({
+
+  const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
     email: '',
     amount: 0,
     phone: '',
@@ -29,7 +43,9 @@ const PaymentPage: React.FC = () => {
     tx_ref: `txn_${new Date().getTime()}`,
     card_number: '',
     expiry_date: '',
-    cvv: ''
+    cvv: '',
+    countryCode: '+234',
+    card_type: '',
   });
 
   // Handle input changes
@@ -56,7 +72,7 @@ const PaymentPage: React.FC = () => {
   
     return true;
   };
-const handleExpiryDate = (e) => {
+const handleExpiryDate = (e: React.ChangeEvent<HTMLInputElement>) => {
   const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
   let formattedInput = input;
 
@@ -90,7 +106,7 @@ const detectCardType = (cardNumber: string) => {
     return 'Unknown'; // Card type not recognized
   }
 };
-const handleCardDetails = (e) => {
+const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
      const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
       const cardType = detectCardType(input); // Detect the card type based on input
 
@@ -101,7 +117,7 @@ const handleCardDetails = (e) => {
       }));
 }
   // Handle initiating payment
-  const handleInitiatePayment = async () => {
+  const handleInitiatePayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateExpiryDate(paymentDetails.expiry_date)) {
       alert('Invalid expiry date. Please enter a valid MM/YY.');
@@ -125,7 +141,7 @@ const handleCardDetails = (e) => {
   return (
     <div>
       <h2>Payment Page</h2>
-      {!isLoggedIn ? (
+      {isLoggedIn ? (
         <section className="">
           {loading && <p>Processing payment...</p>}
           {error && <p style={{ color: 'red' }}>Error: {error}</p>}
