@@ -40,10 +40,73 @@ const PaymentPage: React.FC = () => {
       [name]: name === 'amount' ? parseFloat(value) || 0 : value,
     }));
   };
+  const validateExpiryDate = (expiryDate: string) => {
+    const [month, year] = expiryDate.split('/').map(Number);
+  
+    if (!month || !year) return false; // Ensure both month and year are present
+    if (month < 1 || month > 12) return false; // Month should be between 01 and 12
+  
+    const currentYear = new Date().getFullYear() % 100; // Get last two digits of current year
+    const currentMonth = new Date().getMonth() + 1;
+  
+    // Ensure the year is not in the past and the date is not expired
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return false;
+    }
+  
+    return true;
+  };
+const handleExpiryDate = (e) => {
+  const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+  let formattedInput = input;
 
+  // Add '/' separator automatically
+  if (input.length > 2) {
+    formattedInput = `${input.slice(0, 2)}/${input.slice(2, 4)}`;
+  }
+
+  // Limit input to MM/YY format
+  if (formattedInput.length <= 5) {
+    setPaymentDetails((prev) => ({
+      ...prev,
+      expiry_date: formattedInput,
+    }));
+  }
+}
+const detectCardType = (cardNumber: string) => {
+  const cardNumberPrefix = cardNumber.slice(0, 6); // Get the first 6 digits
+
+  if (/^4/.test(cardNumber)) {
+    return 'Visa';
+  } else if (/^5[1-5]/.test(cardNumber)) {
+    return 'Mastercard';
+  } else if (/^506[0-9]|^507[0-9]|^650[0-9]/.test(cardNumber)) {
+    return 'Verve';
+  } else if (/^3[47]/.test(cardNumber)) {
+    return 'American Express';
+  } else if (/^6(?:011|5)/.test(cardNumber)) {
+    return 'Discover';
+  } else {
+    return 'Unknown'; // Card type not recognized
+  }
+};
+const handleCardDetails = (e) => {
+     const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+      const cardType = detectCardType(input); // Detect the card type based on input
+
+      setPaymentDetails((prev) => ({
+        ...prev,
+        card_number: input,
+        card_type: cardType, 
+      }));
+}
   // Handle initiating payment
   const handleInitiatePayment = async () => {
     e.preventDefault();
+    if (!validateExpiryDate(paymentDetails.expiry_date)) {
+      alert('Invalid expiry date. Please enter a valid MM/YY.');
+      return;
+    }
     try {
       const paymentPayload = {
         ...paymentDetails,
@@ -94,14 +157,39 @@ const PaymentPage: React.FC = () => {
               </label>
               <label className="flex flex-col gap-[.5em] text-[1.2rem]">
                 Phone Number:
-                <input
-                  className="w-[80%]  rounded-[.1em] p-[.3em] border-[.2em]"
-                  type="text"
-                  name="phone"
-                  value={paymentDetails.phone}
-                  onChange={handleChange}
-                  required
-                />
+                <section className="flex items-center">
+                  {/* Country Code Dropdown */}
+                  <select
+                    className="w-[20%] rounded-[.1em] p-[.3em] border-[.2em] border-solid"
+                    name="countryCode"
+                    value={paymentDetails.countryCode || '+234'} // Default to Nigeria
+                    onChange={(e) =>
+                      setPaymentDetails((prev) => ({
+                        ...prev,
+                        countryCode: e.target.value, // Update the selected country code
+                      }))
+                    }
+                    required
+                  >
+                    <option value="+1">+1 (US)</option>
+                    <option value="+44">+44 (UK)</option>
+                    <option value="+91">+91 (India)</option>
+                    <option value="+234">+234 (Nigeria)</option>
+                    <option value="+81">+81 (Japan)</option>
+                    {/* Add more country codes as needed */}
+                  </select>
+
+                  {/* Phone Number Input */}
+                  <input
+                    className="w-[60%] ml-[.5em] rounded-[.1em] p-[.3em] border-[.2em] border-solid"
+                    type="text"
+                    name="phone"
+                    value={paymentDetails.phone}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter phone number"
+                  />
+                </section>
               </label>
               <label className="flex flex-col gap-[.5em] text-[1.2rem]">
                 Currency:
@@ -120,17 +208,24 @@ const PaymentPage: React.FC = () => {
             {paymentDetails.payment_option === 'card' && (
               <section className="w-[100%]">
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                  Card Number:
-                  <input
-                    className="w-[85%]  rounded-[.1em] p-[.3em] border-[.2em]"
-                    type="text"
-                    name="card_number"
-                    value={paymentDetails.card_number}
-                    onChange={handleChange}
-                    required
-                    placeholder="1234 5678 9012 3456"
-                  />
-                </label>
+  Card Number:
+  <input
+    className="w-[85%] rounded-[.1em] p-[.3em] border-[.2em]"
+    type="text"
+    name="card_number"
+    value={paymentDetails.card_number}
+    onChange={handleCardDetails}
+    required
+    placeholder="1234 5678 9012 3456"
+  />
+  {/* Display detected card type */}
+  {paymentDetails.card_type && (
+    <p className="text-[1rem] text-gray-600 mt-[.5em]">
+      Card Type: {paymentDetails.card_type}
+    </p>
+  )}
+</label>
+
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
                   Expiry Date:
                   <input
@@ -138,10 +233,12 @@ const PaymentPage: React.FC = () => {
                     type="text"
                     name="expiry_date"
                     value={paymentDetails.expiry_date}
-                    onChange={handleChange}
+                    onChange={handleExpiryDate}
                     required
                     placeholder="MM/YY"
+                    maxLength={5}
                   />
+
                 </label>
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
                   CVV:
