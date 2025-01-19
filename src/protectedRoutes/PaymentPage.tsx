@@ -14,7 +14,7 @@ const PaymentPage: React.FC = () => {
   useEffect(() => {
     if (!isLoggedIn) {
       // Optionally redirect to login page or show a prompt for guests
-     // alert('You need to be logged in to make a payment.');
+     alert('You need to be logged in to make a payment.');
 
     }
   }, [isLoggedIn]);
