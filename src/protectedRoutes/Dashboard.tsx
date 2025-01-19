@@ -2,7 +2,7 @@ import React from 'react';
 import { logout } from './../redux/authSlice';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
-//import {PieChartComponent} from './Dashboard/PieChart'; // Ensure correct component reference
+
 
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
