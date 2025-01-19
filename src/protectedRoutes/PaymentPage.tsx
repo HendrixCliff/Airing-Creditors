@@ -61,7 +61,7 @@ const PaymentPage: React.FC = () => {
   return (
     <div>
       <h2>Payment Page</h2>
-      {isLoggedIn ? (
+      {!isLoggedIn ? (
         <section className="payment-form">
           {loading && <p>Processing payment...</p>}
           {error && <p style={{ color: 'red' }}>Error: {error}</p>}

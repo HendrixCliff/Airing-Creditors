@@ -44,15 +44,15 @@ const LoginComponent: React.FC = () => {
   };
 
   return (
-    <section className="overflow-hidden max-md:w-[98%]">
+    <section className="overflow-hidden max-md:w-[99%] mr-[1em]">
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {!isLoggedIn ? (
         <form className="flex flex-col gap-[1em] max-md:gap-[.3em]" onSubmit={handleLogin}>
-          <label className="text-[1.3rem] max-md:text-[1rem] mt-[1.1em] flex flex-col max-md:gap-[.3em] gap-[.7em]">
+          <label className="text-[1.3rem] max-md:text-[1.3rem] mt-[1.1em] flex flex-col max-md:gap-[.3em] gap-[.7em]">
             Username
             <input
-              className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[100%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type="text"
               name="username"
               placeholder="Enter your Username"
@@ -63,7 +63,7 @@ const LoginComponent: React.FC = () => {
           <label className="text-[1.3rem] relative flex flex-col gap-[.7em] max-md:gap-[.5em]">
             Password
             <input
-              className="w-[60%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
+              className="w-[100%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Enter your Password"
@@ -75,7 +75,7 @@ const LoginComponent: React.FC = () => {
               className="flex max-md:hidden"
               style={{
                 position: 'absolute',
-                right: '13em',
+                right: '1em',
                 top: '72%',
                 transform: 'translateY(-50%)',
                 cursor: 'pointer',
@@ -96,7 +96,7 @@ const LoginComponent: React.FC = () => {
           </label>
 
           <button
-            className="ml-[4em] max-md:mt-[1.5em] max-md:ml-[3em] text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.7rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[30%] max-md:w-[70%]"
+            className="ml-[auto] mr-[auto] max-md:mt-[1.5em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.7rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[50%] max-md:w-[70%]"
             type="submit"
           >
             Login

@@ -40,7 +40,7 @@ const chartData = [
 // } satisfies ChartConfig
 
 
-export function Component() {
+export function PieChartComponent() {
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);

@@ -2,7 +2,7 @@ import React from 'react';
 import { logout } from './../redux/authSlice';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
-import PieChartComponent from './Dashboard/PieChart'; // Ensure correct component reference
+//import {PieChartComponent} from './Dashboard/PieChart'; // Ensure correct component reference
 
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="p-4 bg-white shadow rounded-lg">
                 <h3 className="text-lg font-semibold text-gray-800">Card Title 1</h3>
-                <PieChartComponent />
+               
               </div>
               <div className="p-4 bg-white shadow rounded-lg">
                 <h3 className="text-lg font-semibold text-gray-800">Card Title 2</h3>
