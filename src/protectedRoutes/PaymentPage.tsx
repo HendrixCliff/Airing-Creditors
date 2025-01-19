@@ -7,7 +7,7 @@ import { initiatePayment } from '../redux/fetchData';
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.payment);
-  const { isLoggedIn} = useAppSelector((state) => state.auth);
+  const { isLoggedIn, token} = useAppSelector((state) => state.auth);
   // git remote add origin https://github.com/HendrixCliff/Airing-Creditor-Backend
 //git push -u origin master
 
@@ -32,7 +32,6 @@ const PaymentPage: React.FC = () => {
     card_type?: string;
     countryCode?: string;
   }
-
 
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
     email: '',
@@ -90,7 +89,7 @@ const handleExpiryDate = (e: React.ChangeEvent<HTMLInputElement>) => {
   }
 }
 const detectCardType = (cardNumber: string) => {
-  const cardNumberPrefix = cardNumber.slice(0, 6); // Get the first 6 digits
+  //const cardNumberPrefix = cardNumber.slice(0, 6); // Get the first 6 digits
 
   if (/^4/.test(cardNumber)) {
     return 'Visa';
@@ -224,23 +223,23 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             {paymentDetails.payment_option === 'card' && (
               <section className="w-[100%]">
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-  Card Number:
-  <input
-    className="w-[85%] rounded-[.1em] p-[.3em] border-[.2em]"
-    type="text"
-    name="card_number"
-    value={paymentDetails.card_number}
-    onChange={handleCardDetails}
-    required
-    placeholder="1234 5678 9012 3456"
-  />
-  {/* Display detected card type */}
-  {paymentDetails.card_type && (
-    <p className="text-[1rem] text-gray-600 mt-[.5em]">
-      Card Type: {paymentDetails.card_type}
-    </p>
-  )}
-</label>
+                  Card Number:
+                  <input
+                    className="w-[85%] rounded-[.1em] p-[.3em] border-[.2em]"
+                    type="text"
+                    name="card_number"
+                    value={paymentDetails.card_number}
+                    onChange={handleCardDetails}
+                    required
+                    placeholder="1234 5678 9012 3456"
+                  />
+                  {/* Display detected card type */}
+                  {paymentDetails.card_type && (
+                    <p className="text-[1rem] text-gray-600 mt-[.5em]">
+                      Card Type: {paymentDetails.card_type}
+                    </p>
+                  )}
+                </label>
 
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
                   Expiry Date:
