@@ -4,6 +4,7 @@ import { useAppSelector } from './../hooks/useAppSelector';
 import { forgotPassword } from './../redux/fetchData';
 import { Link } from 'react-router-dom'
 import { TiArrowBack } from 'react-icons/ti';
+import { FaArrowLeftLong} from "react-icons/fa6"
 
 const ForgotPasswordComponent: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -20,9 +21,10 @@ const ForgotPasswordComponent: React.FC = () => {
 
   return (
     <section>
-      <section className="flex">
+      <Link to="/authenticate"><FaArrowLeftLong size={25}/></Link>
+      <section className="flex max-md:flex-col">
       <img className="w-[52%] max-md:w-[100%] max-md:m-[.2em] object-cover h-[38em] max-md:h-[20em]"  src="/images/tortise.webp" alt="Description" />
-      <form  className="max-md:ml-[.1em] ml-[5.5em] mt-[14em] max-md:mt-[10em]  flex flex-col">
+      <form  className="max-md:ml-[.1em] ml-[5.5em] mt-[14em] max-md:mt-[1em] max-md:mt-[10em]  flex flex-col">
       <label className="flex flex-col gap-[.5em]" >
       <h3 className="text-[1.6rem] font-semibold">Forgot Password?</h3>
       <h3 className="text-[1.4rem]">No worries, we'll send you a reset instructions.</h3>
