@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <section className="flex  overflow-hidden bg-gray-100">
+    <section className="flex w-[100%]  overflow-hidden bg-gray-100">
       {!isLoggedIn ? (
         <>
           {/* Sidebar */}
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1">
+          <main className="flex-1 w-[100%]">
             <header className="flex justify-between items-center mb-[.5em]">
               <h1 className="text-2xl ml-[2em] w-[50%] font-bold text-center text-gray-800">Welcome Back!</h1>
                {!isLoggedIn ?
@@ -61,8 +61,8 @@ const Dashboard: React.FC = () => {
             </header>
 
             {/* Cards */}
-            <section className=" flex max-sm:gap-[.5em] max-md:flex-col-reverse items-center max-md:items-start gap-[1em] max-md:gap-[.5em] max-md:mt-[1em] max-md:ml-[1em]">
-            <section className=" bg-white w-[40%] max-md:w-[90%] text-left shadow rounded-lg">
+            <section className=" flex max-sm:gap-[1em] max-md:flex-col-reverse items-center max-md:items-start gap-[1em] max-md:gap-[.5em] max-md:mt-[1em] max-md:ml-[1em]">
+            <section className=" bg-white w-[40%] max-md:w-[90%] max-sm:w-[100%] text-left shadow rounded-lg">
                 <h3 className="text-lg font-semibold text-gray-800"><AirtimeResponse/></h3>
               </section>
               <section className=" bg-white shadow rounded-lg">

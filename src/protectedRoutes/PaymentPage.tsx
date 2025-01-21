@@ -140,11 +140,11 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
   return (
     <section>
       {!isLoggedIn ? (
-        <section >
+        <section className="w-[100%] max-md:w-[100%] max-sm:w-[100%]">
           {loading && <p>Processing payment...</p>}
           {error && <p style={{ color: 'red' }}>Error: {error}</p>}
         <h2 className="text-center">Payment Page</h2>
-          <form className="border-[.2em]  border-solid w-[80%] max-md:w-[98%]  mr-[2em] h-[24em] max-md:h-[22em] max-md:ml-[auto] max-md:mr-[1em] ml-[auto]" onSubmit={handleInitiatePayment} >
+          <form className="border-[.2em]  border-solid w-[80%] max-md:w-[100%] max-sm:w-[100%]  mr-[2em] h-[24em] max-sm:h-[24em] max-md:h-[22em] max-md:ml-[auto] max-md:mr-[1em] ml-[auto]" onSubmit={handleInitiatePayment} >
            <section className="flex w-[100%] mt-[1em]">
             <section className="w-[100%] max-md:ml-[1em] ml-[3em]">
               <label className="flex flex-col gap-[.5em] text-[1.2rem]">

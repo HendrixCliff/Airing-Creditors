@@ -29,7 +29,7 @@ const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | nul
   
     return (
       <section className='border-solid border-[.7em] border-[#f1fffc]' >
-        <h2>Airtime purchase details</h2>
+        <h2>Past purchase details</h2>
         {loading && <p>Loading...</p>}
         {errorMessage && (
           <div>
@@ -50,7 +50,7 @@ const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | nul
               ))}
             </ul>
           ) : (
-            <p>No airtime response found in local storage.</p>
+            <p>No airtime purchase found in local storage.</p>
           )}
         </section>
       </section>

@@ -79,7 +79,6 @@ const ResetPassword = () => {
               />
             </label>
 
-            {/* Confirm Password */}
             <label className="flex flex-col gap-[.5em] relative">
               <h3 className="text-[1.4rem] max-md:text-[1.2rem]">Confirm New Password</h3>
               <input
@@ -106,7 +105,7 @@ const ResetPassword = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="text-center ml-[6em] max-md:ml-[5em] max-md:w-[50%] mt-[1em] p-[.2em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] max-md:mt-[1.4em] w-[30%] text-[1.4rem]"
+              className="text-center ml-[6em] max-md:ml-[3em] max-md:w-[50%] mt-[1em] p-[.2em] font-bold rounded-[1em] text-[#f1fffc] border-solid bg-[#1f1915] max-md:mt-[1.4em] w-[30%] text-[1.4rem]"
               disabled={loading}
             >
               {loading ? 'Loading...' : 'Reset Password'}
