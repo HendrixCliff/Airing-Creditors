@@ -144,7 +144,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
           {loading && <p>Processing payment...</p>}
           {error && <p style={{ color: 'red' }}>Error: {error}</p>}
         <h2 className="text-center">Payment Page</h2>
-          <form className="border-[.2em]  border-solid w-[80%] max-md:w-[98%]  mr-[2em] h-[24em] max-md:ml-[auto] max-md:mr-[1em] ml-[auto]" onSubmit={handleInitiatePayment} >
+          <form className="border-[.2em]  border-solid w-[80%] max-md:w-[98%]  mr-[2em] h-[24em] max-md:h-[22em] max-md:ml-[auto] max-md:mr-[1em] ml-[auto]" onSubmit={handleInitiatePayment} >
            <section className="flex w-[100%] mt-[1em]">
             <section className="w-[100%] max-md:ml-[1em] ml-[3em]">
               <label className="flex flex-col gap-[.5em] text-[1.2rem]">
@@ -286,7 +286,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             </section>
             <button
               type="submit"
-              className="mt-[1em] max-md:mt-[1.5em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.5rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#c8a7ff] w-[40%] max-md:w-[70%] max-md:ml-[3em] ml-[9em]"
+              className="mt-[1em] max-md:mt-[1em] max-sm:mt-[.4em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.5rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#c8a7ff] w-[40%] max-md:w-[70%] max-md:ml-[3em] ml-[9em]"
               disabled={
                 !token ||
                 loading ||
