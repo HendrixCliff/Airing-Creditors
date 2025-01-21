@@ -1,7 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 import { RootState } from './rootReducer';
+import { useAppSelector } from './../hooks/useAppSelector'
 
+ 
 
 interface ResetPasswordPayload {
   password: string;
@@ -97,6 +99,25 @@ export interface PaymentResponse {
     amount: number;
   }
   
+  interface AirtimeResponse {
+    id: string;
+    amount: number;
+    status: string;
+    [key: string]: string | number;
+    
+  }
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    country: string;
+    role: string;
+  }
+  interface FetchUserResponse {
+    user: User;
+  }
+
   export const checkAuth = createAsyncThunk('auth/check', async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get('http://localhost:7000/api/v1/auth/me', { withCredentials: true });
@@ -277,6 +298,52 @@ export const verifyPayment = createAsyncThunk<
     }
   }
 );
+export const fetchAirtimeResponse = createAsyncThunk<
+  AirtimeResponse[], // Expected return type of the action
+  void,              // Argument type (no arguments in this case)
+  { rejectValue: string } // Type for the rejectWithValue
+>(
+  'airtime/fetchAirtimeResponse',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get<{ data: AirtimeResponse[] }>(
+        'http://localhost:7000/api/v1/airtime/airtimeResponse'
+      );
+      return response.data.data; // Return the array of AirtimeResponse objects
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data.message || 'Failed to fetch airtime response');
+      }
+      return rejectWithValue('An unexpected error occurred');
+    }
+  }
+);
+
+
+
+export const fetchLoggedInUser = createAsyncThunk<
+  FetchUserResponse,        // The type of the resolved payload
+  void,                     // The type of the argument (no argument here)
+  { rejectValue: string }   // The type of the rejected payload
+>(
+  'auth/fetchLoggedInUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { cookie } = useAppSelector((state) => state.auth);
+      const response = await axios.get<FetchUserResponse>('http://localhost:7000/api/v1/user/userProfile', {
+        headers: {
+          Authorization: `Bearer ${cookie}`, 
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data.message || 'Failed to fetch user');
+      }
+      return rejectWithValue('An unexpected error occurred');
+    }
+  }
+);
 
 export const updateMe = createAsyncThunk<
   UpdateMeResponse,
@@ -284,11 +351,12 @@ export const updateMe = createAsyncThunk<
   { rejectValue: string }
 >(
   'auth/updateMe',
-  async ({ token, userDetails }, { rejectWithValue }) => {
+  async ({  userDetails }, { rejectWithValue }) => {
     try {
+      const { cookie } = useAppSelector((state) => state.auth);
       const response = await axios.patch('http://localhost:7000/api/v1/users/updateMe', userDetails, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${cookie}`,
         },
       });
       return response.data;
@@ -307,10 +375,11 @@ export const updatePassword = createAsyncThunk<
   { rejectValue: string }
 >(
   'auth/updatePassword',
-  async ({ token, newPassword }, { rejectWithValue }) => {
+  async ({  newPassword }, { rejectWithValue }) => {
     try {
+      const { cookie } = useAppSelector((state) => state.auth);
       await axios.post('http://localhost:7000/api/v1/users/updatePassword', {
-        token,
+        cookie,
         newPassword,
       });
     } catch (error: unknown) {

@@ -142,6 +142,7 @@ const authSlice = createSlice({
       builder
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.username = action.payload.username;
+        state.cookie = action.payload.cookie;
         state.isLoggedIn = true;
       })
       .addCase(checkAuth.rejected, (state) => {

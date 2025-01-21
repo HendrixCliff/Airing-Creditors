@@ -20,12 +20,12 @@ const App: React.FC = () => {
         <Route path="/authenticate" element={<AuthenticatePage />} />
         <Route path="/signup" element={<SignUpComponent/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-       <Route path='/reset-password' element={<ResetPassword/>}/>
-      
+        <Route path='/reset-password' element={<ResetPassword/>}/>
+        <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} /> 
         {/* Protected Routes */}
         <Route element={<ProtectedAccess />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} /> {/* New Protected Route */}
+         {/* New Protected Route */}
         </Route>
 
         {/* Fallback Route */}

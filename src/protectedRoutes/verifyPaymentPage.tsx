@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useAppDispatch} from '../hooks/useAppDispatch';
-import { useAppSelector } from './../hooks/useAppSelector'
+import { useAppSelector } from '../hooks/useAppSelector'
 import { verifyPayment } from '../redux/fetchData'; 
 
 

@@ -14,7 +14,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {isLoggedIn ? (
+      {!isLoggedIn ? (
         <>
           {/* Sidebar */}
           <aside className="w-64 bg-white shadow-lg">

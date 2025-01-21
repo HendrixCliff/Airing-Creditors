@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { updateMe, updatePassword } from './fetchData';
+import { updateMe, updatePassword,fetchLoggedInUser } from './fetchData';
 
 interface User {
   id: string;
@@ -20,6 +20,7 @@ interface UserState {
   isUpdatingPassword: boolean;
   updatePasswordSuccess: boolean;
   updatePasswordError: string | null;
+  cookie: string | null
 }
 
 
@@ -30,6 +31,7 @@ const initialState: UserState = {
   isUpdatingPassword: false,
   updatePasswordSuccess: false,
   updatePasswordError: null,
+  cookie: null
 };
 
 const userSlice = createSlice({
@@ -43,6 +45,20 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(fetchLoggedInUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchLoggedInUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+      })
+      .addCase(fetchLoggedInUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to fetch user';
+      });
+
     builder
       .addCase(updateMe.pending, (state) => {
         state.loading = true;

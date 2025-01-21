@@ -6,9 +6,9 @@ interface ProfileHeaderProps {
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ onEditClick }) => {
   return (
-    <div className="profile-header">
-      <img className="profile-avatar" src="/path/to/avatar.jpg" alt="User Avatar" />
-      <h1 className="profile-name">John Doe</h1>
+    <div className="">
+      <img className="" src="/path/to/avatar.jpg" alt="User Avatar" />
+      <h1 className="">John Doe</h1>
       <button className="edit-profile-button" onClick={onEditClick}>
         Edit Profile
       </button>

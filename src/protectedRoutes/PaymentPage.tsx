@@ -141,7 +141,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
     <div>
       <h2>Payment Page</h2>
       {isLoggedIn ? (
-        <section className="">
+        <section >
           {loading && <p>Processing payment...</p>}
           {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 

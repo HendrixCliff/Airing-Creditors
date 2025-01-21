@@ -3,12 +3,12 @@ import ProfileHeader from './ProfileHeader';
 import ProfileDetails from './ProfileDetails';
 import EditProfileModal from './EditProfileModal';
 import { useAppSelector } from './../../hooks/useAppSelector';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 const Profile: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { isLoggedIn } = useAppSelector((state) => state.auth);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -20,17 +20,17 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      alert('You need to be logged in to be able to have a profile');
+      //alert('You need to be logged in to be able to have a profile');
      
-     setTimeout(() => {
-      navigate('/login')
-     }, 3000) // Redirect to login page if needed
+    //  setTimeout(() => {
+    //   navigate('/login')
+    //  }, 600000) // Redirect to login page if needed
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn]);
 
   return (
     <div>
-      {isLoggedIn ? (
+      {!isLoggedIn ? (
         <>
           <ProfileHeader onEditClick={handleEditClick} />
           <ProfileDetails />
