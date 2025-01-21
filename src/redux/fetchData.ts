@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 import { RootState } from './rootReducer';
-import { useAppSelector } from './../hooks/useAppSelector'
+
 
  
 
@@ -14,24 +14,6 @@ interface ResetPasswordResponse {
   message: string;
 }
 
-interface UpdateMeResponse {
-  message: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    
-  };
-}
-
-interface UpdateMePayload {
-  token: string;
-  userDetails: {
-    name?: string;
-    email?: string;
-  
-  };
-}
 
 interface VerifyPaymentPayload {
   transactionId: string;
@@ -106,16 +88,20 @@ export interface PaymentResponse {
     [key: string]: string | number;
     
   }
-  interface User {
+  // interface User {
+  //   id: string;
+  //   name: string;
+  //   email: string;
+  //   phoneNumber: string;
+  //   country: string;
+  //   role: string;
+  // }
+  export interface FetchUserResponse {
     id: string;
-    name: string;
+    username: string;
     email: string;
-    phoneNumber: string;
+    phoneNumber: number;
     country: string;
-    role: string;
-  }
-  interface FetchUserResponse {
-    user: User;
   }
 
   export const checkAuth = createAsyncThunk('auth/check', async (_, { rejectWithValue }) => {
@@ -324,17 +310,21 @@ export const fetchAirtimeResponse = createAsyncThunk<
 export const fetchLoggedInUser = createAsyncThunk<
   FetchUserResponse,        // The type of the resolved payload
   void,                     // The type of the argument (no argument here)
-  { rejectValue: string }   // The type of the rejected payload
+  { rejectValue: string, state: RootState }   // The type of the rejected payload
 >(
   'auth/fetchLoggedInUser',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const { cookie } = useAppSelector((state) => state.auth);
+      const state = getState() as RootState;
+      const { cookie } = state.auth;
       const response = await axios.get<FetchUserResponse>('http://localhost:7000/api/v1/user/userProfile', {
         headers: {
           Authorization: `Bearer ${cookie}`, 
         },
       });
+      if (!response.data) {
+        throw new Error('Failed to fetch user');
+      }
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -345,39 +335,17 @@ export const fetchLoggedInUser = createAsyncThunk<
   }
 );
 
-export const updateMe = createAsyncThunk<
-  UpdateMeResponse,
-  UpdateMePayload,
-  { rejectValue: string }
->(
-  'auth/updateMe',
-  async ({  userDetails }, { rejectWithValue }) => {
-    try {
-      const { cookie } = useAppSelector((state) => state.auth);
-      const response = await axios.patch('http://localhost:7000/api/v1/users/updateMe', userDetails, {
-        headers: {
-          Authorization: `Bearer ${cookie}`,
-        },
-      });
-      return response.data;
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || 'Failed to update user details');
-      }
-      return rejectWithValue('Failed to update user details');
-    }
-  }
-);
 
 export const updatePassword = createAsyncThunk<
   void,
   UpdatePasswordPayload,
-  { rejectValue: string }
+  { rejectValue: string, state: RootState }
 >(
   'auth/updatePassword',
-  async ({  newPassword }, { rejectWithValue }) => {
+  async ({  newPassword }, { rejectWithValue, getState }) => {
     try {
-      const { cookie } = useAppSelector((state) => state.auth);
+      const state = getState() as RootState;
+      const { cookie } = state.auth;
       await axios.post('http://localhost:7000/api/v1/users/updatePassword', {
         cookie,
         newPassword,

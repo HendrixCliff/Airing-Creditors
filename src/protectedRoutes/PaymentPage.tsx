@@ -14,7 +14,7 @@ const PaymentPage: React.FC = () => {
   useEffect(() => {
     if (!isLoggedIn) {
       // Optionally redirect to login page or show a prompt for guests
-     //alert('You need to be logged in to make a payment.');
+     alert('You need to be logged in to make a payment.');
 
     }
   }, [isLoggedIn]);
@@ -138,18 +138,17 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
   
 
   return (
-    <div>
-      <h2>Payment Page</h2>
-      {isLoggedIn ? (
+    <section>
+      {!isLoggedIn ? (
         <section >
           {loading && <p>Processing payment...</p>}
           {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-
-          <form className="border-[.2em]  border-solid w-[45%] mr-[2em] h-[27em] ml-[auto]" onSubmit={handleInitiatePayment} >
+        <h2 className="text-center">Payment Page</h2>
+          <form className="border-[.2em]  border-solid w-[80%] max-md:w-[98%]  mr-[2em] h-[24em] max-md:ml-[auto] max-md:mr-[1em] ml-[auto]" onSubmit={handleInitiatePayment} >
            <section className="flex w-[100%] mt-[1em]">
-            <section className="w-[100%] ml-[3em]">
+            <section className="w-[100%] max-md:ml-[1em] ml-[3em]">
               <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                Email:
+                Email
                 <input
                   className="w-[80%] text-semibold rounded-[.1em] p-[.3em] border-[.2em]"
                   type="email"
@@ -159,8 +158,8 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
                   required
                 />
               </label>
-              <label className="flex flex-col gap-[.5em] text-[1.2rem] text-[1.2rem]">
-                Amount:
+              <label className="flex flex-col gap-[.5em] text-[1.2rem]">
+                Amount
                 <input
                   className="w-[80%] text-semibold  rounded-[.1em] p-[.3em] border-[.2em]"
                   type="number"
@@ -171,7 +170,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
                 />
               </label>
               <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                Phone Number:
+                Phone Number
                 <section className="flex items-center">
                   {/* Country Code Dropdown */}
                   <select
@@ -206,10 +205,11 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
                   />
                 </section>
               </label>
-              <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                Currency:
+              <label className="flex flex-col max-md:mt-[.5em] gap-[.4em] text-[1.2rem]">
+                Currency
                 <select
                   name="currency"
+                  className="max-md:w-[60%]"
                   value={paymentDetails.currency}
                   onChange={handleChange}
                   required
@@ -223,7 +223,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             {paymentDetails.payment_option === 'card' && (
               <section className="w-[100%]">
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                  Card Number:
+                  Card Number
                   <input
                     className="w-[85%] rounded-[.1em] p-[.3em] border-[.2em]"
                     type="text"
@@ -236,13 +236,13 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
                   {/* Display detected card type */}
                   {paymentDetails.card_type && (
                     <p className="text-[1rem] text-gray-600 mt-[.5em]">
-                      Card Type: {paymentDetails.card_type}
+                       {paymentDetails.card_type}
                     </p>
                   )}
                 </label>
 
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                  Expiry Date:
+                  Expiry Date
                   <input
                     className="w-[60%] rounded-[.1em] p-[.3em] border-[.2em]"
                     type="text"
@@ -256,7 +256,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
 
                 </label>
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                  CVV:
+                  CVV
                   <input
                     className="w-[60%] rounded-[.1em] p-[.3em] border-[.2em]"
                     type="text"
@@ -267,10 +267,11 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
                     placeholder="123"
                   />
                 </label>
-                <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                Payment Option:
+                <label className="flex flex-col gap-[.4em] max-md:mt-[.5em] text-[1.2rem]">
+                Payment Option
                 <select
                   name="payment_option"
+                  className="max-md:w-[60%]"
                   value={paymentDetails.payment_option}
                   onChange={handleChange}
                   required
@@ -285,7 +286,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             </section>
             <button
               type="submit"
-              className="mt-[1em] max-md:mt-[1.5em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.5rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[40%] max-md:w-[70%] ml-[9em]"
+              className="mt-[1em] max-md:mt-[1.5em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.5rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#c8a7ff] w-[40%] max-md:w-[70%] max-md:ml-[3em] ml-[9em]"
               disabled={
                 !token ||
                 loading ||
@@ -302,7 +303,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
       ) : (
         <p>Please log in to proceed with payment.</p>
       )}
-    </div>
+    </section>
   );
 };
 

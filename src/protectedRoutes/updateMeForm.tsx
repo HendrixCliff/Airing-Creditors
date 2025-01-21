@@ -1,23 +1,39 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from './../hooks/useAppDispatch';
-import { RootState } from './../redux/rootReducer'; 
-import { updateMe } from './../redux/fetchData'; 
-import { useSelector } from 'react-redux'
+import { useAppSelector } from './../hooks/useAppSelector';
+import { updateMe } from './../redux/updateMeSlice';
 
 const UpdateMeForm: React.FC = () => {
-  const [name, setName] = useState('');
+  const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [country, setCountry] = useState('');
 
   const dispatch = useAppDispatch();
-  const { loading, error, user } = useSelector((state: RootState) => state.user);
+  const { loading, error, user } = useAppSelector((state) => state.updateMe);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const token = 'your-auth-token-here'; // Replace with the actual token retrieval logic
-    const userDetails = { name, email };
+    // Basic validation
+    if (!username || !email || !phoneNumber || !country) {
+      alert('Please fill in all fields');
+      return;
+    }
 
-    await dispatch(updateMe({ token, userDetails }));
+    const userDetails = {
+      username,
+      email,
+      phoneNumber: Number(phoneNumber), // Convert to number if needed
+      country,
+    };
+
+    try {
+      await dispatch(updateMe({ userDetails })).unwrap();
+      alert('Profile updated successfully!');
+    } catch (err) {
+      console.error('Error updating profile:', err);
+    }
   };
 
   return (
@@ -29,8 +45,9 @@ const UpdateMeForm: React.FC = () => {
             Name:
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
+              required
             />
           </label>
         </div>
@@ -41,6 +58,29 @@ const UpdateMeForm: React.FC = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Phone Number:
+            <input
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Country:
+            <input
+              type="text"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              required
             />
           </label>
         </div>

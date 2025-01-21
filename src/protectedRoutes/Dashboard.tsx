@@ -2,6 +2,9 @@ import React from 'react';
 import { logout } from './../redux/authSlice';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
+import PaymentPage from './../protectedRoutes/PaymentPage';
+import { Link } from 'react-router-dom';
+import AirtimeResponse from './../protectedRoutes/AirtimeResponse'
 
 
 const Dashboard: React.FC = () => {
@@ -13,15 +16,15 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <section className="flex  overflow-hidden bg-gray-100">
       {!isLoggedIn ? (
         <>
           {/* Sidebar */}
-          <aside className="w-64 bg-white shadow-lg">
+          <aside className="w-[15%] max-md:w-[25%] bg-white shadow-lg">
             <div className="p-4 border-b">
               <h2 className="text-lg font-bold">My Dashboard</h2>
             </div>
-            <nav className="p-4">
+            <nav className="px-[.5em]">
               <ul className="space-y-4">
                 <li>
                   <a href="#" className="block py-2 px-4 rounded-md hover:bg-gray-200 transition">
@@ -29,9 +32,7 @@ const Dashboard: React.FC = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="block py-2 px-4 rounded-md hover:bg-gray-200 transition">
-                    Profile
-                  </a>
+                <Link className=" block py-2 px-4 rounded-md hover:bg-gray-200 transition" to="/profile">Profile</Link>
                 </li>
                 <li>
                   <a href="#" className="block py-2 px-4 rounded-md hover:bg-gray-200 transition">
@@ -48,39 +49,32 @@ const Dashboard: React.FC = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 p-6">
-            <header className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-800">Welcome Back!</h1>
-              <button className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
-                New Action
-              </button>
+          <main className="flex-1">
+            <header className="flex justify-between items-center mb-[.5em]">
+              <h1 className="text-2xl ml-[2em] w-[50%] font-bold text-center text-gray-800">Welcome Back!</h1>
+               {!isLoggedIn ?
+              <section className="flex gap-[3em] w-[20%] max-md:w-[60%] max-md:gap-[.5em] justify-start">
+                <Link className=" text-center w-[100%] max-md:w-[90%] ml-[auto] mt-[2em]  max-md:mt-[.5em] max-md:py-[.2em] max-md:px-[.2em]  p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] border-solid bg-[#736dff] max-md:text-[.9em]  text-[1.2rem]" to="/authenticate">Login</Link>
+                <Link className=" text-center w-[100%] max-md:w-[90%] mt-[2em] mr-[.5em] max-md:mt-[.5em] max-md:py-[.2em] max-md:px-[.2em]  p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] border-solid bg-[#736dff] max-md:text-[.9em] text-[1.2rem]" to="/signup">Sign Up</Link>
+              </section> : <div> </div>}
+          {/* Sidebar */}
             </header>
 
             {/* Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="p-4 bg-white shadow rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-800">Card Title 1</h3>
-               
-              </div>
-              <div className="p-4 bg-white shadow rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-800">Card Title 2</h3>
-                <p className="mt-2 text-gray-600">
-                  Brief description of the content goes here.
-                </p>
-              </div>
-              <div className="p-4 bg-white shadow rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-800">Card Title 3</h3>
-                <p className="mt-2 text-gray-600">
-                  Brief description of the content goes here.
-                </p>
-              </div>
-            </div>
+            <section className=" flex max-md:flex-col-reverse items-center max-md:items-start gap-[1em] max-md:gap-[.5em] max-md:mt-[1em] max-md:ml-[1em]">
+            <section className=" bg-white w-[40%] max-md:w-[90%] text-left shadow rounded-lg">
+                <h3 className="text-lg font-semibold text-gray-800"><AirtimeResponse/></h3>
+              </section>
+              <section className=" bg-white shadow rounded-lg">
+                <h3 className="text-lg font-semibold text-gray-800"><PaymentPage/></h3>
+              </section>
+            </section>
           </main>
         </>
       ) : (
         <h3>You need to login to be a user.</h3>
       )}
-    </div>
+    </section>
   );
 };
 
