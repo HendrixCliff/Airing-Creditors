@@ -16,31 +16,31 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <section className="flex w-[100%]  overflow-hidden bg-gray-100">
+    <section className="flex w-[100%] justify-center mt-[.8em] items-start overflow-hidden bg-gray-100">
       {!isLoggedIn ? (
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] max-md:w-[25%] bg-white shadow-lg">
-            <div className="p-4 border-b">
-              <h2 className="text-lg font-bold">My Dashboard</h2>
-            </div>
-            <nav className="px-[.1em]">
-              <ul className="space-y-4">
+          <aside className="w-[15%] max-md:w-[30%] max-sm:w-[29%] px-[.5em] bg-white shadow-lg">
+            <section className="p-[.4em] w-[95%] max-sm:w-[95%] max-md:w-[95%] mt-[.5em] border-t-[.3em] border-r-[.3em] border-l-[.3em] border-b-[.3em]">
+              <img src="./images/airtimelogo.webp" className="text-lg w-[100%] h-[6em]  object-fit  font-bold"/>
+            </section>
+            <nav className="px-[.3em] py-[.5em] mt-[.5em]">
+              <ul className="space-y-4 max-md:mt-[.7em] mt-[1.1em]">
                 <li>
-                  <a href="#" className="block py-2 px-4 rounded-md hover:bg-gray-200 transition">
+                  <a href="#" className="block border-l-[.3em] border-r-[.3em] py-2 px-4 rounded-md hover:bg-gray-200 transition">
                     Overview
                   </a>
                 </li>
                 <li>
-                <Link className=" block py-2 px-4 rounded-md hover:bg-gray-200 transition" to="/profile">Profile</Link>
+                <Link className=" block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition" to="/profile">Profile</Link>
                 </li>
                 <li>
-                  <a href="#" className="block py-2 px-4 rounded-md hover:bg-gray-200 transition">
+                  <a href="#" className="block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition">
                     Settings
                   </a>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className="block py-2 px-4 rounded-md hover:bg-gray-200 transition">
+                  <button onClick={handleLogout} className="block border-l-[.3em] max-sm:w-[100%] text-left w-[100%] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition">
                     Logout
                   </button>
                 </li>
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 w-[100%]">
+          <main className="flex-1 w-[100%] mr-[1.5em]">
             <header className="flex justify-between items-center mb-[.5em]">
               <h1 className="text-2xl ml-[2em] w-[50%] font-bold text-center text-gray-800">Welcome Back!</h1>
                {!isLoggedIn ?

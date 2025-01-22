@@ -144,8 +144,8 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
           {loading && <p>Processing payment...</p>}
           {error && <p style={{ color: 'red' }}>Error: {error}</p>}
         <h2 className="text-center">Payment Page</h2>
-          <form className="border-[.2em]  border-solid w-[80%] max-md:w-[100%] max-sm:w-[100%]  mr-[2em] h-[24em] max-sm:h-[24em] max-md:h-[22em] max-md:ml-[auto] max-md:mr-[1em] ml-[auto]" onSubmit={handleInitiatePayment} >
-           <section className="flex w-[100%] mt-[1em]">
+          <form className="border-[.2em]  border-solid w-[80%] max-md:w-[100%] max-sm:w-[100%] max-sm:mr-[6em]   mr-[2em] h-[24em] max-sm:h-[24em] max-md:h-[22em] max-md:ml-[auto] max-md:mr-[1em] ml-[auto]" onSubmit={handleInitiatePayment} >
+           <section className="flex w-[100%] mt-[1em] items-center">
             <section className="w-[100%] max-md:ml-[1em] ml-[3em]">
               <label className="flex flex-col gap-[.5em] text-[1.2rem]">
                 Email
@@ -205,11 +205,11 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
                   />
                 </section>
               </label>
-              <label className="flex flex-col max-md:mt-[.5em] gap-[.4em] text-[1.2rem]">
+              <label className="flex flex-col max-md:w-[60%] w-[60%] max-sm:w-[50%] max-md:mt-[.5em] gap-[.4em] max-md:text-[1rem] max-sm:text-[.9rem] text-[1.2rem]">
                 Currency
                 <select
                   name="currency"
-                  className="max-md:w-[60%]"
+                  className="max-md:w-[100%] max-sm:w-[100%]"
                   value={paymentDetails.currency}
                   onChange={handleChange}
                   required
@@ -267,8 +267,8 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
                     placeholder="123"
                   />
                 </label>
-                <label className="flex flex-col gap-[.4em] max-md:mt-[.5em] text-[1.2rem]">
-                Payment Option
+                <label className="flex flex-col gap-[.4em] max-md:mt-[.5em] max-md:text-[1rem] max-sm:text-[.9rem] text-[1.2rem]">
+                 Payment Option
                 <select
                   name="payment_option"
                   className="max-md:w-[60%]"
@@ -286,7 +286,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             </section>
             <button
               type="submit"
-              className="mt-[1em] max-md:mt-[1em] max-sm:mt-[.4em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.5rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#c8a7ff] w-[40%] max-md:w-[70%] max-md:ml-[3em] ml-[9em]"
+              className="mt-[1em] max-md:mt-[1em] max-sm:mt-[.9em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.5rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#c8a7ff] w-[40%] max-md:w-[70%] max-md:ml-[3em] ml-[9em]"
               disabled={
                 !token ||
                 loading ||
