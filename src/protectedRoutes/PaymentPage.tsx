@@ -55,7 +55,7 @@ const PaymentPage: React.FC = () => {
     setPaymentDetails((prev) => ({
       ...prev,
       [name]: name === 'amount' && value !== '' ? value : value === '' ? '' : parseFloat(value) || 0,
-      [name]: name === 'phone' ? value.replace(/^0+/, '').slice(0, 10) : value,
+      [name]: name === 'phone' ? value.replace(/^0+/, '') : value,
       [name]: name === 'email' && value !== '' 
       ? (emailRegex.test(value) ? value : prev.email) 
       : value,
@@ -144,180 +144,189 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
   
 
   return (
-    <section>
-      {!isLoggedIn ? (
-        <section className="w-[100%] max-md:w-[100%] max-sm:w-[100%]">
-          {loading && <p>Processing payment...</p>}
-          {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-        <h2 className="text-center">Payment Page</h2>
-          <form className="border-[.2em]  border-solid w-[80%] max-md:w-[100%] max-sm:w-[100%] max-sm:mr-[6em]   mr-[2em] h-[24em] max-sm:h-[24em] max-md:h-[22em] max-md:ml-[auto] max-md:mr-[1em] ml-[auto]" onSubmit={handleInitiatePayment} >
-           <section className="flex w-[100%] mt-[1em] items-center">
-            <section className="w-[100%] max-md:ml-[1em] ml-[3em]">
-              <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                Email
-                <input
-                  className="w-[80%] text-semibold rounded-[.1em] p-[.3em] border-[.2em]"
-                  type="email"
-                  name="email"
-                  value={paymentDetails.email}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                Amount
-                <input
-                  className="w-[80%] text-semibold  rounded-[.1em] p-[.3em] border-[.2em]"
-                  type="number"
-                  name="amount"
-                  value={paymentDetails.amount}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                Phone Number
-                <section className="flex items-center">
-                  {/* Country Code Dropdown */}
-                  <select
-                    className="w-[20%] rounded-[.1em] p-[.3em] border-[.2em] border-solid"
-                    name="countryCode"
-                    value={paymentDetails.countryCode || '+234'} // Default to Nigeria
-                    onChange={(e) =>
-                      setPaymentDetails((prev) => ({
-                        ...prev,
-                        countryCode: e.target.value, // Update the selected country code
-                      }))
-                    }
-                    required
-                  >
-                    <option value="+1">+1 (US)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+91">+91 (India)</option>
-                    <option value="+234">+234 (Nigeria)</option>
-                    <option value="+81">+81 (Japan)</option>
-                    {/* Add more country codes as needed */}
-                  </select>
+<section>
+  {!isLoggedIn ? (
+    <section className="w-full">
+      {loading && <p>Processing payment...</p>}
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
 
-                  {/* Phone Number Input */}
-                  <input
-                    className="w-[60%] ml-[.5em] rounded-[.1em] p-[.3em] border-[.2em] border-solid"
-                    type="text"
-                    name="phone"
-                    value={paymentDetails.phone}
-                    onChange={handleChange}
-                    required
-                    placeholder="Enter phone number"
-                  />
-                </section>
-              </label>
-              <label className="flex flex-col max-md:w-[60%] w-[60%] max-sm:w-[50%] max-md:mt-[.5em] gap-[.4em] max-md:text-[1rem] max-sm:text-[.9rem] text-[1.2rem]">
-                Currency
-                <select
-                  name="currency"
-                  className="max-md:w-[100%] max-sm:w-[100%]"
-                  value={paymentDetails.currency}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="USD">USD</option>
-                  <option value="EUR">EUR</option>
-                  <option value="NGN">NGN</option>
-                </select>
-              </label>
-            </section>
-            {paymentDetails.payment_option === 'card' && (
-              <section className="w-[100%]">
-                <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                  Card Number
-                  <input
-                    className="w-[85%] rounded-[.1em] p-[.3em] border-[.2em]"
-                    type="text"
-                    name="card_number"
-                    value={paymentDetails.card_number}
-                    onChange={handleCardDetails}
-                    required
-                    placeholder="1234 5678 9012 3456"
-                  />
-                  {/* Display detected card type */}
-                  {paymentDetails.card_type && (
-                    <p className="text-[1rem] text-gray-600 mt-[.5em]">
-                       {paymentDetails.card_type}
-                    </p>
-                  )}
-                </label>
+      <h2 className="text-center mb-4">Payment Page</h2>
+      <form
+        className="grid grid-cols-2 gap-4 border-[.2em] border-solid w-[80%] mx-auto p-6"
+        onSubmit={handleInitiatePayment}
+      >
+        {/* Email */}
+        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+          Email
+          <input
+            className="w-full rounded-[.1em] p-2 max-md:p-1 border-[.2em]"
+            type="email"
+            name="email"
+            value={paymentDetails.email}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-                <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                  Expiry Date
-                  <input
-                    className="w-[60%] rounded-[.1em] p-[.3em] border-[.2em]"
-                    type="text"
-                    name="expiry_date"
-                    value={paymentDetails.expiry_date}
-                    onChange={handleExpiryDate}
-                    required
-                    placeholder="MM/YY"
-                    maxLength={5}
-                  />
+        {/* Amount */}
+        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+          Amount
+          <input
+            className="w-full rounded-[.1em] p-2 max-md:p-1 border-[.2em]"
+            type="number"
+            name="amount"
+            value={paymentDetails.amount}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-                </label>
-                <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                CVV
-                <input
-                  className="w-[60%] rounded-[.1em] p-[.3em] border-[.2em]"
-                  type="text"
-                  name="cvv"
-                  value={paymentDetails.cvv}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    if (/^\d{0,3}$/.test(value)) { // Ensures only up to 3 digits
-                      handleChange(e);
-                    }
-                  }}
-                  required
-                  placeholder="123"
-                  pattern="\d{3}" // Validates the input to match exactly 3 digits
-                  title="Please enter exactly 3 numeric digits"
-                />
-              </label>
-
-                <label className="flex flex-col gap-[.4em] max-md:mt-[.5em] max-md:text-[1rem] max-sm:text-[.9rem] text-[1.2rem]">
-                 Payment Option
-                <select
-                  name="payment_option"
-                  className="max-md:w-[60%]"
-                  value={paymentDetails.payment_option}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="card">Card</option>
-                  <option value="mobilemoneyghana">Mobile Money (Ghana)</option>
-                  <option value="ussd">USSD</option>
-                </select>
-              </label>
-              </section>
-            )}
-            </section>
-            <button
-              type="submit"
-              className="mt-[1em] max-md:mt-[1em] max-sm:mt-[.9em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.5rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#c8a7ff] w-[40%] max-md:w-[70%] max-md:ml-[3em] ml-[9em]"
-              disabled={
-                !token ||
-                loading ||
-                !paymentDetails.email ||
-                !paymentDetails.amount ||
-                !paymentDetails.phone
+        {/* Phone Number */}
+        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2">
+          Phone Number
+          <div className="flex gap-2">
+            {/* Country Code */}
+            <select
+              className="w-1/4 rounded-[.1em] p-2 max-md:p-1 border-[.2em]"
+              name="countryCode"
+              value={paymentDetails.countryCode || "+234"}
+              onChange={(e) =>
+                setPaymentDetails((prev) => ({
+                  ...prev,
+                  countryCode: e.target.value,
+                }))
               }
+              required
             >
-              {loading ? 'Processing...' : 'Initiate Payment'}
-            </button>
-          </form>
-        
-        </section>
-      ) : (
-        <p>Please log in to proceed with payment.</p>
-      )}
+              <option value="+1">+1 (US)</option>
+              <option value="+44">+44 (UK)</option>
+              <option value="+91">+91 (India)</option>
+              <option value="+234">+234 (Nigeria)</option>
+              <option value="+81">+81 (Japan)</option>
+            </select>
+
+            {/* Phone Number Input */}
+            <input
+              className="w-3/4 rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+              type="text"
+              name="phone"
+              value={paymentDetails.phone}
+              onChange={handleChange}
+              required
+              placeholder="Enter phone number"
+            />
+          </div>
+        </label>
+
+        {/* Currency */}
+        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+          Currency
+          <select
+            name="currency"
+            className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+            value={paymentDetails.currency}
+            onChange={handleChange}
+            required
+          >
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="NGN">NGN</option>
+          </select>
+        </label>
+
+        {/* Payment Option */}
+        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+          Payment Option
+          <select
+            name="payment_option"
+            className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+            value={paymentDetails.payment_option}
+            onChange={handleChange}
+            required
+          >
+            <option value="card">Card</option>
+            <option value="mobilemoneyghana">Mobile Money (Ghana)</option>
+            <option value="ussd">USSD</option>
+          </select>
+        </label>
+
+        {/* Card Details (if payment_option is 'card') */}
+        {paymentDetails.payment_option === "card" && (
+          <>
+            <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+              Card Number
+              <input
+                className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+                type="text"
+                name="card_number"
+                value={paymentDetails.card_number}
+                onChange={handleCardDetails}
+                required
+                placeholder="1234 5678 9012 3456"
+              />
+              {paymentDetails.card_type && (
+                <p className="text-sm text-gray-600 mt-1">
+                  {paymentDetails.card_type}
+                </p>
+              )}
+            </label>
+
+            <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+              Expiry Date
+              <input
+                className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+                type="text"
+                name="expiry_date"
+                value={paymentDetails.expiry_date}
+                onChange={handleExpiryDate}
+                required
+                placeholder="MM/YY"
+                maxLength={5}
+              />
+            </label>
+
+            <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+              CVV
+              <input
+                className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+                type="text"
+                name="cvv"
+                value={paymentDetails.cvv}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  if (/^\d{0,3}$/.test(value)) {
+                    handleChange(e);
+                  }
+                }}
+                required
+                placeholder="123"
+                pattern="\d{3}"
+                title="Please enter exactly 3 numeric digits"
+              />
+            </label>
+          </>
+        )}
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="col-span-2 bg-[#c8a7ff] text-white font-bold text-lg rounded-[.2em] p-2"
+          disabled={
+            !token ||
+            loading ||
+            !paymentDetails.email ||
+            !paymentDetails.amount ||
+            !paymentDetails.phone
+          }
+        >
+          {loading ? "Processing..." : "Initiate Payment"}
+        </button>
+      </form>
     </section>
+  ) : (
+    <p>Please log in to proceed with payment.</p>
+  )}
+</section>
   );
 };
 
