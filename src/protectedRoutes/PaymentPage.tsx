@@ -4,18 +4,17 @@ import { useAppSelector } from './../hooks/useAppSelector';
 import { initiatePayment } from '../redux/fetchData';
 
 
+
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.payment);
   const { isLoggedIn, token} = useAppSelector((state) => state.auth);
-  // git remote add origin https://github.com/HendrixCliff/Airing-Creditor-Backend
-//git push -u origin master
+ 
 
   useEffect(() => {
     if (!isLoggedIn) {
       // Optionally redirect to login page or show a prompt for guests
-     alert('You need to be logged in to make a payment.');
-
+  
     }
   }, [isLoggedIn]);
 
@@ -50,9 +49,16 @@ const PaymentPage: React.FC = () => {
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     setPaymentDetails((prev) => ({
       ...prev,
-      [name]: name === 'amount' ? parseFloat(value) || 0 : value,
+      [name]: name === 'amount' && value !== '' ? value : value === '' ? '' : parseFloat(value) || 0,
+      [name]: name === 'phone' ? value.replace(/^0+/, '').slice(0, 10) : value,
+      [name]: name === 'email' && value !== '' 
+      ? (emailRegex.test(value) ? value : prev.email) 
+      : value,
     }));
   };
   const validateExpiryDate = (expiryDate: string) => {
@@ -256,17 +262,25 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
 
                 </label>
                 <label className="flex flex-col gap-[.5em] text-[1.2rem]">
-                  CVV
-                  <input
-                    className="w-[60%] rounded-[.1em] p-[.3em] border-[.2em]"
-                    type="text"
-                    name="cvv"
-                    value={paymentDetails.cvv}
-                    onChange={handleChange}
-                    required
-                    placeholder="123"
-                  />
-                </label>
+                CVV
+                <input
+                  className="w-[60%] rounded-[.1em] p-[.3em] border-[.2em]"
+                  type="text"
+                  name="cvv"
+                  value={paymentDetails.cvv}
+                  onChange={(e) => {
+                    const { value } = e.target;
+                    if (/^\d{0,3}$/.test(value)) { // Ensures only up to 3 digits
+                      handleChange(e);
+                    }
+                  }}
+                  required
+                  placeholder="123"
+                  pattern="\d{3}" // Validates the input to match exactly 3 digits
+                  title="Please enter exactly 3 numeric digits"
+                />
+              </label>
+
                 <label className="flex flex-col gap-[.4em] max-md:mt-[.5em] max-md:text-[1rem] max-sm:text-[.9rem] text-[1.2rem]">
                  Payment Option
                 <select
