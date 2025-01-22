@@ -16,12 +16,12 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <section className="flex w-[100%] justify-center mt-[.8em] items-start overflow-hidden bg-gray-100">
+    <section className="flex w-[100%] m-[0em] p-[0em] justify-center mt-[.8em] items-start overflow-hidden bg-gray-100">
       {!isLoggedIn ? (
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] max-md:w-[30%] max-sm:w-[29%] px-[.5em] bg-white shadow-lg">
-            <section className="p-[.4em] w-[95%] max-sm:w-[95%] max-md:w-[95%] mt-[.5em] border-t-[.3em] border-r-[.3em] border-l-[.3em] border-b-[.3em]">
+          <aside className="w-[15%] max-md:w-[30%] max-sm:w-[34%] max-[600px]:w-[32%] px-[.5em] bg-white shadow-lg">
+            <section className="p-[.4em] w-[95%] max-sm:w-[95%] max-[600px]:w-[100%] max-md:w-[95%] mt-[.5em] border-t-[.3em] border-r-[.3em] border-l-[.3em] border-b-[.3em]">
               <img src="./images/airtimelogo.webp" className="text-lg w-[100%] h-[6em]  object-fit  font-bold"/>
             </section>
             <nav className="px-[.3em] py-[.5em] mt-[.5em]">
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 w-[100%] mr-[1.5em]">
+          <main className="flex-1 w-[100%] mr-[.5em]">
             <header className="flex justify-between items-center mb-[.5em]">
               <h1 className="text-2xl ml-[2em] w-[50%] font-bold text-center text-gray-800">Welcome Back!</h1>
                {!isLoggedIn ?
