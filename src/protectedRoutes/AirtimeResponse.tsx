@@ -9,6 +9,7 @@ interface AirtimeResponse {
   amount: number;
   status: string;
   phoneNumber: string; 
+  date: string;
 }
 
 const AirtimeResponse: React.FC = () => {
@@ -45,7 +46,8 @@ const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | nul
                   <p>ID: {response.transaction_id}</p>
                   <p>Amount: {response.amount}</p>
                   <p>Status: {response.status}</p>
-                  <p>phoneNumber: {response.phoneNumber}</p>
+                  <p>Phone number: {response.phoneNumber}</p>
+                  <p>Date: { response.date} </p>
                 </li>
               ))}
             </ul>

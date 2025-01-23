@@ -144,7 +144,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
   
 
   return (
-<section>
+<section className="w-full">
   {!isLoggedIn ? (
     <section className="w-full">
       {loading && <p>Processing payment...</p>}
@@ -152,14 +152,14 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
 
       <h2 className="text-center mb-4">Payment Page</h2>
       <form
-        className="grid grid-cols-2 gap-4 border-[.2em] border-solid w-[80%] mx-auto p-6"
+        className="grid grid-cols-2 gap-4 max-md:ml-[.9em] mx-[auto] max-md:gap-[.4em] border-[.2em] border-solid w-[90%] max-md:w-[90%] p-6 max-md:p-[.4em]"
         onSubmit={handleInitiatePayment}
       >
         {/* Email */}
-        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+        <label className="flex flex-col gap-2 max-md:text-[.8em] text-[1rem] col-span-2 md:col-span-1">
           Email
           <input
-            className="w-full rounded-[.1em] p-2 max-md:p-1 border-[.2em]"
+            className="w-full rounded-[.1em] p-[.2em] max-md:text-[.8em] max-md:p-[.1em] border-[.2em]"
             type="email"
             name="email"
             value={paymentDetails.email}
@@ -169,10 +169,10 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
         </label>
 
         {/* Amount */}
-        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+        <label className="flex flex-col max-md:text-[.8em]  gap-2 text-[1rem]  col-span-2 md:col-span-1">
           Amount
           <input
-            className="w-full rounded-[.1em] p-2 max-md:p-1 border-[.2em]"
+            className="w-full rounded-[.1em] p-[.2em] max-md:p-[.1em] border-[.2em]"
             type="number"
             name="amount"
             value={paymentDetails.amount}
@@ -182,12 +182,12 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
         </label>
 
         {/* Phone Number */}
-        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2">
+        <label className="flex flex-col max-md:text-[.8em] max-md:gap-[.4em] gap-2 text-[1rem]  col-span-2">
           Phone Number
           <div className="flex gap-2">
             {/* Country Code */}
             <select
-              className="w-1/4 rounded-[.1em] p-2 max-md:p-1 border-[.2em]"
+              className="w-1/4 rounded-[.1em] p-[.2em] max-md:p-[.1em] border-[.2em]"
               name="countryCode"
               value={paymentDetails.countryCode || "+234"}
               onChange={(e) =>
@@ -207,7 +207,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
 
             {/* Phone Number Input */}
             <input
-              className="w-3/4 rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+              className="w-3/4 rounded-[.1em] max-md:p-1 p-[.2em] border-[.2em]"
               type="text"
               name="phone"
               value={paymentDetails.phone}
@@ -219,11 +219,11 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
         </label>
 
         {/* Currency */}
-        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+        <label className="flex flex-col max-md:text-[.8em] max-md:gap-[.4em] gap-2 text-[1rem] col-span-2 md:col-span-1">
           Currency
           <select
             name="currency"
-            className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+            className="w-full rounded-[.1em] max-md:p-1 p-[.2em] border-[.2em]"
             value={paymentDetails.currency}
             onChange={handleChange}
             required
@@ -235,11 +235,11 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
         </label>
 
         {/* Payment Option */}
-        <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+        <label className="flex flex-col gap-2 max-md:text-[.8em] max-md:gap-[.4em] text-[1rem] col-span-2 md:col-span-1">
           Payment Option
           <select
             name="payment_option"
-            className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+            className="w-full rounded-[.1em] max-md:p-1 p-[.2em] border-[.2em]"
             value={paymentDetails.payment_option}
             onChange={handleChange}
             required
@@ -253,10 +253,10 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
         {/* Card Details (if payment_option is 'card') */}
         {paymentDetails.payment_option === "card" && (
           <>
-            <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+            <label className="flex flex-col max-md:text-[.8em] max-md:gap-[.4em] gap-2 text-[1rem] col-span-2 md:col-span-1">
               Card Number
               <input
-                className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+                className="w-full rounded-[.1em] max-md:p-[.1em] p-[.2em] border-[.2em]"
                 type="text"
                 name="card_number"
                 value={paymentDetails.card_number}
@@ -271,10 +271,10 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
               )}
             </label>
 
-            <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+            <label className="flex flex-col max-md:text-[.8em] max-md:gap-[.4em] gap-2 text-[1rem] col-span-2 md:col-span-1">
               Expiry Date
               <input
-                className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+                className="w-full rounded-[.1em] max-md:p-[.1em] p-2 border-[.2em]"
                 type="text"
                 name="expiry_date"
                 value={paymentDetails.expiry_date}
@@ -285,10 +285,10 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
               />
             </label>
 
-            <label className="flex flex-col gap-2 text-[1.2rem] col-span-2 md:col-span-1">
+            <label className="flex flex-col max-md:text-[.8em] gap-2 text-[1rem] col-span-2 md:col-span-1">
               CVV
               <input
-                className="w-full rounded-[.1em] max-md:p-1 p-2 border-[.2em]"
+                className="w-full rounded-[.1em] max-md:p-[.1em]  p-2 border-[.2em]"
                 type="text"
                 name="cvv"
                 value={paymentDetails.cvv}

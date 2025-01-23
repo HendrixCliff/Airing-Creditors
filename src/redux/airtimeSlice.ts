@@ -30,7 +30,7 @@ interface AirtimeState {
     reducers: {
       clearMessages: (state) => {
         state.successMessage = null;
-        state.errorMessage = null;
+        state.errorMessage  = null;
       },
     },
     extraReducers: (builder) => {
