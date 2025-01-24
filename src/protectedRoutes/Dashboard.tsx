@@ -55,11 +55,11 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-       <section className=" w-[100%] relative m-[0em] p-[0em]  mt-[.8em]  overflow-hidden bg-gray-100">
+       <section className=" w-[100%] relative max-[]ml-[0em] p-[0em]  mt-[.8em]  overflow-hidden bg-gray-100">
       {!isLoggedIn ? (
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] absolute left-[1em] max-md:left-[20em] max-[600px]:top-[2.5em] max-[500px]:left-[20em] max-[600px]:left-[20em] max-md:top-[2.3em]  max-md:w-[30%] max-sm:w-[34%] max-[600px]:w-[34%] px-[.5em] bg-white shadow-lg">
+          <aside className="w-[15%] absolute left-[1em] max-md:left-[20em] max-[600px]:top-[2.5em] max-[590px]:left-[14em] max-[600px]:left-[20em] max-md:top-[2.3em]  max-md:w-[30%] max-sm:w-[34%] max-[600px]:w-[34%] px-[.5em] bg-white shadow-lg">
             <section className="p-[.4em] w-[95%] max-sm:w-[95%] max-[600px]:w-[100%] max-md:w-[95%] mt-[.5em] border-t-[.3em] border-r-[.3em] border-l-[.3em] border-b-[.3em]">
               <img src="./images/airtimelogo.webp" className="w-[100%] h-[6em]  object-fit  font-bold"/>
             </section>
@@ -101,7 +101,7 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
 
             {/* Cards */}
             <section className=" flex ml-[16em] max-md:w-[100%]  mt-[3em] max-md:ml-[.2em] items-center max-sm:gap-[1em] max-md:flex-col-reverse  max-md:items-start gap-[1em] max-md:gap-[.5em] max-md:mt-[1em] ">
-            <section className=" bg-white w-[40%] h-[11em] mt-[5em] max-md:mt-[0em] max-md:w-[100%] ml-[1em] max-sm:w-[100%] text-left shadow rounded-lg">
+            <section className=" bg-white w-[40%] h-[11em] mt-[5em] max-md:mt-[0em] max-md:w-[100%] ml-[1em] max-md:ml-[.1em] text-left shadow rounded-lg">
                 <h3 className="text-lg font-semibold text-gray-800"><AirtimeResponse/></h3>
               </section>
               <section className=" bg-white w-[65%] shadow rounded-lg">
