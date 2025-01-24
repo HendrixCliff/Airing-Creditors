@@ -42,12 +42,16 @@ const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | nul
           {airtimeResponses && airtimeResponses.length > 0 ? (
             <ul>
               {airtimeResponses.map((response) => (
-                <li key={response.transaction_id}>
-                  <p>ID: {response.transaction_id}</p>
-                  <p>Amount: {response.amount}</p>
-                  <p>Status: {response.status}</p>
-                  <p>Phone number: {response.phoneNumber}</p>
-                  <p>Date: { response.date} </p>
+                <li  className="flex" key={response.transaction_id}>
+                <section className="flex flex-col">
+                   <p>Status: {response.status}</p>
+                   <p>Phone number: {response.phoneNumber}</p>
+                   <p>Date: {response.date}</p>
+                </section>
+                <section className="flex flex-col">
+                    <p>ID: {response.transaction_id}</p>
+                    <p>Amount: {response.amount}</p>
+                 </section>
                 </li>
               ))}
             </ul>

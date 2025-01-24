@@ -310,7 +310,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="col-span-2 bg-[#c8a7ff] text-white font-bold text-lg rounded-[.2em] p-2"
+          className="col-span-2 bg-[#c8a7ff] text-white max-[600px]:w-[50%] w-[50%] font-bold text-lg rounded-[.2em]  mx-[auto]"
           disabled={
             !token ||
             loading ||

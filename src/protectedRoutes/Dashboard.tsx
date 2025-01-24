@@ -59,7 +59,7 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
       {!isLoggedIn ? (
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] absolute left-[1em] max-md:left-[20em] max-md:top-[2.3em]  max-md:w-[30%] max-sm:w-[34%] max-[600px]:w-[34%] px-[.5em] bg-white shadow-lg">
+          <aside className="w-[15%] absolute left-[1em] max-md:left-[20em] max-[600px]:top-[2.5em] max-[600px]:left-[20em] max-md:top-[2.3em]  max-md:w-[30%] max-sm:w-[34%] max-[600px]:w-[34%] px-[.5em] bg-white shadow-lg">
             <section className="p-[.4em] w-[95%] max-sm:w-[95%] max-[600px]:w-[100%] max-md:w-[95%] mt-[.5em] border-t-[.3em] border-r-[.3em] border-l-[.3em] border-b-[.3em]">
               <img src="./images/airtimelogo.webp" className="w-[100%] h-[6em]  object-fit  font-bold"/>
             </section>
