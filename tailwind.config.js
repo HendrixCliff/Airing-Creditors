@@ -11,6 +11,9 @@ export default {
       sans: 'Roboto'
     },
   	extend: {
+      backgroundImage: {
+        'dashboard-bg': "url('/images/speedrecharge.webp')",
+      },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

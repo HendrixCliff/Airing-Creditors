@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchLoggedInUser } from './fetchData';
 
 interface User {
-  id: string | null;
+  _id: string | null;
   username: string | null;
   email: string | null;
   phoneNumber: number | null;
@@ -15,20 +15,20 @@ interface UserState extends User {
 }
 
 const initialState: UserState = {
-  id: null,
-  username: null,
+  country: null,
   email: null,
   phoneNumber: null,
-  country: null,
+  username: null,
   loading: false,
   error: null,
+  _id: null
 };
 
 const loggedInUserSlice = createSlice({
-  name: 'user',
+  name: 'userProfile',
   initialState,
   reducers: {
-    // Example of a synchronous action (if needed)
+   
     clearError(state) {
       state.error = null;
     },
@@ -37,22 +37,22 @@ const loggedInUserSlice = createSlice({
     builder
       .addCase(fetchLoggedInUser.pending, (state) => {
         state.loading = true;
-        state.error = null;
+        state.error = null; 
       })
       .addCase(fetchLoggedInUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
-        state.id = action.payload.id;
-        state.username = action.payload.username;
-        state.email = action.payload.email;
-        state.phoneNumber = action.payload.phoneNumber;
-        state.country = action.payload.country;
+        state.error = null; // Ensure error is null on success
+        // Spread the payload to update the user state
+        Object.assign(state, action.payload);
       })
-      .addCase(fetchLoggedInUser.rejected, (state, action: PayloadAction<string | undefined>) => {
+      .addCase(fetchLoggedInUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to fetch user';
+        state.error = action.payload || 'Failed to fetch user'; // Assign error message
+        console.error('Error fetching user:', action.payload); // Optional debugging
       });
   },
 });
 
+// Export the reducer and actions
 export const userProfileReducer = loggedInUserSlice.reducer;
 export const { clearError } = loggedInUserSlice.actions;

@@ -45,8 +45,17 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.username = null;
+      state.user = null;
       state.token = null;
+      state.loading = false; 
+      state.error = null; 
+      state.successMessage = null; 
+      state.errorMessage = null;
+      state.protectedMessage = null;
+      state.forgotPasswordMessage = null;
+      state.isLoggedIn = false; 
+      state.username = null; 
+  
     },
     clearAuthMessages(state) {
       state.successMessage = null;
@@ -62,10 +71,7 @@ const authSlice = createSlice({
       state.error = null;
     })
     .addCase(login.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-      const { username, cookie } = action.payload;
-
-      state.username = username;
-      state.cookie = cookie || null; // Optional
+      state.token = action.payload.token; 
       state.isLoggedIn = true;
       state.loading = false;
       state.error = null;  
@@ -137,17 +143,6 @@ const authSlice = createSlice({
       .addCase(resetPassword.rejected, (state, action: PayloadAction<string | undefined>) => {
         state.loading = false;
         state.errorMessage = action.payload || 'Failed to reset password';
-      });
-
-      builder
-      .addCase(checkAuth.fulfilled, (state, action) => {
-        state.username = action.payload.username;
-        state.cookie = action.payload.cookie;
-        state.isLoggedIn = true;
-      })
-      .addCase(checkAuth.rejected, (state) => {
-        state.username = null;
-        state.isLoggedIn = false;
       });
   },
 });

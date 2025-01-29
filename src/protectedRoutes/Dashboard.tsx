@@ -5,6 +5,9 @@ import { useAppSelector } from './../hooks/useAppSelector';
 import PaymentPage from './../protectedRoutes/PaymentPage';
 import { Link, useNavigate } from 'react-router-dom';
 import AirtimeResponse from './../protectedRoutes/AirtimeResponse'
+import { fetchLoggedInUser } from './../redux/fetchData';
+import PaymentVerification from './../protectedRoutes/verifyPaymentPage'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,35 +34,42 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
     } else {
       setIsDialogOpen(false); // Close the dialog when the user logs in
     }
+    
   }, [isLoggedIn]);
 
+
+  
   return (
     <>
- <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <AlertDialogContent className="bg-[#2f5951] text-[#ffb927]">
-          <AlertDialogHeader>
-            <AlertDialogTitle>You need to be logged in</AlertDialogTitle>
-            <AlertDialogDescription>
-              You must log in to make a payment. Please sign in to continue.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            {/* The Cancel button will now close the dialog */}
-            <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
-              Cancel
-            </AlertDialogCancel>
-            {/* Add a Login button or navigation logic here */}
-            <AlertDialogAction onClick={() => navigate('/authenticate')}>
-              Login
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-       <section className=" w-[100%] relative max-[]ml-[0em] p-[0em]  mt-[.8em]  overflow-hidden bg-gray-100">
-      {!isLoggedIn ? (
+    {
+      !isLoggedIn ?
+      (
+        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <AlertDialogContent className="bg-[#2f5951] text-[#ffb927]">
+            <AlertDialogHeader>
+              <AlertDialogTitle>You need to be logged in</AlertDialogTitle>
+              <AlertDialogDescription>
+                You are required to log in before making any payment. Please sign in to continue.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              {/* The Cancel button will now close the dialog */}
+              <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+                Cancel
+              </AlertDialogCancel>
+              {/* Add a Login button or navigation logic here */}
+              <AlertDialogAction onClick={() => navigate('/authenticate')}>
+                Login
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>   ) :
+        (<section></section>)
+    }
+       <section className=" w-[100%] bg-dashboard-bg bg-cover bg-center bg-no-repeat  min-h-screen relative max-[]ml-[0em] p-[0em]  mt-[.8em]  overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] absolute left-[1em] max-md:left-[20em] max-[600px]:top-[4em] max-[590px]:left-[15em] max-[600px]:left-[20em] max-md:top-[2.3em]  max-md:w-[30%] max-sm:w-[34%] max-[600px]:w-[34%] px-[.5em] bg-white shadow-lg">
+          <aside className="w-[15%] absolute left-[1em]max-[650px]:left-[20em] max-[600px]:top-[4.5em] max-[589px]:left-[15em] max-[650px]:left-[20em] max-[600px]:top-[4.5em] max-[600px]:left-[20em] max-md:top-[2.3em]  max-md:w-[30%] max-sm:w-[34%] max-[600px]:w-[34%] px-[.5em] bg-white shadow-lg">
             <section className="p-[.4em] w-[95%] max-sm:w-[95%] max-[600px]:w-[100%] max-md:w-[95%] mt-[.5em] border-t-[.3em] border-r-[.3em] border-l-[.3em] border-b-[.3em]">
               <img src="./images/airtimelogo.webp" className="w-[100%] h-[6em]  object-fit  font-bold"/>
             </section>
@@ -71,7 +81,11 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
                   </a>
                 </li>
                 <li>
-                <Link className=" block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition" to="/profile">Profile</Link>
+                {isLoggedIn ? (
+                  <Link to="/profile" className="block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition">Profile</Link>
+                ) : (
+                  <span className="block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition">Profile</span>
+                )}
                 </li>
                 <li>
                   <a href="#" className="block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition">
@@ -88,19 +102,18 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
           </aside>
 
           {/* Main Content */}
-          <main className=" w-[100%] max-md:w-[100%] max-md:mr-[.5em]">
-            <header className="flex justify-between items-center mb-[.5em]">
-              <h1 className="text-2xl ml-[2em] w-[50%] font-bold text-center text-gray-800">Welcome Back!</h1>
+          <main className=" w-[100%] max-md:w-[100%]  max-md:mr-[.5em]">
+            <header className=" mb-[.5em] ">
                {!isLoggedIn ?
-              <section className="flex gap-[3em] w-[20%] max-md:w-[60%] max-md:gap-[.5em] justify-start">
+              <section className="flex gap-[3em] max-md:mt-[1em] w-[20%] max-md:w-[60%] max-md:gap-[.5em] ml-[auto] ">
                 <Link className=" text-center w-[100%] max-md:w-[90%] ml-[auto] mt-[2em]  max-md:mt-[.5em] max-md:py-[.2em] max-md:px-[.2em]  p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] border-solid bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em]  text-[1.2rem]" to="/authenticate">Login</Link>
-                <Link className=" text-center w-[100%] max-md:w-[90%] mt-[2em] mr-[.5em] max-md:mt-[.5em] max-md:py-[.2em] max-md:px-[.2em]  p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] border-solid bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]" to="/signup">Signup</Link>
+                <Link className=" text-center w-[100%] max-md:w-[90%] ml-[auto] mt-[2em] mr-[.5em] max-md:mt-[.5em] max-md:py-[.2em] max-md:px-[.2em]  p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] border-solid bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]" to="/signup">Signup</Link>
               </section> : <div> </div>}
           {/* Sidebar */}
             </header>
 
             {/* Cards */}
-            <section className=" flex ml-[16em] max-md:w-[100%]  mt-[3em] max-md:ml-[.2em] items-center max-sm:gap-[1em] max-md:flex-col-reverse  max-md:items-start gap-[1em] max-md:gap-[.5em] max-md:mt-[1em] ">
+            <section className=" flex ml-[16em] max-md:mt-[4em] max-md:w-[100%]  mt-[3em] max-md:ml-[.2em] items-center max-sm:gap-[1em] max-md:flex-col-reverse  max-md:items-start gap-[1em] max-md:gap-[.5em] max-md:mt-[1em] ">
             <section className=" bg-white w-[40%] h-[11em] mt-[5em] max-md:mt-[0em] max-md:w-[100%] ml-[1em] max-md:ml-[.1em] text-left shadow rounded-lg">
                 <h3 className="text-lg font-semibold text-gray-800"><AirtimeResponse/></h3>
               </section>
@@ -108,11 +121,10 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
                 <h3 className="text-lg font-semibold text-gray-800"><PaymentPage/></h3>
               </section>
             </section>
+            <PaymentVerification/>
           </main>
         </>
-      ) : (
-        <h3>You need to login to be a user.</h3>
-      )}
+      ) 
     </section>
     </>
    

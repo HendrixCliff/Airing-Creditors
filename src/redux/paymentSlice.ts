@@ -8,11 +8,13 @@ interface PaymentState {
   paymentData: PaymentResponse | null;
   verificationStatus: string | null;
   transactionId: string | null
-
+  phoneNumber: string | null;
+  amount: number | null;
+  status: string | null; 
 }
 
 export interface VerifyPaymentResponse {
-  status: string;
+  verifyStatus: string;
  
 }
 
@@ -23,6 +25,9 @@ const initialState: PaymentState = {
   paymentData: null,
   verificationStatus: null,
   transactionId: null,
+  phoneNumber: null,
+  amount: null,
+  status: null
 };
 
 const paymentSlice = createSlice({
@@ -38,7 +43,9 @@ const paymentSlice = createSlice({
       })
       .addCase(initiatePayment.fulfilled, (state, action: PayloadAction<PaymentResponse>) => {
         state.loading = false;
-        state.paymentData = action.payload;
+        state.error = null;
+        Object.assign(state, action.payload);
+
       })
       .addCase(initiatePayment.rejected, (state, action: PayloadAction<string | undefined>) => {
         state.loading = false;
@@ -55,7 +62,7 @@ const paymentSlice = createSlice({
         verifyPayment.fulfilled,
         (state, action: PayloadAction<VerifyPaymentResponse>) => {
           state.loading = false;
-          state.verificationStatus = action.payload.status;
+          Object.assign(state, action.payload);
           state.error = null;
         }
       )

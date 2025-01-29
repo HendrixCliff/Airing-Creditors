@@ -5,9 +5,10 @@ import { initiatePayment } from '../redux/fetchData';
 
 
 
+
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.payment);
+  const { loading, error, status } = useAppSelector((state) => state.payment);
   const { isLoggedIn, token} = useAppSelector((state) => state.auth);
  
 
@@ -17,11 +18,11 @@ const PaymentPage: React.FC = () => {
   
     }
   }, [isLoggedIn]);
-
   interface PaymentDetails {
     email: string;
-    amount: number;
-    phone: string;
+    amount: number | string;
+    phone: string; // Separate field for phone input
+    phoneNumber: string; // Concatenated country code + phone
     currency: string;
     payment_option: string;
     tx_ref: string;
@@ -29,38 +30,60 @@ const PaymentPage: React.FC = () => {
     expiry_date: string;
     cvv: string;
     card_type?: string;
-    countryCode?: string;
+    countryCode: string; // Made non-optional for consistency
+    [key: string]: string | number | undefined;
   }
-
+  
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
     email: '',
     amount: 0,
-    phone: '',
+    phone: '', // Separate phone field for input
+    phoneNumber: '+234', // Default phone number starts with default country code
     currency: 'NGN',
     payment_option: 'card',
     tx_ref: `txn_${new Date().getTime()}`,
     card_number: '',
     expiry_date: '',
     cvv: '',
-    countryCode: '+234',
+    countryCode: '+234', // Default country code
     card_type: '',
   });
+  
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    setPaymentDetails((prev) => ({
-      ...prev,
-      [name]: name === 'amount' && value !== '' ? value : value === '' ? '' : parseFloat(value) || 0,
-      [name]: name === 'phone' ? value.replace(/^0+/, '') : value,
-      [name]: name === 'email' && value !== '' 
-      ? (emailRegex.test(value) ? value : prev.email) 
-      : value,
-    }));
+  
+    setPaymentDetails((prev) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const updatedDetails = { ...prev };
+  
+      // Handle `amount` parsing
+      if (name === 'amount') {
+        updatedDetails[name] = value === '' ? '' : parseFloat(value) || 0;
+      }
+      // Handle `phone` updates
+      else if (name === 'phone') {
+        updatedDetails[name] = value.replace(/^0+/, '');
+      }
+      // Handle `email` validation
+      else if (name === 'email') {
+        updatedDetails[name] = value !== '' && emailRegex.test(value) ? value : prev.email;
+      }
+      // General case for other inputs
+      else {
+        updatedDetails[name] = value;
+      }
+  
+      // Combine `countryCode` and `phone` into `phoneNumber`
+      if (name === 'countryCode' || name === 'phone') {
+        updatedDetails.phoneNumber = `${updatedDetails.countryCode || ''}${updatedDetails.phone || ''}`;
+      }
+  
+      return updatedDetails;
+    });
   };
+  
   const validateExpiryDate = (expiryDate: string) => {
     const [month, year] = expiryDate.split('/').map(Number);
   
@@ -121,6 +144,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
         card_type: cardType, 
       }));
 }
+
   // Handle initiating payment
   const handleInitiatePayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -131,10 +155,11 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const paymentPayload = {
         ...paymentDetails,
+        amount: typeof paymentDetails.amount === 'string' ? parseFloat(paymentDetails.amount) || 0 : paymentDetails.amount, // Ensure amount is a number
         payment_option: 'card', // Explicitly specify card payment option
       };
   
-      // Remove recipientId validation for card payments
+     
       const result = await dispatch(initiatePayment(paymentPayload)).unwrap();
       console.log('Payment initiated successfully:', result);
     } catch (err) {
@@ -145,7 +170,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   return (
 <section className="w-full">
-  {!isLoggedIn ? (
+  {isLoggedIn ? (
     <section className="w-full">
       {loading && <p>Processing payment...</p>}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
@@ -187,34 +212,33 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
           <div className="flex gap-2">
             {/* Country Code */}
             <select
-              className="w-1/4 rounded-[.1em] p-[.2em] max-md:p-[.1em] border-[.2em]"
-              name="countryCode"
-              value={paymentDetails.countryCode || "+234"}
-              onChange={(e) =>
-                setPaymentDetails((prev) => ({
-                  ...prev,
-                  countryCode: e.target.value,
-                }))
-              }
-              required
-            >
-              <option value="+1">+1 (US)</option>
-              <option value="+44">+44 (UK)</option>
-              <option value="+91">+91 (India)</option>
-              <option value="+234">+234 (Nigeria)</option>
-              <option value="+81">+81 (Japan)</option>
-            </select>
+  className="w-1/4 rounded-[.1em] p-[.2em] max-md:p-[.1em] border-[.2em]"
+  name="countryCode"
+  value={paymentDetails.countryCode || "+234"}
+  onChange={(e) => {
+    const { value } = e.target;
+    setPaymentDetails((prev) => ({
+      ...prev,
+      countryCode: value,
+      phoneNumber: `${value}${prev.phone || ''}`, // Update phoneNumber directly
+    }));
+  }}
+  required
+>
+  <option value="+234">+234 (Nigeria)</option>
+</select>
 
-            {/* Phone Number Input */}
-            <input
-              className="w-3/4 rounded-[.1em] max-md:p-1 p-[.2em] border-[.2em]"
-              type="text"
-              name="phone"
-              value={paymentDetails.phone}
-              onChange={handleChange}
-              required
-              placeholder="Enter phone number"
-            />
+{/* Phone Number Input */}
+<input
+  className="w-3/4 rounded-[.1em] max-md:p-1 p-[.2em] border-[.2em]"
+  type="text"
+  name="phone"
+  value={paymentDetails.phone}
+  onChange={handleChange}
+  required
+  placeholder="Enter phone number"
+/>
+
           </div>
         </label>
 
@@ -274,7 +298,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             <label className="flex flex-col max-md:text-[.8em] max-md:gap-[.4em] gap-2 text-[1rem] col-span-2 md:col-span-1">
               Expiry Date
               <input
-                className="w-full rounded-[.1em] max-md:p-[.1em] p-2 border-[.2em]"
+                className="w-full rounded-[.1em] max-md:p-[.1em] p-[.2em] border-[.2em]"
                 type="text"
                 name="expiry_date"
                 value={paymentDetails.expiry_date}
@@ -288,7 +312,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             <label className="flex flex-col max-md:text-[.8em] gap-2 text-[1rem] col-span-2 md:col-span-1">
               CVV
               <input
-                className="w-full rounded-[.1em] max-md:p-[.1em]  p-2 border-[.2em]"
+                className="w-full rounded-[.1em] max-md:p-[.1em]  p-[.2em] border-[.2em]"
                 type="text"
                 name="cvv"
                 value={paymentDetails.cvv}
@@ -306,7 +330,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             </label>
           </>
         )}
-
+         {status && <p>Initiation Status: {status}</p>}
         {/* Submit Button */}
         <button
           type="submit"
@@ -316,7 +340,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             loading ||
             !paymentDetails.email ||
             !paymentDetails.amount ||
-            !paymentDetails.phone
+            !paymentDetails.phoneNumber
           }
         >
           {loading ? "Processing..." : "Initiate Payment"}

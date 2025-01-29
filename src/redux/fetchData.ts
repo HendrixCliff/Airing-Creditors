@@ -20,8 +20,10 @@ interface VerifyPaymentPayload {
 }
 
 export interface VerifyPaymentResponse {
-  status: string;
- 
+ message: string;
+  data: {
+    savedResponse: SavedResponse;
+  };
 }
 
 export interface UpdatePasswordPayload {
@@ -72,9 +74,11 @@ interface ForgotPasswordResponse {
 }
 
 export interface PaymentResponse {
-    paymentId: string;
+    transactionId: string;
     status: string;
     amount: number;
+    phoneNumber: string;
+    
 }
   
   interface PaymentPayload {
@@ -97,22 +101,12 @@ export interface PaymentResponse {
   //   role: string;
   // }
   export interface FetchUserResponse {
-    id: string;
     username: string;
     email: string;
     phoneNumber: number;
     country: string;
   }
 
-  export const checkAuth = createAsyncThunk('auth/check', async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get('http://localhost:7000/api/v1/auth/me', { withCredentials: true });
-      return response.data; // e.g., { username: 'user123' }
-    } catch (error) {
-      console.log(error)
-      return rejectWithValue('Not authenticated')
-    }
-  });
 
 export const protectedData = createAsyncThunk<
   ProtectedResponse, 
@@ -123,7 +117,7 @@ export const protectedData = createAsyncThunk<
   const token = state.auth.token;
 
   try {
-    const response = await axios.get('http://localhost:7000/api/v1/auth/protected', {
+    const response = await axios.get( `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/protected`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -141,7 +135,7 @@ export const login = createAsyncThunk<AuthResponse, LoginPayload> (
     async ({ username, password }, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-              'http://localhost:7000/api/v1/auth/login',
+             `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`,
               { username, password },
               { withCredentials: true }
             );
@@ -173,7 +167,7 @@ export const signup = createAsyncThunk<AuthResponse, SignupPayload>(
     'auth/signup',
     async ({ username, email, password, confirmPassword, phoneNumber, country }, { rejectWithValue }) => {
       try {
-        const response = await axios.post('http://localhost:7000/api/v1/auth/signup', {
+        const response = await axios.post( `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/signup`, {
           username,
           email,
           password,
@@ -215,7 +209,7 @@ export const resetPassword = createAsyncThunk<
   'auth/resetPassword',
   async ({  password, confirmPassword }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`http://localhost:7000/api/v1/auth/resetPassword/:token`, { 
+      const response = await axios.post( `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/resetPassword/:token`, { 
         password, 
         confirmPassword 
       });
@@ -240,7 +234,7 @@ export const initiatePayment = createAsyncThunk<
 
   try {
     const response = await axios.post(
-      'http://localhost:7000/api/v1/payment/initiatePayment',
+       `${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/initiatePayment`,
       payload, // Payload contains the required payment information
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -268,12 +262,12 @@ export const verifyPayment = createAsyncThunk<
     const token = state.auth.token;
 
     try {
-      const response = await axios.get('http://localhost:7000/api/v1/payment/verifyPayment', {
+      const response = await axios.get( `${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/verifyPayment`, {
         headers: { Authorization: `Bearer ${token}` },
         params: payload,
       });
 
-      return response.data;
+      return response.data.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(
@@ -289,11 +283,11 @@ export const fetchAirtimeResponse = createAsyncThunk<
   void,              // Argument type (no arguments in this case)
   { rejectValue: string } // Type for the rejectWithValue
 >(
-  'airtime/fetchAirtimeResponse',
+  'airtime/airtimeResonse',
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get<{ data: AirtimeResponse[] }>(
-        'http://localhost:7000/api/v1/airtime/airtimeResponse'
+         `${import.meta.env.VITE_API_BASE_URL}/api/v1/airtime/airtimeResponse`
       );
       return response.data.data; // Return the array of AirtimeResponse objects
     } catch (error) {
@@ -308,30 +302,40 @@ export const fetchAirtimeResponse = createAsyncThunk<
 
 
 export const fetchLoggedInUser = createAsyncThunk<
-  FetchUserResponse,        // The type of the resolved payload
-  void,                     // The type of the argument (no argument here)
-  { rejectValue: string, state: RootState }   // The type of the rejected payload
+  FetchUserResponse, 
+  void,              
+  { rejectValue: string; state: RootState } // Additional options
 >(
-  'auth/fetchLoggedInUser',
+  "userProfile/fetchLoggedInUser",
   async (_, { rejectWithValue, getState }) => {
     try {
-      const state = getState() as RootState;
-      const { cookie } = state.auth;
-      const response = await axios.get<FetchUserResponse>('http://localhost:7000/api/v1/user/userProfile', {
-        headers: {
-          Authorization: `Bearer ${cookie}`, 
-        },
-      });
+      // Extract the token from the state
+      const token = (getState() as RootState).auth.token;
+      if (!token) {
+        throw new Error('Authentication token not found');
+      }
+      // Make the API request with the Authorization header
+      const response = await axios.get<FetchUserResponse>(
+         `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/userProfile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!response.data) {
-        throw new Error('Failed to fetch user');
+        throw new Error('Failed to fetch user data');
       }
-      return response.data;
+      return response.data.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || 'Failed to fetch user');
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error:', error.response?.data || error.message);
+        return rejectWithValue(error.response?.data?.message || 'Failed to fetch user');
       }
+      console.error('Unexpected error:', error);
       return rejectWithValue('An unexpected error occurred');
     }
+    
   }
 );
 
@@ -346,7 +350,7 @@ export const updatePassword = createAsyncThunk<
     try {
       const state = getState() as RootState;
       const { cookie } = state.auth;
-      await axios.post('http://localhost:7000/api/v1/users/updatePassword', {
+      await axios.post( `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/updatePassword`, {
         cookie,
         newPassword,
       });

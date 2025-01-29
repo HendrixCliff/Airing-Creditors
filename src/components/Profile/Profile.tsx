@@ -1,45 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import ProfileHeader from './ProfileHeader';
+import React, { useState} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa'; // Import the correct icon
 import ProfileDetails from './ProfileDetails';
-import EditProfileModal from './EditProfileModal';
+// import EditProfileModal from './EditProfileModal';
 import { useAppSelector } from './../../hooks/useAppSelector';
-//import { useNavigate } from 'react-router-dom';
 
 const Profile: React.FC = () => {
-  const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);
   const { isLoggedIn } = useAppSelector((state) => state.auth);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
+  // const handleEditClick = () => {
+  //   setIsEditing(true);
+  // };
 
   const handleCloseModal = () => {
     setIsEditing(false);
   };
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      //alert('You need to be logged in to be able to have a profile');
-     
-    //  setTimeout(() => {
-    //   navigate('/login')
-    //  }, 600000) // Redirect to login page if needed
-    }
-  }, [isLoggedIn]);
 
   return (
-    <div>
-      {!isLoggedIn ? (
+    <section className="p-4">
+
         <>
-          <ProfileHeader onEditClick={handleEditClick} />
+          {/* Back Button */}
+          <Link to="/" className="inline-flex items-center text-blue-600 hover:underline mb-4">
+            <FaArrowLeft className="mr-2" />
+            Back to Home
+          </Link>
+
+          {/* Profile Header */}
+          
+
+          {/* Profile Details */}
           <ProfileDetails />
-          {isEditing && <EditProfileModal onClose={handleCloseModal} />}
+
+          {/* Edit Modal */}
+          {/* {isEditing && <EditProfileModal onClose={handleCloseModal} />} */}
         </>
-      ) : (
-        <h3>You need to log in to be a user.</h3>
-      )}
-    </div>
+        <section>
+          <Link to="/" className="inline-flex items-center text-blue-600 hover:underline mb-4">
+            <FaArrowLeft className="mr-2" />
+          </Link>
+        <h3 className="text-center text-red-500">You need to log in to access your profile.</h3>
+       </section>
+    </section>
   );
 };
 
