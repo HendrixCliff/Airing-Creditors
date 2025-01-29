@@ -48,16 +48,13 @@ export interface UpdatePasswordPayload {
     confirmPassword: string; 
     phoneNumber: string; 
     country: string;
-  
-  interface AuthResponse {
-    username: string;
-    token: string;
   }
+    interface AuthResponse {
+      username: string;
+      token: string;
+      email?: string; // Optional email, in case the API returns it
+    }
   
-
-  
-
-
 interface ProtectedResponse {
   message: string;
 }
@@ -142,27 +139,24 @@ export const login = createAsyncThunk<AuthResponse, LoginPayload>(
 
 
 export const signup = createAsyncThunk<AuthResponse, SignupPayload>(
-    'auth/signup',
-    async ({ username, email, password, confirmPassword, phoneNumber, country }, { rejectWithValue }) => {
-      try {
-        const response = await axios.post( `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/signup`, {
-          username,
-          email,
-          password,
-          confirmPassword,
-          phoneNumber,
-          country
-        });
-        return { username: response.data.username, token: response.data.token };
-      } catch (error: unknown) {
-        if (axios.isAxiosError(error) && error.response) {
-          return rejectWithValue(error.response.data.message || 'Signup failed');
-        }
-        return rejectWithValue('Signup failed');
-      }
-    }
-  );
+  'auth/signup',
+  async ({ username, email, password, confirmPassword, phoneNumber, country }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/signup`,
+        { username, email, password, confirmPassword, phoneNumber, country },
+        { withCredentials: true } // Ensures cookies (if used)
+      );
 
+      return response.data as AuthResponse; // Return API response directly
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response?.data?.message || 'Signup failed');
+      }
+      return rejectWithValue('Signup failed');
+    }
+  }
+);
 export const forgotPassword = createAsyncThunk<ForgotPasswordResponse, ForgotPasswordPayload>(
   'auth/forgotPassword',
   async ({ email }, { rejectWithValue }) => {
