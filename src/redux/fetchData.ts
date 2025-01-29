@@ -19,8 +19,9 @@ interface ResetPasswordResponse {
 interface VerifyPaymentPayload {
   transactionId: string;
   amount: number;
-  phoneNumber: string
+  phoneNumber: string;
 }
+
 
 export interface VerifyPaymentResponse {
   status: string;

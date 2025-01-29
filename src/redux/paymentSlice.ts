@@ -16,7 +16,7 @@ interface PaymentState {
 
 interface VerifyPaymentResponse {
   verifyStatus: string;
-  transaction_id: string | null;
+  transactionId: string | null;
   phoneNumber: string | null;
   amount: number | null;
   date: string | null;

@@ -10,29 +10,35 @@ const UpdateMeForm: React.FC = () => {
   const [country, setCountry] = useState('');
 
   const dispatch = useAppDispatch();
-  const { loading, error, user } = useAppSelector((state) => state.updateMe);
+  const { loading, error } = useAppSelector((state) => state.updateMe); // ✅ Removed unused `user`
+
+  // ✅ Email & Phone Validation
+  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isValidPhone = (phone: string) => /^\d{10,15}$/.test(phone); // ✅ Allows 10-15 digit numbers
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
+    // ✅ Validate Required Fields
     if (!username || !email || !phoneNumber || !country) {
-      alert('Please fill in all fields');
+      alert('Please fill in all fields.');
+      return;
+    }
+    if (!isValidEmail(email)) {
+      alert('Invalid email format.');
+      return;
+    }
+    if (!isValidPhone(phoneNumber)) {
+      alert('Invalid phone number format.');
       return;
     }
 
-    const userDetails = {
-      username,
-      email,
-      phoneNumber: Number(phoneNumber), // Convert to number if needed
-      country,
-    };
-
     try {
-      await dispatch(updateMe({ userDetails })).unwrap();
+      await dispatch(updateMe({ username, email, phoneNumber, country })).unwrap(); // ✅ Pass fields directly
       alert('Profile updated successfully!');
     } catch (err) {
       console.error('Error updating profile:', err);
+      alert('Failed to update profile. Please try again.');
     }
   };
 
@@ -70,6 +76,7 @@ const UpdateMeForm: React.FC = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               required
+              placeholder="Enter 10-15 digit phone number"
             />
           </label>
         </div>
@@ -88,8 +95,7 @@ const UpdateMeForm: React.FC = () => {
           {loading ? 'Updating...' : 'Update'}
         </button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {user && <p style={{ color: 'green' }}>Profile updated successfully!</p>}
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
     </div>
   );
 };

@@ -9,7 +9,7 @@ import { initiatePayment } from '../redux/fetchData';
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error, status } = useAppSelector((state) => state.payment);
-  const { isLoggedIn} = useAppSelector((state) => state.auth);
+  const { isLoggedIn, token} = useAppSelector((state) => state.auth);
  
 
   interface PaymentDetails {
@@ -80,20 +80,12 @@ const PaymentPage: React.FC = () => {
   
   const validateExpiryDate = (expiryDate: string) => {
     const [month, year] = expiryDate.split('/').map(Number);
-  
-    if (!month || !year) return false; // Ensure both month and year are present
-    if (month < 1 || month > 12) return false; // Month should be between 01 and 12
-  
-    const currentYear = new Date().getFullYear() % 100; // Get last two digits of current year
+    const currentYear = new Date().getFullYear() % 100;
     const currentMonth = new Date().getMonth() + 1;
-  
-    // Ensure the year is not in the past and the date is not expired
-    if (year < currentYear || (year === currentYear && month < currentMonth)) {
-      return false;
-    }
-  
-    return true;
+
+    return month && year && month >= 1 && month <= 12 && (year > currentYear || (year === currentYear && month >= currentMonth));
   };
+
 const handleExpiryDate = (e: React.ChangeEvent<HTMLInputElement>) => {
   const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
   let formattedInput = input;
@@ -129,42 +121,50 @@ const detectCardType = (cardNumber: string) => {
   }
 };
 const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
-     const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-      const cardType = detectCardType(input); // Detect the card type based on input
+  const input = e.target.value.replace(/\D/g, '');
+  
+  if (input.length <= 16) { // ✅ Ensure card number is at most 16 digits
+    setPaymentDetails((prev) => ({
+      ...prev,
+      card_number: input,
+      card_type: detectCardType(input),
+    }));
+  }
+};
 
-      setPaymentDetails((prev) => ({
-        ...prev,
-        card_number: input,
-        card_type: cardType, 
-      }));
-}
 
   // Handle initiating payment
   const handleInitiatePayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+
+    if (!paymentDetails.email || !paymentDetails.amount || !paymentDetails.phoneNumber) {
+      alert('Please fill in all required fields.');
+      return;
+    }
     if (!validateExpiryDate(paymentDetails.expiry_date)) {
       alert('Invalid expiry date. Please enter a valid MM/YY.');
       return;
     }
+
     try {
       const paymentPayload = {
         ...paymentDetails,
-        amount: typeof paymentDetails.amount === 'string' ? parseFloat(paymentDetails.amount) || 0 : paymentDetails.amount, // Ensure amount is a number
-        payment_option: 'card', // Explicitly specify card payment option
+        amount: parseFloat(paymentDetails.amount.toString()) || 0, // ✅ Ensure amount is a number
       };
-  
-     
-      const result = await dispatch(initiatePayment(paymentPayload)).unwrap();
-      console.log('Payment initiated successfully:', result);
+
+      await dispatch(initiatePayment(paymentPayload));
+      console.log('Payment initiated successfully');
     } catch (err) {
       console.error('Payment initiation failed:', err);
     }
   };
+
   
 
   return (
 <section className="w-full">
-  {!isLoggedIn ? (
+  {isLoggedIn ? (
     <section className="w-full">
       {loading && <p>Processing payment...</p>}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}

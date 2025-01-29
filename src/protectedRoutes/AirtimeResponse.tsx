@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-
 interface AirtimeResponseData {
   transactionId: string;
   amount: number;
@@ -10,15 +9,18 @@ interface AirtimeResponseData {
 }
 
 const AirtimeResponseComponent: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponseData[] | null>(null);
-  
+
+  const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponseData[]>([]); // ✅ Default to empty array
 
   useEffect(() => {
-    
-    const savedResponse = localStorage.getItem("airtimeResponse");
-    if (savedResponse) {
-      setAirtimeResponses(JSON.parse(savedResponse) as AirtimeResponseData[]);
+    try {
+      const savedResponse = localStorage.getItem("airtimeResponse");
+      if (savedResponse) {
+        const parsedData = JSON.parse(savedResponse) as AirtimeResponseData[];
+        setAirtimeResponses(parsedData);
+      }
+    } catch (error) {
+      console.error("Error parsing airtimeResponse from localStorage:", error);
     }
   }, []);
 
@@ -26,18 +28,31 @@ const AirtimeResponseComponent: React.FC = () => {
     <section className="border-solid border-[.7em] border-[#f1fffc] p-4">
       <h2 className="text-lg font-semibold mb-2">Past Purchase Details</h2>
 
-      {airtimeResponses && airtimeResponses.length > 0 ? (
+      {airtimeResponses.length > 0 ? (
         <ul className="space-y-3">
           {airtimeResponses.map((response) => (
-            <li className="flex justify-between border p-3 rounded-md shadow-md bg-white" key={response.transactionId}>
+            <li
+              className="flex justify-between border p-3 rounded-md shadow-md bg-white"
+              key={response.transactionId}
+            >
               <section className="flex flex-col">
-                <p><strong>Status:</strong> {response.status}</p>
-                <p><strong>Phone Number:</strong> {response.phoneNumber}</p>
-                <p><strong>Date:</strong> {response.date}</p>
+                <p>
+                  <strong>Status:</strong> {response.status}
+                </p>
+                <p>
+                  <strong>Phone Number:</strong> {response.phoneNumber}
+                </p>
+                <p>
+                  <strong>Date:</strong> {response.date}
+                </p>
               </section>
               <section className="flex flex-col">
-                <p><strong>ID:</strong> {response.transactionId}</p>
-                <p><strong>Amount:</strong> ${response.amount}</p>
+                <p>
+                  <strong>ID:</strong> {response.transactionId}
+                </p>
+                <p>
+                  <strong>Amount:</strong> ${response.amount}
+                </p>
               </section>
             </li>
           ))}
