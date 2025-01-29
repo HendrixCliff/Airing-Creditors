@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { fetchAirtimeResponse } from "../redux/fetchData";
 
 
 interface AirtimeResponseData {
