@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
 import { initiatePayment } from '../redux/fetchData';
@@ -12,12 +12,6 @@ const PaymentPage: React.FC = () => {
   const { isLoggedIn, token} = useAppSelector((state) => state.auth);
  
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      // Optionally redirect to login page or show a prompt for guests
-  
-    }
-  }, [isLoggedIn]);
   interface PaymentDetails {
     email: string;
     amount: number | string;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { fetchLoggedInUser } from "../redux/fetchData";
+import { fetchAirtimeResponse } from "../redux/fetchData";
 
 interface AirtimeResponse {
   transaction_id: string;
@@ -12,11 +12,10 @@ interface AirtimeResponse {
 
 const AirtimeResponse: React.FC = () => {
   const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | null>(null);
-  const dispatch = useAppDispatch()
+  
   ;
   useEffect(() => {
     // Retrieve data from local storage
-    dispatch(fetchLoggedInUser());
     const savedResponse = localStorage.getItem('airtimeResponse');
     if (savedResponse) {
       setAirtimeResponses(JSON.parse(savedResponse) as AirtimeResponse[]);

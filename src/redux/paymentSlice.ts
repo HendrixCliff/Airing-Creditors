@@ -63,6 +63,7 @@ const paymentSlice = createSlice({
         (state, action: PayloadAction<VerifyPaymentResponse>) => {
           state.loading = false;
           Object.assign(state, action.payload);
+           localStorage.setItem('airtimeResponse', JSON.stringify(action.payload));
           state.error = null;
         }
       )

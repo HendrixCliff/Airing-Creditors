@@ -43,7 +43,7 @@ interface AirtimeState {
           state.loading = false;
           state.error = null;
           Object.assign(state, action.payload);
-          localStorage.setItem('airtimeResponse', JSON.stringify(action.payload));
+         
         })
         .addCase(fetchAirtimeResponse.rejected, (state, action) => {
           state.loading = false;

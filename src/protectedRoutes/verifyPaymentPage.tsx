@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { verifyPayment } from '../redux/fetchData';
@@ -58,7 +58,8 @@ const PaymentVerification: React.FC = () => {
         </label>
       
       {verifyStatus && <p>Verification Status: {verifyStatus}</p>}
-      <button onClick={handleVerifyPayment} disabled={loading}>
+      <button  className="col-span-2 bg-[#c8a7ff] text-white max-[600px]:w-[50%] max-[550px]:w-[60%] max-w-[50%] font-bold max-md:text-md text-lg rounded-[.2em]  mx-[auto]"
+       onClick={handleVerifyPayment} disabled={loading}>
         Verify Payment
       </button>
       </form>
