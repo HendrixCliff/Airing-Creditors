@@ -56,13 +56,12 @@ export interface UpdatePasswordPayload {
   }
   
 
-  interface ProtectedResponse {
-    message: string;
-  }
+  
 
 
 interface ProtectedResponse {
   data: string;
+  message: string;
 }
 
 interface ForgotPasswordPayload {
@@ -200,19 +199,18 @@ export const forgotPassword = createAsyncThunk<ForgotPasswordResponse, ForgotPas
   }
 );
 
-
 export const resetPassword = createAsyncThunk<
   ResetPasswordResponse,
-  ResetPasswordPayload,
+  { token: string; password: string; confirmPassword: string },
   { rejectValue: string }
 >(
   'auth/resetPassword',
-  async ({  password, confirmPassword }, { rejectWithValue }) => {
+  async ({ token, password, confirmPassword }, { rejectWithValue }) => {
     try {
-      const response = await axios.post( `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/resetPassword/:token`, { 
-        password, 
-        confirmPassword 
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/resetPassword/${token}`,
+        { password, confirmPassword }
+      );
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
@@ -222,6 +220,7 @@ export const resetPassword = createAsyncThunk<
     }
   }
 );
+
 
 
 export const initiatePayment = createAsyncThunk<
@@ -302,31 +301,24 @@ export const fetchAirtimeResponse = createAsyncThunk<
 
 
 export const fetchLoggedInUser = createAsyncThunk<
-  FetchUserResponse, 
-  void,              
-  { rejectValue: string; state: RootState } // Additional options
+  FetchUserResponse,
+  void,
+  { rejectValue: string; state: RootState }
 >(
   "userProfile/fetchLoggedInUser",
   async (_, { rejectWithValue, getState }) => {
     try {
-      // Extract the token from the state
-      const token = (getState() as RootState).auth.token;
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
-      // Make the API request with the Authorization header
+      const token = getState().auth.token;
+      if (!token) throw new Error('Authentication token not found');
+
       const response = await axios.get<FetchUserResponse>(
-         `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/userProfile`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/userProfile`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      if (!response.data) {
-        throw new Error('Failed to fetch user data');
-      }
-      return response.data.data;
+
+      return response.data; // No need for `.data.data`
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('Axios error:', error.response?.data || error.message);
@@ -335,25 +327,24 @@ export const fetchLoggedInUser = createAsyncThunk<
       console.error('Unexpected error:', error);
       return rejectWithValue('An unexpected error occurred');
     }
-    
   }
 );
 
 
+
 export const updatePassword = createAsyncThunk<
-  void,
+  UpdatePasswordResponse,
   UpdatePasswordPayload,
-  { rejectValue: string, state: RootState }
+  { rejectValue: string; state: RootState }
 >(
   'auth/updatePassword',
-  async ({  newPassword }, { rejectWithValue, getState }) => {
+  async ({ token, newPassword }, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const { cookie } = state.auth;
-      await axios.post( `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/updatePassword`, {
-        cookie,
-        newPassword,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/updatePassword`,
+        { token, newPassword }
+      );
+      return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(error.response.data.message || 'Failed to update password');
@@ -362,4 +353,3 @@ export const updatePassword = createAsyncThunk<
     }
   }
 );
-
