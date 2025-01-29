@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
- import { login, signup, protectedData, forgotPassword, checkAuth, resetPassword } from './fetchData';
+import { login, signup, protectedData, forgotPassword, resetPassword } from './fetchData';
 
- interface AuthState {
+interface AuthState {
   user: { name: string } | null;
   token: string | null;
   loading: boolean;
@@ -20,6 +20,7 @@ interface AuthResponse {
   username: string;
   cookie?: string; // Optional
 }
+
 interface ResetPasswordResponse {
   message: string;
 }
@@ -35,11 +36,9 @@ const initialState: AuthState = {
   isLoggedIn: false,
   user: null,
   username: null,
-  cookie: null, // Include if you want to track the cookie explicitly
+  cookie: null,
 };
 
-
-  
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -47,44 +46,38 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      state.loading = false; 
-      state.error = null; 
-      state.successMessage = null; 
+      state.loading = false;
+      state.error = null;
+      state.successMessage = null;
       state.errorMessage = null;
       state.protectedMessage = null;
       state.forgotPasswordMessage = null;
-      state.isLoggedIn = false; 
-      state.username = null; 
-  
+      state.isLoggedIn = false;
+      state.username = null;
     },
-    clearAuthMessages(state) {
+    clearAuthMessages: (state) => {
       state.successMessage = null;
       state.errorMessage = null;
     },
-
-   
   },
   extraReducers: (builder) => {
     builder
-    .addCase(login.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(login.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-      state.token = action.payload.token; 
-      state.isLoggedIn = true;
-      state.loading = false;
-      state.error = null;  
-    })
-    .addCase(login.rejected, (state, action) => {
-      state.loading = false;
-      state.error =
-        action.payload && typeof action.payload === 'string'
-          ? action.payload
-          : 'Login failed';
-    });
+      .addCase(login.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(login.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
+        state.token = action.payload.token;
+        state.isLoggedIn = true;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.error = typeof action.payload === 'string' ? action.payload : 'Login failed';
+      });
 
-      builder
+    builder
       .addCase(signup.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -93,17 +86,15 @@ const authSlice = createSlice({
         state.loading = false;
         state.username = action.payload.username;
         state.token = action.payload.token;
+        state.isLoggedIn = true; // ✅ Added isLoggedIn flag
         state.error = null;
-        
       })
       .addCase(signup.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          action.payload && typeof action.payload === 'string'
-            ? action.payload
-            : 'Signup failed';
+        state.error = typeof action.payload === 'string' ? action.payload : 'Signup failed';
       });
-      builder
+
+    builder
       .addCase(protectedData.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -114,9 +105,10 @@ const authSlice = createSlice({
       })
       .addCase(protectedData.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
-      });  
-      builder
+        state.error = typeof action.payload === 'string' ? action.payload : 'Request failed';
+      });
+
+    builder
       .addCase(forgotPassword.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -128,9 +120,10 @@ const authSlice = createSlice({
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = typeof action.payload === 'string' ? action.payload : 'Forgot password request failed';
       });
-      builder
+
+    builder
       .addCase(resetPassword.pending, (state) => {
         state.loading = true;
         state.successMessage = null;
@@ -139,14 +132,13 @@ const authSlice = createSlice({
       .addCase(resetPassword.fulfilled, (state, action: PayloadAction<ResetPasswordResponse>) => {
         state.loading = false;
         state.successMessage = action.payload.message;
-        
       })
-      .addCase(resetPassword.rejected, (state, action: PayloadAction<string | undefined>) => {
+      .addCase(resetPassword.rejected, (state, action) => {
         state.loading = false;
-        state.errorMessage = action.payload || 'Failed to reset password';
+        state.errorMessage = typeof action.payload === 'string' ? action.payload : 'Failed to reset password';
       });
   },
 });
 
-export const { logout,  clearAuthMessages } = authSlice.actions;
+export const { logout, clearAuthMessages } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initiatePayment, verifyPayment } from './fetchData';
-import type { PaymentResponse } from '../redux/fetchData';
+import type { PaymentResponse } from './fetchData';
 
 interface PaymentState {
   loading: boolean;
@@ -10,12 +10,11 @@ interface PaymentState {
   phoneNumber: string | null;
   amount: number | null;
   status: string | null;
-  verifyStatus: string | null;
   date: string | null;
 }
 
 interface VerifyPaymentResponse {
-  verifyStatus: string;
+  status: string;
   transactionId: string | null;
   phoneNumber: string | null;
   amount: number | null;
@@ -30,7 +29,6 @@ const initialState: PaymentState = {
   phoneNumber: null,
   amount: null,
   status: null,
-  verifyStatus: null,
   date: null,
 };
 
@@ -56,28 +54,34 @@ const paymentSlice = createSlice({
       })
       .addCase(initiatePayment.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Payment failed';
+        state.error = typeof action.payload === 'string' ? action.payload : 'Payment failed';
       });
 
     builder
       .addCase(verifyPayment.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.verifyStatus = null;
       })
       .addCase(verifyPayment.fulfilled, (state, action: PayloadAction<VerifyPaymentResponse>) => {
         state.loading = false;
         state.error = null;
-        state.verifyStatus = action.payload.verifyStatus;
-        state.transactionId = action.payload.transaction_id;
+        state.status = action.payload.status;
+        state.transactionId = action.payload.transactionId;
         state.phoneNumber = action.payload.phoneNumber;
         state.amount = action.payload.amount;
         state.date = action.payload.date;
+        
+        // Store verification response in paymentData
+        state.paymentData = {
+          transactionId: action.payload.transactionId!,
+          phoneNumber: action.payload.phoneNumber!,
+          amount: action.payload.amount!,
+          status: action.payload.status,
+        };
       })
       .addCase(verifyPayment.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Payment verification failed';
-        state.verifyStatus = null;
+        state.error = typeof action.payload === 'string' ? action.payload : 'Payment verification failed';
       });
   },
 });

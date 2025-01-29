@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchLoggedInUser } from './fetchData';
+import { FetchUserResponse } from './fetchData';
 
 interface User {
   _id: string | null;
@@ -15,20 +16,19 @@ interface UserState extends User {
 }
 
 const initialState: UserState = {
-  country: null,
+  _id: null,
+  username: null,
   email: null,
   phoneNumber: null,
-  username: null,
+  country: null,
   loading: false,
   error: null,
-  _id: null
 };
 
 const loggedInUserSlice = createSlice({
   name: 'userProfile',
   initialState,
   reducers: {
-   
     clearError(state) {
       state.error = null;
     },
@@ -37,16 +37,22 @@ const loggedInUserSlice = createSlice({
     builder
       .addCase(fetchLoggedInUser.pending, (state) => {
         state.loading = true;
-        state.error = null; 
+        state.error = null;
       })
-      .addCase(fetchLoggedInUser.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(fetchLoggedInUser.fulfilled, (state, action: PayloadAction<FetchUserResponse>) => {
         state.loading = false;
-        state.error = null; 
-        Object.assign(state, action.payload);
+        state.error = null;
+
+        // Assign values instead of mutating state directly
+        state._id = action.payload._id;
+        state.username = action.payload.username;
+        state.email = action.payload.email;
+        state.phoneNumber = action.payload.phoneNumber;
+        state.country = action.payload.country;
       })
       .addCase(fetchLoggedInUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to fetch user'; // Assign error message
+        state.error = typeof action.payload === 'string' ? action.payload : 'Failed to fetch user';
         console.error('Error fetching user:', action.payload); // Optional debugging
       });
   },

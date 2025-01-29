@@ -1,9 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios'
+import axios from 'axios';
 import { RootState } from './rootReducer';
-
-
- 
 
 interface ResetPasswordPayload {
   token: string;
@@ -15,47 +12,46 @@ interface ResetPasswordResponse {
   message: string;
 }
 
-
 interface VerifyPaymentPayload {
-  transactionId: string;
-  amount: number;
-  phoneNumber: string;
+  transactionId?: string;
+  amount?: number;
+  phoneNumber?: string;
 }
-
 
 export interface VerifyPaymentResponse {
   status: string;
-  transactionId?: string; 
+  transactionId?: string;
 }
 
 export interface UpdatePasswordPayload {
   token: string;
-  newPassword: string; 
+  newPassword: string;
 }
 
-  export interface UpdatePasswordResponse {
-    message: string;
-  }
-  
-  interface LoginPayload {
-    username: string;
-    password: string;
-  }
-  
-  interface SignupPayload {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string; 
-    phoneNumber: string; 
-    country: string;
-  }
-    interface AuthResponse {
-      username: string;
-      token: string;
-      email?: string; // Optional email, in case the API returns it
-    }
-  
+export interface UpdatePasswordResponse {
+  message: string;
+}
+
+interface LoginPayload {
+  username: string;
+  password: string;
+}
+
+interface SignupPayload {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phoneNumber: string;
+  country: string;
+}
+
+interface AuthResponse {
+  username: string;
+  token: string;
+  email?: string;
+}
+
 interface ProtectedResponse {
   message: string;
 }
@@ -63,58 +59,50 @@ interface ProtectedResponse {
 interface ForgotPasswordPayload {
   email: string;
 }
+
 interface ForgotPasswordResponse {
   message: string;
 }
-
 
 export interface PaymentResponse {
   transactionId: string;
   status: string;
   amount: number;
   phoneNumber: string;
-  referenceId?: string; // Some APIs return a reference ID
-  message?: string; // Add message field for better error handling
+  referenceId?: string;
+  message?: string;
 }
-  
+
 interface PaymentPayload {
   amount: number;
   phoneNumber: string;
-  currency?: string; // Optional currency field (default: NGN)
+  currency?: string;
 }
-  
- 
- 
-  export interface FetchUserResponse {
-    username: string;
-    email: string;
-    phoneNumber: string;
-    country: string;
-  }
 
+export interface FetchUserResponse {
+  username: string;
+  email: string;
+  phoneNumber: string;
+  country: string;
+}
 
 export const protectedData = createAsyncThunk<
-  ProtectedResponse, 
-  void, 
+  ProtectedResponse,
+  void,
   { rejectValue: string; state: RootState }
 >('auth/fetchProtectedData', async (_, { rejectWithValue, getState }) => {
-  const state = getState();
-  const token = state.auth.token;
-
   try {
-    const response = await axios.get( `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/protected`, {
+    const token = getState().auth.token;
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/protected`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      return rejectWithValue(error.response.data.message || 'Access denied');
-    }
-    return rejectWithValue('Access denied');
+    return rejectWithValue(error instanceof Error ? error.message : 'Access denied');
   }
 });
-  
+
 export const login = createAsyncThunk<AuthResponse, LoginPayload>(
   'auth/login',
   async ({ username, password }, { rejectWithValue }) => {
@@ -124,168 +112,89 @@ export const login = createAsyncThunk<AuthResponse, LoginPayload>(
         { username, password },
         { withCredentials: true }
       );
-
-      return response.data as AuthResponse;
+      return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || 'Login failed');
-      }
-      return rejectWithValue('An unexpected error occurred');
+      return rejectWithValue(error instanceof Error ? error.message : 'Login failed');
     }
   }
 );
-
-
-
-
 
 export const signup = createAsyncThunk<AuthResponse, SignupPayload>(
   'auth/signup',
-  async ({ username, email, password, confirmPassword, phoneNumber, country }, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/signup`,
-        { username, email, password, confirmPassword, phoneNumber, country },
-        { withCredentials: true } // Ensures cookies (if used)
+        payload,
+        { withCredentials: true }
       );
-
-      return response.data as AuthResponse; // Return API response directly
+      return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response?.data?.message || 'Signup failed');
-      }
-      return rejectWithValue('Signup failed');
+      return rejectWithValue(error instanceof Error ? error.message : 'Signup failed');
     }
   }
 );
+
 export const forgotPassword = createAsyncThunk<ForgotPasswordResponse, ForgotPasswordPayload>(
   'auth/forgotPassword',
   async ({ email }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:7000/api/v1/auth/forgotPassword', { email });
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/forgotPassword`, { email });
       return response.data;
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || 'Failed to request password reset');
-      }
-      return rejectWithValue('Failed to request password reset');
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to request password reset');
     }
   }
 );
 
-export const resetPassword = createAsyncThunk<
-  ResetPasswordResponse,
-  { token: string; password: string; confirmPassword: string },
-  { rejectValue: string }
->(
+export const resetPassword = createAsyncThunk<ResetPasswordResponse, ResetPasswordPayload, { rejectValue: string }>(
   'auth/resetPassword',
-  async ({ token, password, confirmPassword }, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/resetPassword/${token}`,
-        { password, confirmPassword }
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/resetPassword/${payload.token}`,
+        { password: payload.password, confirmPassword: payload.confirmPassword }
       );
       return response.data;
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || 'Failed to reset password');
-      }
-      return rejectWithValue('Failed to reset password');
-    }
-  }
-);
-
-
-
-export const initiatePayment = createAsyncThunk<
-  PaymentResponse, 
-  PaymentPayload, 
-  { rejectValue: string; state: RootState }
->(
-  "payment/initiatePayment",
-  async (payload, { rejectWithValue, getState }) => {
-    const state = getState();
-    const token = state.auth.token;
-
-    // Validate that token exists before making a request
-    if (!token) {
-      return rejectWithValue("Authentication token is missing. Please log in.");
-    }
-
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/initiatePayment`,
-        payload, // Payload must contain required fields
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure JSON content type
-          },
-        }
-      );
-
-      return response.data; // Ensure response matches `PaymentResponse`
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || "Payment initiation failed");
-      }
-      return rejectWithValue("An unexpected error occurred while processing the payment.");
-    }
-  }
-);
-export const verifyPayment = createAsyncThunk<
-  VerifyPaymentResponse,
-  VerifyPaymentPayload,
-  { rejectValue: string; state: RootState }
->(
-  'payment/verifyPayment',
-  async (payload, { rejectWithValue, getState }) => {
-    const state = getState();
-    const token = state.auth.token;
-
-    try {
-      const response = await axios.get( `${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/verifyPayment`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: payload,
-      });
-
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(
-          error.response.data.message || 'Payment verification failed'
-        );
-      }
-      return rejectWithValue('Payment verification failed');
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to reset password');
     }
   }
 );
 
-
-
-
-export const fetchLoggedInUser = createAsyncThunk<
-  FetchUserResponse,
-  void,
-  { rejectValue: string; state: RootState }
->(
-  "userProfile/fetchLoggedInUser",
+export const fetchLoggedInUser = createAsyncThunk<FetchUserResponse, void, { rejectValue: string; state: RootState }>(
+  'userProfile/fetchLoggedInUser',
   async (_, { rejectWithValue, getState }) => {
     try {
       const token = getState().auth.token;
-      if (!token) throw new Error('Authentication token not found');
+      if (!token) return rejectWithValue('Authentication token not found');
 
       const response = await axios.get<FetchUserResponse>(
         `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/userProfile`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      if (!response.data) return rejectWithValue('User data is missing.');
+
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response?.data?.message || 'Failed to fetch user');
-      }
-      return rejectWithValue('An unexpected error occurred');
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to fetch user');
+    }
+  }
+);
+
+export const verifyPayment = createAsyncThunk<VerifyPaymentResponse, VerifyPaymentPayload, { rejectValue: string; state: RootState }>(
+  'payment/verifyPayment',
+  async (payload, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().auth.token;
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/verifyPayment`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: payload,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Payment verification failed');
     }
   }
 );
