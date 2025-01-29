@@ -20,10 +20,10 @@ interface VerifyPaymentPayload {
 }
 
 export interface VerifyPaymentResponse {
- message: string;
-  data: {
-    savedResponse: SavedResponse;
-  };
+  verifyStatus: string;
+  transaction_id: string | null
+  phoneNumber: string | null;
+  amount: number | null;
 }
 
 export interface UpdatePasswordPayload {
@@ -85,21 +85,7 @@ export interface PaymentResponse {
     amount: number;
   }
   
-  interface AirtimeResponse {
-    id: string;
-    amount: number;
-    status: string;
-    [key: string]: string | number;
-    
-  }
-  // interface User {
-  //   id: string;
-  //   name: string;
-  //   email: string;
-  //   phoneNumber: string;
-  //   country: string;
-  //   role: string;
-  // }
+
   export interface FetchUserResponse {
     username: string;
     email: string;
@@ -275,26 +261,6 @@ export const verifyPayment = createAsyncThunk<
         );
       }
       return rejectWithValue('Payment verification failed');
-    }
-  }
-);
-export const fetchAirtimeResponse = createAsyncThunk<
-  AirtimeResponse[], // Expected return type of the action
-  void,              // Argument type (no arguments in this case)
-  { rejectValue: string } // Type for the rejectWithValue
->(
-  'airtime/airtimeResonse',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get<{ data: AirtimeResponse[] }>(
-         `${import.meta.env.VITE_API_BASE_URL}/api/v1/airtime/airtimeResponse`
-      );
-      return response.data.data; // Return the array of AirtimeResponse objects
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || 'Failed to fetch airtime response');
-      }
-      return rejectWithValue('An unexpected error occurred');
     }
   }
 );

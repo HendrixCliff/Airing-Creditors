@@ -41,8 +41,7 @@ const loggedInUserSlice = createSlice({
       })
       .addCase(fetchLoggedInUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
-        state.error = null; // Ensure error is null on success
-        // Spread the payload to update the user state
+        state.error = null; 
         Object.assign(state, action.payload);
       })
       .addCase(fetchLoggedInUser.rejected, (state, action) => {

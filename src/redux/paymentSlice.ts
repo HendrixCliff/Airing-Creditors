@@ -6,16 +6,17 @@ interface PaymentState {
   loading: boolean;
   error: string | null;
   paymentData: PaymentResponse | null;
-  verificationStatus: string | null;
   transactionId: string | null
   phoneNumber: string | null;
   amount: number | null;
   status: string | null; 
 }
-
-export interface VerifyPaymentResponse {
+ interface VerifyPaymentResponse {
   verifyStatus: string;
- 
+  transaction_id: string | null
+  phoneNumber: string | null;
+  amount: number | null;
+  date: string | null
 }
 
 

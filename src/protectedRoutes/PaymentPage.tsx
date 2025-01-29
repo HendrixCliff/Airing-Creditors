@@ -206,16 +206,16 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
           <div className="flex gap-2">
             {/* Country Code */}
             <select
-  className="w-1/4 rounded-[.1em] p-[.2em] max-md:p-[.1em] border-[.2em]"
-  name="countryCode"
-  value={paymentDetails.countryCode || "+234"}
-  onChange={(e) => {
-    const { value } = e.target;
-    setPaymentDetails((prev) => ({
-      ...prev,
-      countryCode: value,
-      phoneNumber: `${value}${prev.phone || ''}`, // Update phoneNumber directly
-    }));
+          className="w-1/4 rounded-[.1em] p-[.2em] max-md:p-[.1em] border-[.2em]"
+          name="countryCode"
+          value={paymentDetails.countryCode || "+234"}
+          onChange={(e) => {
+            const { value } = e.target;
+            setPaymentDetails((prev) => ({
+              ...prev,
+              countryCode: value,
+              phoneNumber: `${value}${prev.phone || ''}`, // Update phoneNumber directly
+            }));
   }}
   required
 >
@@ -246,8 +246,6 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             onChange={handleChange}
             required
           >
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
             <option value="NGN">NGN</option>
           </select>
         </label>
@@ -263,8 +261,6 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
             required
           >
             <option value="card">Card</option>
-            <option value="mobilemoneyghana">Mobile Money (Ghana)</option>
-            <option value="ussd">USSD</option>
           </select>
         </label>
 

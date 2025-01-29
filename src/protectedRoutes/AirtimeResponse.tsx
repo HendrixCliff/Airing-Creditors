@@ -16,6 +16,7 @@ const AirtimeResponse: React.FC = () => {
   ;
   useEffect(() => {
     // Retrieve data from local storage
+
     const savedResponse = localStorage.getItem('airtimeResponse');
     if (savedResponse) {
       setAirtimeResponses(JSON.parse(savedResponse) as AirtimeResponse[]);
