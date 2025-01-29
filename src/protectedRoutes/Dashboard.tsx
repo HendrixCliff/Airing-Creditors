@@ -88,6 +88,13 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
                 )}
                 </li>
                 <li>
+                {isLoggedIn ? (
+                  <Link to="/airtime-response" className="block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition">Transactions</Link>
+                ) : (
+                  <span className="block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition">Transactions</span>
+                )}
+                </li>
+                <li>
                   <a href="#" className="block border-l-[.3em] border-r-[.3em]  py-2 px-4 rounded-md hover:bg-gray-200 transition">
                     Settings
                   </a>
@@ -113,18 +120,17 @@ const [isDialogOpen, setIsDialogOpen] = useState(false);
             </header>
 
             {/* Cards */}
-            <section className=" flex ml-[16em] max-md:mt-[4em] max-md:w-[100%]  mt-[3em] max-md:ml-[.2em] items-center max-sm:gap-[1em] max-md:flex-col-reverse  max-md:items-start gap-[1em] max-md:gap-[.5em] max-md:mt-[1em] ">
-            <section className=" bg-white w-[40%] h-[11em] mt-[5em] max-md:mt-[0em] max-md:w-[100%] ml-[1em] max-md:ml-[.1em] text-left shadow rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-800"><AirtimeResponse/></h3>
+            <section className=" flex ml-[16em] max-md:mt-[2em] max-md:w-[100%]  mt-[6em] max-md:ml-[.2em] items-start max-sm:gap-[1em] max-md:flex-col-reverse  max-md:items-start gap-[1em] max-md:gap-[.5em] max-md:mt-[1em] ">
+            <section className=" bg-white w-[50%] max-md:h-[13em] h-[16em] mt-[5em] max-md:mt-[0em] max-md:w-[100%] ml-[.5em] max-md:ml-[.1em] text-left shadow rounded-lg">
+                 <PaymentVerification/>
               </section>
-              <section className=" bg-white w-[65%] shadow rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-800"><PaymentPage/></h3>
-              </section>
+              <section className=" bg-white w-[65%] shadow rounded-lg max-md:mt-[2em] mt-[5em]">
+                  <PaymentPage/>
+              </section >
             </section>
-            <PaymentVerification/>
+            
           </main>
         </>
-      ) 
     </section>
     </>
    

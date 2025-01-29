@@ -20,7 +20,7 @@ const PaymentVerification: React.FC = () => {
   };
 
   return (
-    <section>
+    <section className=" w-[100%]">
       <h1>Verify Payment</h1>
       <h3>{transactionId || 'No Transaction ID available'}</h3>
       {loading && <p>Verifying payment...</p>}

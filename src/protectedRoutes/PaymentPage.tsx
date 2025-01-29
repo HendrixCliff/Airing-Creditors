@@ -170,7 +170,7 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   return (
 <section className="w-full">
-  {isLoggedIn ? (
+  {!isLoggedIn ? (
     <section className="w-full">
       {loading && <p>Processing payment...</p>}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}

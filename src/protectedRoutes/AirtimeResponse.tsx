@@ -1,66 +1,53 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch} from '../hooks/useAppDispatch';
-import { useAppSelector } from '../hooks/useAppSelector';
-import {  clearMessages } from '../redux/airtimeSlice';
-import { fetchAirtimeResponse } from '../redux/fetchData'
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { fetchLoggedInUser } from "../redux/fetchData";
 
 interface AirtimeResponse {
   transaction_id: string;
   amount: number;
   status: string;
-  phoneNumber: string; 
+  phoneNumber: string;
   date: string;
 }
 
 const AirtimeResponse: React.FC = () => {
-const dispatch = useAppDispatch();
-const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | null>(null);
-  const { loading, airtimeResponse, errorMessage } = useAppSelector((state) => state.airtime);
-  
+  const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | null>(null);
+  const dispatch = useAppDispatch()
+  ;
   useEffect(() => {
-    if (!airtimeResponse) {
-      dispatch(fetchAirtimeResponse());
-    }
+    // Retrieve data from local storage
+    dispatch(fetchLoggedInUser());
     const savedResponse = localStorage.getItem('airtimeResponse');
     if (savedResponse) {
       setAirtimeResponses(JSON.parse(savedResponse) as AirtimeResponse[]);
     }
-  }, [dispatch, airtimeResponse]);
+  }, [dispatch]);
 
-  
-    return (
-      <section className='border-solid border-[.7em] border-[#f1fffc]' >
-        <h2>Past purchase details</h2>
-        {loading && <p>Loading...</p>}
-        {errorMessage && (
-          <div>
-            <p>Error: {errorMessage}</p>
-            <button onClick={() => dispatch(clearMessages())}>Clear</button>
-          </div>
-        )}
-        <section>
-          {airtimeResponses && airtimeResponses.length > 0 ? (
-            <ul>
-              {airtimeResponses.map((response) => (
-                <li  className="flex" key={response.transaction_id}>
-                <section className="flex flex-col">
-                   <p>Status: {response.status}</p>
-                   <p>Phone number: {response.phoneNumber}</p>
-                   <p>Date: {response.date}</p>
-                </section>
-                <section className="flex flex-col">
-                    <p>ID: {response.transaction_id}</p>
-                    <p>Amount: {response.amount}</p>
-                 </section>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No airtime purchase found in local storage.</p>
-          )}
-        </section>
-      </section>
-    );
+  return (
+    <section className="border-solid border-[.7em] border-[#f1fffc] p-4">
+      <h2 className="text-lg font-semibold mb-2">Past Purchase Details</h2>
+      
+      {airtimeResponses && airtimeResponses.length > 0 ? (
+        <ul className="space-y-3">
+          {airtimeResponses.map((response) => (
+            <li className="flex justify-between border p-3 rounded-md shadow-md bg-white" key={response.transaction_id}>
+              <section className="flex flex-col">
+                <p><strong>Status:</strong> {response.status}</p>
+                <p><strong>Phone Number:</strong> {response.phoneNumber}</p>
+                <p><strong>Date:</strong> {response.date}</p>
+              </section>
+              <section className="flex flex-col">
+                <p><strong>ID:</strong> {response.transaction_id}</p>
+                <p><strong>Amount:</strong> ${response.amount}</p>
+              </section>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500">No airtime purchase found in local storage.</p>
+      )}
+    </section>
+  );
 };
 
 export default AirtimeResponse;

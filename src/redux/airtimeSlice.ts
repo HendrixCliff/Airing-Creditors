@@ -41,7 +41,8 @@ interface AirtimeState {
         })
         .addCase(fetchAirtimeResponse.fulfilled, (state, action) => {
           state.loading = false;
-          state.airtimeResponse = action.payload;
+          state.error = null;
+          Object.assign(state, action.payload);
           localStorage.setItem('airtimeResponse', JSON.stringify(action.payload));
         })
         .addCase(fetchAirtimeResponse.rejected, (state, action) => {
