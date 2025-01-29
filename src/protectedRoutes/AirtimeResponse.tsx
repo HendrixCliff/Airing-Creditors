@@ -3,7 +3,7 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAirtimeResponse } from "../redux/fetchData";
 
 interface AirtimeResponse {
-  transaction_id: string;
+  transactionId: string;
   amount: number;
   status: string;
   phoneNumber: string;
@@ -13,10 +13,9 @@ interface AirtimeResponse {
 const AirtimeResponse: React.FC = () => {
   const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | null>(null);
   
-  ;
   useEffect(() => {
     // Retrieve data from local storage
-
+    
     const savedResponse = localStorage.getItem('airtimeResponse');
     if (savedResponse) {
       setAirtimeResponses(JSON.parse(savedResponse) as AirtimeResponse[]);

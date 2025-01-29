@@ -1,23 +1,12 @@
-import React, { useState} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link} from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa'; // Import the correct icon
 import ProfileDetails from './ProfileDetails';
-// import EditProfileModal from './EditProfileModal';
-import { useAppSelector } from './../../hooks/useAppSelector';
+
 
 const Profile: React.FC = () => {
-  // const [isEditing, setIsEditing] = useState(false);
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
-  const navigate = useNavigate();
-
-  // const handleEditClick = () => {
-  //   setIsEditing(true);
-  // };
-
-  const handleCloseModal = () => {
-    setIsEditing(false);
-  };
-
+  
+ 
 
   return (
     <section className="p-4">

@@ -9,7 +9,7 @@ import { initiatePayment } from '../redux/fetchData';
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error, status } = useAppSelector((state) => state.payment);
-  const { isLoggedIn, token} = useAppSelector((state) => state.auth);
+  const { isLoggedIn} = useAppSelector((state) => state.auth);
  
 
   interface PaymentDetails {

@@ -4,8 +4,6 @@ import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
 import PaymentPage from './../protectedRoutes/PaymentPage';
 import { Link, useNavigate } from 'react-router-dom';
-import AirtimeResponse from './../protectedRoutes/AirtimeResponse'
-import { fetchLoggedInUser } from './../redux/fetchData';
 import PaymentVerification from './../protectedRoutes/verifyPaymentPage'
 
 import {
