@@ -3,7 +3,7 @@ import { logout } from './../redux/authSlice';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
 import PaymentPage from './../protectedRoutes/PaymentPage';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import PaymentVerification from './../protectedRoutes/verifyPaymentPage'
 
 import {
@@ -20,7 +20,6 @@ import {
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
   const { isLoggedIn } = useAppSelector((state) => state.auth);
-const navigate = useNavigate()
 const [isDialogOpen, setIsDialogOpen] = useState(false);
   const handleLogout = () => {
     dispatch(logout());

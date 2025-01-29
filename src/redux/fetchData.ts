@@ -6,6 +6,7 @@ import { RootState } from './rootReducer';
  
 
 interface ResetPasswordPayload {
+  token: string;
   password: string;
   confirmPassword: string;
 }
@@ -22,15 +23,14 @@ interface VerifyPaymentPayload {
 }
 
 export interface VerifyPaymentResponse {
- status: string;
-  
+  status: string;
+  transactionId?: string; 
 }
 
 export interface UpdatePasswordPayload {
-    token: string;
-    newPassword: string; 
-  }
-  
+  token: string;
+  newPassword: string; 
+}
 
   export interface UpdatePasswordResponse {
     message: string;
@@ -45,10 +45,9 @@ export interface UpdatePasswordPayload {
     username: string;
     email: string;
     password: string;
-    confirmPassword: string;
-    phoneNumber: string;
+    confirmPassword: string; 
+    phoneNumber: string; 
     country: string;
-  }
   
   interface AuthResponse {
     username: string;
@@ -60,17 +59,16 @@ export interface UpdatePasswordPayload {
 
 
 interface ProtectedResponse {
-  data: string;
   message: string;
 }
 
 interface ForgotPasswordPayload {
-    email: string;
+  email: string;
+}
+interface ForgotPasswordResponse {
+  message: string;
 }
 
-interface ForgotPasswordResponse {
-    message: string;
-}
 
 export interface PaymentResponse {
   transactionId: string;
@@ -92,7 +90,7 @@ interface PaymentPayload {
   export interface FetchUserResponse {
     username: string;
     email: string;
-    phoneNumber: number;
+    phoneNumber: string;
     country: string;
   }
 
@@ -119,34 +117,25 @@ export const protectedData = createAsyncThunk<
   }
 });
   
-export const login = createAsyncThunk<AuthResponse, LoginPayload> (
-    'auth/login', 
-    async ({ username, password }, { rejectWithValue }) => {
-        try {
-            const response = await axios.post(
-             `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`,
-              { username, password },
-              { withCredentials: true }
-            );
-            
-            return response.data as AuthResponse;
-         }
-         catch (error: unknown) {
-          console.error('Login error:', error); 
-    
-          if (axios.isAxiosError(error)) {
-            if (error.response) {
-              return rejectWithValue(error.response.data.message || 'Login failed');
-            } else {
-              return rejectWithValue('No response from server');
-            }
-          }
-    
-          return rejectWithValue('Login failed');
-        }
-        
+export const login = createAsyncThunk<AuthResponse, LoginPayload>(
+  'auth/login',
+  async ({ username, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`,
+        { username, password },
+        { withCredentials: true }
+      );
+
+      return response.data as AuthResponse;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data.message || 'Login failed');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
-)
+  }
+);
 
 
 
@@ -293,18 +282,14 @@ export const fetchLoggedInUser = createAsyncThunk<
 
       const response = await axios.get<FetchUserResponse>(
         `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/userProfile`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      return response.data; // No need for `.data.data`
+      return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error('Axios error:', error.response?.data || error.message);
+      if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(error.response?.data?.message || 'Failed to fetch user');
       }
-      console.error('Unexpected error:', error);
       return rejectWithValue('An unexpected error occurred');
     }
   }

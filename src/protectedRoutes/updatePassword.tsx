@@ -6,7 +6,6 @@ import { useAppSelector } from '../hooks/useAppSelector';
 
 
 const UpdatePassword: React.FC = () => {
-  const [token, setToken] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
   const dispatch = useAppDispatch();
@@ -23,16 +22,6 @@ const UpdatePassword: React.FC = () => {
   return (
     <div>
       <h2>Update Password</h2>
-      <div>
-        <label>
-          Token:
-          <input
-            type="text"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-          />
-        </label>
-      </div>
       <div>
         <label>
           New Password:
