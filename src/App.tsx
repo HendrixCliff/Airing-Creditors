@@ -6,7 +6,7 @@ import Profile from './components/Profile/Profile'
 import {SignUpComponent} from './components/SignupComponent';
 import ForgotPassword from './components/ForgotPasswordComponent';
 import ResetPassword from './components/resetPassword'
-import AirtimeResponse from './protectedRoutes/AirtimeResponse'
+import AirtimeResponseComponent from './protectedRoutes/AirtimeResponse'
 
 
 const App: React.FC = () => {
@@ -21,7 +21,7 @@ const App: React.FC = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword/>}/>
         <Route path="/profile" element={<Profile />} /> 
-        <Route path="/airtime-response" element={<AirtimeResponse/>} />
+        <Route path="/airtime-response" element={<AirtimeResponseComponent/>} />
         {/* Protected Routes */}
        
 

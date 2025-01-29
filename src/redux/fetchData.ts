@@ -73,32 +73,22 @@ interface ForgotPasswordResponse {
 }
 
 export interface PaymentResponse {
-    transactionId: string;
-    status: string;
-    amount: number;
-    phoneNumber: string;
-    
+  transactionId: string;
+  status: string;
+  amount: number;
+  phoneNumber: string;
+  referenceId?: string; // Some APIs return a reference ID
+  message?: string; // Add message field for better error handling
 }
   
-  interface PaymentPayload {
-    amount: number;
-  }
+interface PaymentPayload {
+  amount: number;
+  phoneNumber: string;
+  currency?: string; // Optional currency field (default: NGN)
+}
   
-  interface AirtimeResponse {
-    id: string;
-    amount: number;
-    status: string;
-    [key: string]: string | number;
-    
-  }
-  // interface User {
-  //   id: string;
-  //   name: string;
-  //   email: string;
-  //   phoneNumber: string;
-  //   country: string;
-  //   role: string;
-  // }
+ 
+ 
   export interface FetchUserResponse {
     username: string;
     email: string;
@@ -224,32 +214,41 @@ export const resetPassword = createAsyncThunk<
 
 
 export const initiatePayment = createAsyncThunk<
-  PaymentResponse,
+  PaymentResponse, 
   PaymentPayload, 
   { rejectValue: string; state: RootState }
->('payment/initiatePayment', async (payload, { rejectWithValue, getState }) => {
-  const state = getState();
-  const token = state.auth.token;
+>(
+  "payment/initiatePayment",
+  async (payload, { rejectWithValue, getState }) => {
+    const state = getState();
+    const token = state.auth.token;
 
-  try {
-    const response = await axios.post(
-       `${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/initiatePayment`,
-      payload, // Payload contains the required payment information
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      return rejectWithValue(error.response.data.message || 'Payment initiation failed');
+    // Validate that token exists before making a request
+    if (!token) {
+      return rejectWithValue("Authentication token is missing. Please log in.");
     }
-    return rejectWithValue('Payment initiation failed');
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/initiatePayment`,
+        payload, // Payload must contain required fields
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", // Ensure JSON content type
+          },
+        }
+      );
+
+      return response.data; // Ensure response matches `PaymentResponse`
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data.message || "Payment initiation failed");
+      }
+      return rejectWithValue("An unexpected error occurred while processing the payment.");
+    }
   }
-});
-
-
+);
 export const verifyPayment = createAsyncThunk<
   VerifyPaymentResponse,
   VerifyPaymentPayload,
@@ -277,26 +276,7 @@ export const verifyPayment = createAsyncThunk<
     }
   }
 );
-export const fetchAirtimeResponse = createAsyncThunk<
-  AirtimeResponse[], // Expected return type of the action
-  void,              // Argument type (no arguments in this case)
-  { rejectValue: string } // Type for the rejectWithValue
->(
-  'airtime/airtimeResonse',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get<{ data: AirtimeResponse[] }>(
-         `${import.meta.env.VITE_API_BASE_URL}/api/v1/airtime/airtimeResponse`
-      );
-      return response.data.data; // Return the array of AirtimeResponse objects
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || 'Failed to fetch airtime response');
-      }
-      return rejectWithValue('An unexpected error occurred');
-    }
-  }
-);
+
 
 
 

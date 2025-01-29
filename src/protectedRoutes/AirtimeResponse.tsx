@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from "../hooks/useAppDispatch";
+import React, { useEffect, useState } from "react";
 import { fetchAirtimeResponse } from "../redux/fetchData";
 
-interface AirtimeResponse {
+
+interface AirtimeResponseData {
   transactionId: string;
   amount: number;
   status: string;
@@ -10,33 +10,34 @@ interface AirtimeResponse {
   date: string;
 }
 
-const AirtimeResponse: React.FC = () => {
-  const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponse[] | null>(null);
+const AirtimeResponseComponent: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const [airtimeResponses, setAirtimeResponses] = useState<AirtimeResponseData[] | null>(null);
   
+
   useEffect(() => {
-    // Retrieve data from local storage
     
-    const savedResponse = localStorage.getItem('airtimeResponse');
+    const savedResponse = localStorage.getItem("airtimeResponse");
     if (savedResponse) {
-      setAirtimeResponses(JSON.parse(savedResponse) as AirtimeResponse[]);
+      setAirtimeResponses(JSON.parse(savedResponse) as AirtimeResponseData[]);
     }
-  }, [dispatch]);
+  }, []);
 
   return (
     <section className="border-solid border-[.7em] border-[#f1fffc] p-4">
       <h2 className="text-lg font-semibold mb-2">Past Purchase Details</h2>
-      
+
       {airtimeResponses && airtimeResponses.length > 0 ? (
         <ul className="space-y-3">
           {airtimeResponses.map((response) => (
-            <li className="flex justify-between border p-3 rounded-md shadow-md bg-white" key={response.transaction_id}>
+            <li className="flex justify-between border p-3 rounded-md shadow-md bg-white" key={response.transactionId}>
               <section className="flex flex-col">
                 <p><strong>Status:</strong> {response.status}</p>
                 <p><strong>Phone Number:</strong> {response.phoneNumber}</p>
                 <p><strong>Date:</strong> {response.date}</p>
               </section>
               <section className="flex flex-col">
-                <p><strong>ID:</strong> {response.transaction_id}</p>
+                <p><strong>ID:</strong> {response.transactionId}</p>
                 <p><strong>Amount:</strong> ${response.amount}</p>
               </section>
             </li>
@@ -49,4 +50,4 @@ const AirtimeResponse: React.FC = () => {
   );
 };
 
-export default AirtimeResponse;
+export default AirtimeResponseComponent;
