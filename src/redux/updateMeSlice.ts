@@ -11,7 +11,7 @@ interface User {
   }
 
 
-  interface UpdateMePayload {
+export interface UpdateMePayload {
     userDetails: {
       username: string;
       email: string;
