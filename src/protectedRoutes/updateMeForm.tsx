@@ -17,7 +17,7 @@ const UpdateMeForm: React.FC = () => {
   const [country, setCountry] = useState('');
 
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.updateMe); // ✅ Ensure `error` is `string | null`
+  const { error } = useAppSelector((state) => state.updateMe); // ✅ Ensure `error` is `string | null`
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

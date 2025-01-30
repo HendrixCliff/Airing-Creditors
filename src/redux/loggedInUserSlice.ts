@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchLoggedInUser } from './fetchData';
-import { FetchUserResponse } from './fetchData';
+
 
 interface User {
   _id: string | null;
@@ -42,8 +42,6 @@ const loggedInUserSlice = createSlice({
       .addCase(fetchLoggedInUser.fulfilled, (state, action: PayloadAction<FetchUserResponse>) => {
         state.loading = false;
         state.error = null;
-
-        // Assign values instead of mutating state directly
         state._id = action.payload._id;
         state.username = action.payload.username;
         state.email = action.payload.email;

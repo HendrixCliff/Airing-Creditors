@@ -11,14 +11,14 @@ const PaymentVerification: React.FC = () => {
     (state) => state.payment
   );
 
-  // ✅ Ensure verifyPayment includes all required fields
+  
   const handleVerifyPayment = useCallback(() => {
     if (!transactionId || !amount || !phoneNumber) {
       console.log('Transaction ID, amount, and phone number are required');
       return;
     }
     dispatch(verifyPayment({ transactionId, amount, phoneNumber }));
-  }, [dispatch, transactionId, amount, phoneNumber]);
+  }, [transactionId, amount, phoneNumber]);
 
   return (
     <section className="w-[100%]">

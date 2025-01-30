@@ -3,7 +3,6 @@ import axios from 'axios';
 import { RootState } from './rootReducer';
 
 interface ResetPasswordPayload {
-  token: string;
   password: string;
   confirmPassword: string;
 }
@@ -19,12 +18,14 @@ interface VerifyPaymentPayload {
 }
 
 export interface VerifyPaymentResponse {
-  status: string;
+  verifyStatus: string;
   transactionId?: string;
+  phoneNumber: strig;
+  date: string;
+  amount: string
 }
 
 export interface UpdatePasswordPayload {
-  token: string;
   newPassword: string;
 }
 
@@ -49,7 +50,6 @@ interface SignupPayload {
 interface AuthResponse {
   username: string;
   token: string;
-  email?: string;
 }
 
 interface ProtectedResponse {
@@ -69,7 +69,6 @@ export interface PaymentResponse {
   status: string;
   amount: number;
   phoneNumber: string;
-  referenceId?: string;
   message?: string;
 }
 
@@ -207,11 +206,11 @@ export const updatePassword = createAsyncThunk<
   { rejectValue: string; state: RootState }
 >(
   'auth/updatePassword',
-  async ({ token, newPassword }, { rejectWithValue }) => {
+  async ({  newPassword }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/updatePassword`,
-        { token, newPassword }
+        { newPassword }
       );
       return response.data;
     } catch (error: unknown) {

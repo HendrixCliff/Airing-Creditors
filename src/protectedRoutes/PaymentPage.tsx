@@ -9,7 +9,7 @@ import { initiatePayment } from '../redux/fetchData';
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error, status } = useAppSelector((state) => state.payment);
-  const { isLoggedIn, token} = useAppSelector((state) => state.auth);
+  const { isLoggedIn} = useAppSelector((state) => state.auth);
  
 
   interface PaymentDetails {
@@ -78,7 +78,7 @@ const PaymentPage: React.FC = () => {
     });
   };
   
-  const validateExpiryDate = (expiryDate: string) => {
+  const validateExpiryDate = (expiryDate) => {
     const [month, year] = expiryDate.split('/').map(Number);
     const currentYear = new Date().getFullYear() % 100;
     const currentMonth = new Date().getMonth() + 1;
@@ -95,7 +95,7 @@ const handleExpiryDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     formattedInput = `${input.slice(0, 2)}/${input.slice(2, 4)}`;
   }
 
-  // Limit input to MM/YY format
+ 
   if (formattedInput.length <= 5) {
     setPaymentDetails((prev) => ({
       ...prev,
@@ -103,7 +103,7 @@ const handleExpiryDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     }));
   }
 }
-const detectCardType = (cardNumber: string) => {
+const detectCardType = (cardNumber) => {
   //const cardNumberPrefix = cardNumber.slice(0, 6); // Get the first 6 digits
 
   if (/^4/.test(cardNumber)) {
@@ -216,23 +216,22 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
               countryCode: value,
               phoneNumber: `${value}${prev.phone || ''}`, // Update phoneNumber directly
             }));
-  }}
-  required
->
-  <option value="+234">+234 (Nigeria)</option>
-</select>
+          }}
+          required
+        >
+          <option value="+234">+234 (Nigeria)</option>
+        </select>
 
-{/* Phone Number Input */}
-<input
-  className="w-3/4 rounded-[.1em] max-md:p-1 p-[.2em] border-[.2em]"
-  type="text"
-  name="phone"
-  value={paymentDetails.phone}
-  onChange={handleChange}
-  required
-  placeholder="Enter phone number"
-/>
-
+        {/* Phone Number Input */}
+        <input
+          className="w-3/4 rounded-[.1em] max-md:p-1 p-[.2em] border-[.2em]"
+          type="text"
+          name="phone"
+          value={paymentDetails.phone}
+          onChange={handleChange}
+          required
+          placeholder="Enter phone number"
+        />
           </div>
         </label>
 
@@ -250,7 +249,6 @@ const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
           </select>
         </label>
 
-        {/* Payment Option */}
         <label className="flex flex-col gap-2 max-md:text-[.8em] max-md:gap-[.4em] text-[1rem] col-span-2 md:col-span-1">
           Payment Option
           <select
