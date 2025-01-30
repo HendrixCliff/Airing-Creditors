@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initiatePayment, verifyPayment } from './fetchData';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { RootState } from './rootReducer';
 
-// ✅ Ensure PaymentResponse matches API response
+// ✅ Define API response types
 interface PaymentResponse {
   transactionId: string;
   phoneNumber: string;
@@ -10,6 +11,16 @@ interface PaymentResponse {
   date?: string; // Optional field
 }
 
+interface VerifyPaymentResponse {
+  status: string;
+  transactionId: string;
+  phoneNumber: string;
+  amount: number;
+  date: string;
+}
+
+
+// ✅ Payment state in Redux store
 interface PaymentState {
   loading: boolean;
   error: string | null;
@@ -19,14 +30,6 @@ interface PaymentState {
   status: string | null;
   date: string | null;
   verifyStatus: string | null;
-}
-
-interface VerifyPaymentResponse {
-  status: string;
-  transactionId: string;
-  phoneNumber: string;
-  amount: number;
-  date: string;
 }
 
 const initialState: PaymentState = {
@@ -39,14 +42,93 @@ const initialState: PaymentState = {
   date: null,
   verifyStatus: null,
 };
+export interface PaymentResponse {
+  transactionId: string;
+  status: string;
+  amount: number;
+  phoneNumber: string;
+  referenceId?: string; // Optional field
+  message?: string; // API response message
+}
+export interface PaymentPayload {
+  amount: number;
+  phoneNumber: string;
+  currency?: string;
+}
+interface VerifyPaymentPayload {
+  transactionId?: string;
+  amount?: number;
+  phoneNumber?: string;
+}
 
+export interface VerifyPaymentResponse {
+  verifyStatus: string;
+  transactionId?: string;
+  phoneNumber: string;
+  amount: number
+}
+export const initiatePayment = createAsyncThunk<
+  PaymentResponse,
+  PaymentPayload,
+  { rejectValue: string; state: RootState }
+>(
+  'payment/initiatePayment',
+  async (payload, { rejectWithValue, getState }) => {
+    const token = getState().auth.token;
+
+    if (!token) {
+      return rejectWithValue('Authentication token is missing. Please log in.');
+    }
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/initiatePayment`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data.message || 'Payment initiation failed');
+      }
+      return rejectWithValue('An unexpected error occurred while processing the payment.');
+    }
+  }
+);
+
+export const verifyPayment = createAsyncThunk<VerifyPaymentResponse, VerifyPaymentPayload, { rejectValue: string; state: RootState }>(
+  'payment/verifyPayment',
+  async (payload, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().auth.token;
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/payment/verifyPayment`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: payload,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Payment verification failed');
+    }
+  }
+);
+
+
+
+
+// ✅ Redux Slice
 const paymentSlice = createSlice({
   name: 'payment',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // Handle Initiate Payment
     builder
-      // ✅ Handle initiatePayment correctly
       .addCase(initiatePayment.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -58,15 +140,15 @@ const paymentSlice = createSlice({
         state.phoneNumber = action.payload.phoneNumber;
         state.amount = action.payload.amount;
         state.status = action.payload.status;
-        state.date = action.payload.date || null; // Handle optional field
+        state.date = action.payload.date || null; // ✅ Handle optional field
       })
       .addCase(initiatePayment.rejected, (state, action) => {
         state.loading = false;
-        state.error = typeof action.payload === 'string' ? action.payload : 'Payment failed';
+        state.error = action.payload ?? 'Payment failed';
       });
 
+    // Handle Verify Payment
     builder
-      // ✅ Handle verifyPayment correctly
       .addCase(verifyPayment.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -74,7 +156,7 @@ const paymentSlice = createSlice({
       .addCase(verifyPayment.fulfilled, (state, action: PayloadAction<VerifyPaymentResponse>) => {
         state.loading = false;
         state.error = null;
-        state.verifyStatus = action.payload.status; // ✅ Correctly reference `status`
+        state.verifyStatus = action.payload.status;
         state.transactionId = action.payload.transactionId;
         state.phoneNumber = action.payload.phoneNumber;
         state.amount = action.payload.amount;
@@ -82,7 +164,7 @@ const paymentSlice = createSlice({
       })
       .addCase(verifyPayment.rejected, (state, action) => {
         state.loading = false;
-        state.error = typeof action.payload === 'string' ? action.payload : 'Payment verification failed';
+        state.error = action.payload ?? 'Payment verification failed';
       });
   },
 });

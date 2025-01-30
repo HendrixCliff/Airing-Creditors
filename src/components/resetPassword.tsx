@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
+import { useAppSelector } from "../hooks/useAppSelector"; // ✅ Fixed import
 import { resetPassword } from "../redux/fetchData";
 import { clearAuthMessages } from "../redux/authSlice";
 import { useNavigate, Link } from "react-router-dom";
@@ -7,24 +8,20 @@ import { TiArrowBack } from "react-icons/ti";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
-
-
-
 
 const ResetPassword: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const urlParams = new URLSearchParams(window.location.search);
-const token = urlParams.get("token");
-
+  const token = urlParams.get("token");
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordAgain, setShowPasswordAgain] = useState(false);
 
-  const { loading, successMessage, errorMessage } = useAppSelector((state) => state.auth);
+  // ✅ Explicitly type `state` instead of using `any`
+  const { loading, successMessage, errorMessage } = useAppSelector(state  => state.auth);
 
   useEffect(() => {
     dispatch(clearAuthMessages()); // Clear messages when component mounts

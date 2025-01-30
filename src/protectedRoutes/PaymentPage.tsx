@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import { useAppDispatch } from './../hooks/useAppDispatch';
-import { useAppSelector } from './../hooks/useAppSelector';
-import { initiatePayment } from '../redux/fetchData';
+import { useAppSelector } from './hooks/useAppSelector';
+import { initiatePayment } from './redux/fetchData';
 
 
 

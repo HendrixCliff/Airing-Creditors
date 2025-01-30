@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
-import { updateMe } from '../redux/updateMeSlice';
-
-interface UpdateMePayload {
-    username: string;
-    email: string;
-    phoneNumber: string;
-    country: string;
-}
+import { updateMe, UpdateMePayload } from '../redux/updateMeSlice'; // ✅ Correct import
 
 const UpdateMeForm: React.FC = () => {
   // ✅ Using a single state object for all input fields
   const [userDetails, setUserDetails] = useState<UpdateMePayload>({
-    username: '',
-    email: '',
-    phoneNumber: '',
-    country: '',
+    userDetails: {
+      username: '',
+      email: '',
+      phoneNumber: '',
+      country: '',
+    },
   });
 
   const dispatch = useAppDispatch();
@@ -26,8 +21,10 @@ const UpdateMeForm: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
+      userDetails: {
+        ...prevDetails.userDetails,
+        [name]: value,
+      },
     }));
   };
 
@@ -35,13 +32,13 @@ const UpdateMeForm: React.FC = () => {
     e.preventDefault();
 
     // ✅ Validate required fields
-    if (!userDetails.username || !userDetails.email || !userDetails.phoneNumber || !userDetails.country) {
+    if (!userDetails.userDetails.username || !userDetails.userDetails.email || !userDetails.userDetails.phoneNumber || !userDetails.userDetails.country) {
       alert('Please fill in all fields.');
       return;
     }
 
     try {
-      await dispatch(updateMe(userDetails)).unwrap();
+      await dispatch(updateMe(userDetails)).unwrap(); // ✅ Pass correct payload
       alert('Profile updated successfully!');
     } catch (err) {
       console.error('Error updating profile:', err);
@@ -56,7 +53,7 @@ const UpdateMeForm: React.FC = () => {
         <input
           type="text"
           name="username"
-          value={userDetails.username}
+          value={userDetails.userDetails.username}
           onChange={handleChange}
           required
           placeholder="Username"
@@ -64,7 +61,7 @@ const UpdateMeForm: React.FC = () => {
         <input
           type="email"
           name="email"
-          value={userDetails.email}
+          value={userDetails.userDetails.email}
           onChange={handleChange}
           required
           placeholder="Email"
@@ -72,7 +69,7 @@ const UpdateMeForm: React.FC = () => {
         <input
           type="tel"
           name="phoneNumber"
-          value={userDetails.phoneNumber}
+          value={userDetails.userDetails.phoneNumber}
           onChange={handleChange}
           required
           placeholder="Phone Number"
@@ -80,7 +77,7 @@ const UpdateMeForm: React.FC = () => {
         <input
           type="text"
           name="country"
-          value={userDetails.country}
+          value={userDetails.userDetails.country}
           onChange={handleChange}
           required
           placeholder="Country"
