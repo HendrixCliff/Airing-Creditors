@@ -1,6 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initiatePayment, verifyPayment } from './fetchData';
 
+// ✅ Ensure PaymentResponse matches API response
+interface PaymentResponse {
+  transactionId: string;
+  phoneNumber: string;
+  amount: number;
+  status: string;
+  date?: string; // Optional field
+}
+
 interface PaymentState {
   loading: boolean;
   error: string | null;
@@ -9,15 +18,15 @@ interface PaymentState {
   amount: number | null;
   status: string | null;
   date: string | null;
-  verifyStatus: string | null; 
+  verifyStatus: string | null;
 }
 
 interface VerifyPaymentResponse {
-  status: string; 
-  transactionId: string | null;
-  phoneNumber: string | null;
-  amount: number | null;
-  date: string | null;
+  status: string;
+  transactionId: string;
+  phoneNumber: string;
+  amount: number;
+  date: string;
 }
 
 const initialState: PaymentState = {
@@ -37,6 +46,7 @@ const paymentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // ✅ Handle initiatePayment correctly
       .addCase(initiatePayment.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -48,6 +58,7 @@ const paymentSlice = createSlice({
         state.phoneNumber = action.payload.phoneNumber;
         state.amount = action.payload.amount;
         state.status = action.payload.status;
+        state.date = action.payload.date || null; // Handle optional field
       })
       .addCase(initiatePayment.rejected, (state, action) => {
         state.loading = false;
@@ -55,6 +66,7 @@ const paymentSlice = createSlice({
       });
 
     builder
+      // ✅ Handle verifyPayment correctly
       .addCase(verifyPayment.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -62,7 +74,7 @@ const paymentSlice = createSlice({
       .addCase(verifyPayment.fulfilled, (state, action: PayloadAction<VerifyPaymentResponse>) => {
         state.loading = false;
         state.error = null;
-        state.verifyStatus = action.payload.status; // ✅ Fix: Correctly reference `status`
+        state.verifyStatus = action.payload.status; // ✅ Correctly reference `status`
         state.transactionId = action.payload.transactionId;
         state.phoneNumber = action.payload.phoneNumber;
         state.amount = action.payload.amount;
