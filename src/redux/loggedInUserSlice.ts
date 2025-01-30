@@ -6,7 +6,7 @@ interface User {
   _id: string | null;
   username: string | null;
   email: string | null;
-  phoneNumber: number | null;
+  phoneNumber: string | null;
   country: string | null;
 }
 

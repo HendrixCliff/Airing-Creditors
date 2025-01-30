@@ -9,7 +9,7 @@ const PaymentPage: React.FC = () => {
 
   // ✅ Explicitly define the type of `state`
   const { loading, error, status } = useAppSelector((state: RootState) => state.payment);
-  const { isLoggedIn, token } = useAppSelector((state: RootState) => state.auth);
+  const { isLoggedIn } = useAppSelector((state: RootState) => state.auth);
   
   interface PaymentDetails {
     email: string;
