@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { useAppSelector } from "../hooks/useAppSelector";
 import { resetPassword } from "../redux/fetchData";
 import { clearAuthMessages } from "../redux/authSlice";
 import { useNavigate, Link } from "react-router-dom";
@@ -8,11 +7,17 @@ import { TiArrowBack } from "react-icons/ti";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
+
+
+
 
 const ResetPassword: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { token } = useAppSelector(state => state.auth) // Extract token from URL
+  const urlParams = new URLSearchParams(window.location.search);
+const token = urlParams.get("token");
+
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

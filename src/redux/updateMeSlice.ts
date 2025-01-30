@@ -11,14 +11,15 @@ interface User {
   }
 
 
-interface UpdateMePayload {
+  interface UpdateMePayload {
     userDetails: {
       username: string;
       email: string;
-      phoneNumber: number;
+      phoneNumber: string;
       country: string;
     };
   }
+  
   export interface UpdateMeResponse {
     user: User;
   }
@@ -39,10 +40,10 @@ const initialState: UserState = {
     async ({ userDetails }, { rejectWithValue, getState }) => {
       try {
         const state = getState() as RootState;
-        const { cookie } = state.auth;
+        const { token } = state.auth;
         const response = await axios.patch('http://localhost:7000/api/v1/users/updateMe', userDetails, {
           headers: {
-            Authorization: `Bearer ${cookie}`,
+            Authorization: `Bearer ${token}`,
           },
         });
   

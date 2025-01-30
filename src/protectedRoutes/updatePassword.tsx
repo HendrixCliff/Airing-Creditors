@@ -7,23 +7,16 @@ import { useAppSelector } from '../hooks/useAppSelector';
 const UpdatePassword: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const dispatch = useAppDispatch();
-  
-  
-  const token = useAppSelector((state) => state.auth.token);
   const { isUpdatingPassword, updatePasswordSuccess, updatePasswordError } = useAppSelector((state) => state.user);
 
-  
   const handleUpdatePassword = useCallback(() => {
-    if (!token) {
-      alert('User token is missing. Please log in again.');
-      return;
-    }
     if (newPassword.length < 6) {
       alert('Password must be at least 6 characters long.');
       return;
     }
-    dispatch(updatePassword({ token, newPassword }));
-  }, [token, newPassword, dispatch]);
+
+    dispatch(updatePassword({ newPassword })); // ✅ Removed `token`
+  }, [newPassword, dispatch]);
 
   // ✅ Reset state when needed
   const resetState = useCallback(() => {

@@ -9,10 +9,11 @@ interface PaymentState {
   amount: number | null;
   status: string | null;
   date: string | null;
+  verifyStatus: string | null; 
 }
 
 interface VerifyPaymentResponse {
-  verifyStatus: string;
+  status: string; 
   transactionId: string | null;
   phoneNumber: string | null;
   amount: number | null;
@@ -61,12 +62,11 @@ const paymentSlice = createSlice({
       .addCase(verifyPayment.fulfilled, (state, action: PayloadAction<VerifyPaymentResponse>) => {
         state.loading = false;
         state.error = null;
-        state.verifyStatus = action.payload.status;
+        state.verifyStatus = action.payload.status; // ✅ Fix: Correctly reference `status`
         state.transactionId = action.payload.transactionId;
         state.phoneNumber = action.payload.phoneNumber;
         state.amount = action.payload.amount;
         state.date = action.payload.date;
-      
       })
       .addCase(verifyPayment.rejected, (state, action) => {
         state.loading = false;

@@ -9,7 +9,7 @@ import { initiatePayment } from '../redux/fetchData';
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error, status } = useAppSelector((state) => state.payment);
-  const { isLoggedIn} = useAppSelector((state) => state.auth);
+  const { isLoggedIn, token} = useAppSelector((state) => state.auth);
  
 
   interface PaymentDetails {
@@ -78,7 +78,7 @@ const PaymentPage: React.FC = () => {
     });
   };
   
-  const validateExpiryDate = (expiryDate) => {
+  const validateExpiryDate = (expiryDate: string) => {
     const [month, year] = expiryDate.split('/').map(Number);
     const currentYear = new Date().getFullYear() % 100;
     const currentMonth = new Date().getMonth() + 1;
@@ -103,7 +103,7 @@ const handleExpiryDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     }));
   }
 }
-const detectCardType = (cardNumber) => {
+const detectCardType = (cardNumber: string) => {
   //const cardNumberPrefix = cardNumber.slice(0, 6); // Get the first 6 digits
 
   if (/^4/.test(cardNumber)) {
