@@ -3,7 +3,7 @@ import authReducer from './authSlice';
 import paymentReducer from './paymentSlice';
 import {userReducer } from './userSlice'
 import { userProfileReducer } from './loggedInUserSlice';
-import { updateMeReducer } from './updateMeSlice'
+import  updateMeReducer from './updateMeSlice'
 
 const rootReducer = combineReducers({
   auth: authReducer,

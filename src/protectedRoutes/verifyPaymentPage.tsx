@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from '../hooks/useAppSelector';
-import { verifyPayment } from '../redux/fetchData';
+import { verifyPayment } from '../redux/paymentSlice';
 
 const PaymentVerification: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -42,14 +42,7 @@ const initialState: PaymentState = {
   date: null,
   verifyStatus: null,
 };
-export interface PaymentResponse {
-  transactionId: string;
-  status: string;
-  amount: number;
-  phoneNumber: string;
-  referenceId?: string; // Optional field
-  message?: string; // API response message
-}
+
 export interface PaymentPayload {
   amount: number;
   phoneNumber: string;
@@ -61,12 +54,6 @@ interface VerifyPaymentPayload {
   phoneNumber?: string;
 }
 
-export interface VerifyPaymentResponse {
-  verifyStatus: string;
-  transactionId?: string;
-  phoneNumber: string;
-  amount: number
-}
 export const initiatePayment = createAsyncThunk<
   PaymentResponse,
   PaymentPayload,
