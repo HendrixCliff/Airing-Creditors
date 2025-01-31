@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
                       Transactions
                     </Link>
                   ) : (
-                    <span className="block border-l-[.3em] border-r-[.3em] py-2 px-4 rounded-md hover:bg-gray-200 transition">
+                    <span className="block border-l-[.3em] border-r-[.3em] py-2 px-4 max-[720px]:px-[.2em] rounded-md hover:bg-gray-200 transition">
                       Transactions
                     </span>
                   )}
