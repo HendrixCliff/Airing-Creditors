@@ -232,7 +232,7 @@ const PaymentPage: React.FC = () => {
           <button
             type="submit"
             disabled={!token || loading || !paymentDetails.email || !paymentDetails.amount || !paymentDetails.phone}
-            className="col-span-2 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-400"
+            className="col-span-2 bg-gray-400 w-[40%] text-white font-semibold py-2 rounded-md  transition duration-200 mx-auto  hover:bg-blue-600  disabled:bg-purple-500"
           >
             {loading ? "Processing..." : "Initiate Payment"}
           </button>

@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
         </AlertDialog>
       )}
 
-      <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen relative overflow-hidden bg-gray-100">
+      <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen max-h-fit relative overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
           <aside className="w-[15%] absolute left-[1em] max-[720px]:top-[5.8em] max-[600px]:left-[14.8em] max-[720px]:left-[19.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]  max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
@@ -125,7 +125,7 @@ const Dashboard: React.FC = () => {
 
             {/* Cards */}
             <section className="flex ml-[16em] max-md:mt-[2em] max-md:w-full mt-[6em] max-md:ml-[.2em] items-start gap-[1em] max-md:flex-col-reverse">
-              <section className="bg-white w-[50%] h-[16em] shadow rounded-lg">
+              <section className="bg-white w-[50%] max-md:w-[70%] mt-[6em] max-md:mt-[0em] h-[22em] max-md:h-[28em] shadow rounded-lg">
                 <PaymentVerification />
               </section>
               <section className="bg-white w-[65%] shadow rounded-lg max-md:mt-[.1em]">
