@@ -57,7 +57,7 @@ const Dashboard: React.FC = () => {
       <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen relative overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] absolute left-[1em] max-[720px]:top-[5.8em] max-[720px]:left-[19.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
+          <aside className="w-[15%] absolute left-[1em] max-[720px]:top-[5.8em] max-[600px]:left-[17.8em] max-[720px]:left-[19.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]  max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
             <section className="p-[.4em] w-[95%] max-sm:w-[95%] mt-[.5em] border">
               <img
                 src="./images/airtimelogo.webp"
