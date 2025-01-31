@@ -9,10 +9,10 @@ const Profile: React.FC = () => {
  
 
   return (
-    <section className="p-4">
+    <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen relative mt-[.8em] overflow-hidden bg-gray-100">
 
         <>
-          {/* Back Button */}
+         
           <Link to="/" className="inline-flex items-center text-blue-600 hover:underline mb-4">
             <FaArrowLeft className="mr-2" />
             Back to Home

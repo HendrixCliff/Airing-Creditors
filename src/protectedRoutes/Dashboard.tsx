@@ -54,14 +54,14 @@ const Dashboard: React.FC = () => {
         </AlertDialog>
       )}
 
-      <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen relative mt-[.8em] overflow-hidden bg-gray-100">
+      <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen relative overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] absolute left-[1em] max-md:w-[30%] max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
+          <aside className="w-[15%] absolute left-[1em] max-[720px]:top-[5.8em] max-[720px]:left-[19.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
             <section className="p-[.4em] w-[95%] max-sm:w-[95%] mt-[.5em] border">
               <img
                 src="./images/airtimelogo.webp"
-                className="w-full h-[6em] object-cover font-bold"
+                className="w-full h-[9em] max-md:h-[6em] object-cover font-bold"
                 alt="Airtime Logo"
               />
             </section>
@@ -128,7 +128,7 @@ const Dashboard: React.FC = () => {
               <section className="bg-white w-[50%] h-[16em] shadow rounded-lg">
                 <PaymentVerification />
               </section>
-              <section className="bg-white w-[65%] shadow rounded-lg max-md:mt-[2em]">
+              <section className="bg-white w-[65%] shadow rounded-lg max-md:mt-[.1em]">
                 <PaymentPage />
               </section>
             </section>

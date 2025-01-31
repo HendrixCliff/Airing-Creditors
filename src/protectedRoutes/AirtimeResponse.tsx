@@ -25,7 +25,7 @@ const AirtimeResponseComponent: React.FC = () => {
   }, []);
 
   return (
-    <section className="border-solid border-[.7em] border-[#f1fffc] p-4">
+    <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen relative mt-[.8em] overflow-hidden bg-gray-100">
       <h2 className="text-lg font-semibold mb-2">Past Purchase Details</h2>
 
       {airtimeResponses.length > 0 ? (
