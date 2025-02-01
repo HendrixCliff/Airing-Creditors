@@ -50,7 +50,7 @@ export const updateMe = createAsyncThunk<
       }
 
       const response = await axios.patch(
-        'http://localhost:7000/api/v1/users/updateMe',
+        'https://fe83-105-112-178-30.ngrok-free.app/api/v1/users/updateMe',
         userDetails,
         {
           headers: {
