@@ -7,28 +7,28 @@ import {SignUpComponent} from './components/SignupComponent';
 import ForgotPassword from './components/ForgotPasswordComponent';
 import ResetPassword from './components/resetPassword'
 import AirtimeResponseComponent from './protectedRoutes/AirtimeResponse'
-
+import ErrorBoundary from "./errorFeatures/ErrorBoundary";
 
 const App: React.FC = () => {
 
   return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/authenticate" element={<AuthenticatePage />} />
-        <Route path="/signup" element={<SignUpComponent/>} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path='/reset-password' element={<ResetPassword/>}/>
-        <Route path="/profile" element={<Profile />} /> 
-        <Route path="/airtime-response" element={<AirtimeResponseComponent/>} />
-        {/* Protected Routes */}
-       
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/authenticate" element={<AuthenticatePage />} />
+          <Route path="/signup" element={<SignUpComponent />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/airtime-response" element={<AirtimeResponseComponent />} />
 
-        {/* Fallback Route */}
-        <Route path="*" element={<Navigate to="/authenticate" />} />
-      </Routes>
-    </Router>
+          {/* Fallback Route */}
+          <Route path="*" element={<Navigate to="/authenticate" />} />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 };
 
