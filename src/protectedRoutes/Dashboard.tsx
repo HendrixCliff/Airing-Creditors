@@ -57,7 +57,7 @@ const Dashboard: React.FC = () => {
       <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen max-h-fit relative overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] absolute left-[1em] max-[720px]:top-[5.8em] max-[600px]:left-[14.8em] max-[720px]:left-[19.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]  max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
+          <aside className="w-[15%] absolute left-[1em] max-[720px]:top-[5.8em] max-[450px]:left-[15.8em] max-[480px]:left-[15.8em] max-[500px]:left-[19.8em] max-[530px]:left-[19.8em]  max-[580px]:left-[19.8em] max-[590px]:left-[19.8em] max-[600px]:left-[19.8em] max-[650px]:left-[21.8em] max-[720px]:left-[24.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]  max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
             <section className="p-[.4em] w-[95%] max-sm:w-[95%] mt-[.5em] border">
               <img
                 src="./images/airtimelogo.webp"

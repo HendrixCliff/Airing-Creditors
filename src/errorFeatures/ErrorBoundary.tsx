@@ -14,19 +14,30 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(_: Error): ErrorBoundaryState {
+  static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true };
   }
+  
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("Error caught by Error Boundary:", error, errorInfo);
   }
 
+  handleRetry = () => {
+    this.setState({ hasError: false });
+  };
+
   render() {
     if (this.state.hasError) {
       return (
-          'Something went wrong. Please try again later.')
-
+        <div style={{ textAlign: "center", padding: "20px" }}>
+          <h2>Something went wrong.</h2>
+          <p>Please try again later.</p>
+          <button onClick={this.handleRetry} style={{ padding: "8px 16px", cursor: "pointer" }}>
+            Retry
+          </button>
+        </div>
+      );
     }
     return this.props.children;
   }
