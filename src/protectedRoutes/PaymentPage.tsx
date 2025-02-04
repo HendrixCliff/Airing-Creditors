@@ -140,7 +140,7 @@ const PaymentPage: React.FC = () => {
         {loading && <p>Processing payment...</p>}
         {error && <p className="text-red-500">Error: {error}</p>}
 
-        <h2 className="ml-[auto] mr-[auto] text-center w-[40%] bg-[white] text-xl font-semibold mb-4">Initiate Payment</h2>
+        <h2 className="ml-[auto] mr-[auto] text-center w-[40%] max-[500px]:w-[70%] bg-[white] text-xl font-semibold mb-4">Initiate Payment</h2>
         <form
           className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[95%] p-6 rounded-md shadow-md"
           onSubmit={handleInitiatePayment}
