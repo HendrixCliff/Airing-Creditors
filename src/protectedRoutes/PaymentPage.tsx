@@ -6,7 +6,7 @@ import { initiatePayment } from '../redux/paymentSlice';
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error, status } = useAppSelector((state) => state.payment);
-  const { isLoggedIn, token } = useAppSelector((state) => state.auth); // ✅ Added `token`
+  const { token } = useAppSelector((state) => state.auth); // ✅ Added `token`
 
   interface PaymentDetails {
     email: string;
@@ -68,7 +68,7 @@ const PaymentPage: React.FC = () => {
 
 
 
-  // ✅ Validate Expiry Date
+ 
   const validateExpiryDate = (expiryDate: string) => {
     const [month, year] = expiryDate.split('/').map(Number);
     const currentYear = new Date().getFullYear() % 100;
@@ -98,7 +98,7 @@ const PaymentPage: React.FC = () => {
   const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value.replace(/\D/g, '');
     
-    if (input.length <= 16) { // ✅ Ensure card number is at most 16 digits
+    if (input.length <= 16) {
       setPaymentDetails((prev) => ({
         ...prev,
         card_number: input,
@@ -107,11 +107,11 @@ const PaymentPage: React.FC = () => {
     }
   };
 
-  // ✅ Handle Payment Submission with Validations
+
   const handleInitiatePayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // ✅ Validate Required Fields
+
     if (!paymentDetails.email || !paymentDetails.amount || !paymentDetails.phoneNumber) {
       alert('Please fill in all required fields.');
       return;
@@ -135,15 +135,14 @@ const PaymentPage: React.FC = () => {
   };
 
  return (
-  <section className="w-full flex justify-center">
-    {!isLoggedIn ? (
+  <section className="w-full flex  justify-center">
       <section className="w-full max-w-lg">
         {loading && <p>Processing payment...</p>}
         {error && <p className="text-red-500">Error: {error}</p>}
 
-        <h2 className="text-center text-xl font-semibold mb-4">Payment Page</h2>
+        <h2 className="ml-[auto] mr-[auto] text-center w-[40%] bg-[white] text-xl font-semibold mb-4">Initiate Payment</h2>
         <form
-          className="grid grid-cols-1 md:grid-cols-2 gap-4 border-2 border-gray-300 w-full p-6 rounded-md shadow-md"
+          className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[95%] p-6 rounded-md shadow-md"
           onSubmit={handleInitiatePayment}
         >
           {/* Email */}
@@ -152,10 +151,11 @@ const PaymentPage: React.FC = () => {
             <input
               type="email"
               name="email"
+              className="border border-gray-300  p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={paymentDetails.email}
               onChange={handleChange}
               required
-              className="border p-2 rounded-md w-full"
+  
             />
           </label>
 
@@ -168,7 +168,7 @@ const PaymentPage: React.FC = () => {
               value={paymentDetails.amount}
               onChange={handleChange}
               required
-              className="border p-2 rounded-md w-full"
+              className="border p-2  border-gray-300   rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
             />
           </label>
 
@@ -178,10 +178,10 @@ const PaymentPage: React.FC = () => {
             <input
               type="text"
               name="phone"
+              className="border border-gray-300  p-2  w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={paymentDetails.phone}
               onChange={handleChange}
               required
-              className="border p-2 rounded-md w-full"
             />
           </label>
 
@@ -191,10 +191,11 @@ const PaymentPage: React.FC = () => {
             <input
               type="text"
               name="card_number"
+              className="border p-2  w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={paymentDetails.card_number}
               onChange={handleCardDetails}
               required
-              className="border p-2 rounded-md w-full"
+              
             />
           </label>
 
@@ -203,11 +204,12 @@ const PaymentPage: React.FC = () => {
             Expiry Date
             <input
               type="text"
+              className="border p-2 w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               name="expiry_date"
               value={paymentDetails.expiry_date}
               onChange={handleExpiryDate}
               required
-              className="border p-2 rounded-md w-full"
+              
             />
           </label>
 
@@ -215,7 +217,7 @@ const PaymentPage: React.FC = () => {
           <label className="flex flex-col col-span-2 md:col-span-1">
             CVV
             <input
-              className="border p-2 rounded-md w-full"
+              className="border p-2  border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  w-full"
               type="text"
               name="cvv"
               value={paymentDetails.cvv}
@@ -232,15 +234,12 @@ const PaymentPage: React.FC = () => {
           <button
             type="submit"
             disabled={!token || loading || !paymentDetails.email || !paymentDetails.amount || !paymentDetails.phone}
-            className="col-span-2 bg-gray-400 w-[40%] text-white font-semibold py-2 rounded-md  transition duration-200 mx-auto  hover:bg-blue-600  disabled:bg-purple-500"
+            className="col-span-2 bg-gray-400 max-[500px]:w-[60%] w-[40%] text-white font-semibold py-2 rounded-md  transition duration-200 mx-auto  hover:bg-blue-600  disabled:bg-purple-500"
           >
             {loading ? "Processing..." : "Initiate Payment"}
           </button>
         </form>
       </section>
-    ) : (
-      <p className="text-center text-lg">Please log in to proceed with payment.</p>
-    )}
   </section>
 );
 

@@ -57,15 +57,15 @@ const Dashboard: React.FC = () => {
       <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen max-h-fit relative overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] absolute left-[1em] max-[720px]:top-[5.8em] max-[450px]:left-[14.2em] max-[480px]:left-[14.2em] max-[500px]:left-[19.8em] max-[530px]:left-[19.8em]  max-[580px]:left-[19.8em] max-[590px]:left-[19.8em] max-[600px]:left-[19.8em] max-[650px]:left-[21.8em] max-[720px]:left-[24.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]  max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
-            <section className="p-[.4em] w-[95%] max-sm:w-[95%] mt-[.5em] border">
+          <aside className="w-[15%] backdrop-blur-lg shadow-2xl bg-payment-bg bg-cover bg-center absolute left-[1em] max-[720px]:top-[6.2em] max-[450px]:left-[14.2em] max-[480px]:left-[14.2em] max-[500px]:left-[19.8em] max-[530px]:left-[19.8em]  max-[580px]:left-[19.8em] max-[590px]:left-[19.8em] max-[600px]:left-[19.8em] max-[650px]:left-[21.8em] max-[720px]:left-[24.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]  max-sm:w-[34%] px-[.5em] bg-white shadow-lg">
+            <section className="p-[.4em] w-[95%] bg-[white] max-sm:w-[95%] mt-[.5em] border">
               <img
                 src="./images/airtimelogo.webp"
                 className="w-full h-[9em] max-md:h-[6em] object-cover font-bold"
                 alt="Airtime Logo"
               />
             </section>
-            <nav className="px-[.3em] py-[.5em] mt-[.5em]">
+            <nav className="px-[.3em] py-[.5em] bg-[white] mt-[.5em]">
               <ul className="space-y-4 mt-[1.1em]">
                 <li>
                   <a href="#" className="block border-l-[.3em] border-r-[.3em] py-2 px-4 rounded-md hover:bg-gray-200 transition">
@@ -124,13 +124,15 @@ const Dashboard: React.FC = () => {
             </header>
 
             {/* Cards */}
-            <section className="flex ml-[16em] max-md:mt-[2em] max-md:w-full mt-[6em] max-md:ml-[.2em] items-start gap-[1em] max-md:flex-col-reverse">
-              <section className="bg-white w-[50%] max-md:w-[70%] mt-[6em] max-md:mt-[0em] h-[22em] max-md:h-[28em] shadow rounded-lg">
+            <section className="flex ml-[16em] max-md:mt-[2em] transition-transform hover:scale-[1.02] max-md:w-full mt-[6em] max-md:ml-[.2em] items-start gap-[1em] max-md:flex-col-reverse">
+              <section className="bg-white bg-payment-bg bg-cover bg-center w-[45%] max-md:w-[70%] mt-[6em]  max-md:mt-[0em] h-[23em] max-[500px]:h-[26em] max-[500px]:mb-[2em] shadow rounded-lg">
                 <PaymentVerification />
               </section>
-              <section className="bg-white w-[65%] shadow rounded-lg max-md:mt-[.1em]">
-                <PaymentPage />
-              </section>
+              <section className="bg-payment-bg bg-cover bg-center bg-white/60 mt-[1em] backdrop-blur-lg shadow-2xl p-6 w-[50%] mb-[2em] rounded-xl border border-dotted border-gray-300">
+              <PaymentPage />
+            </section>
+
+
             </section>
           </main>
         </>

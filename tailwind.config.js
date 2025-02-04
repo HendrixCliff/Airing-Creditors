@@ -13,7 +13,9 @@ export default {
   	extend: {
       backgroundImage: {
         'dashboard-bg': "url('/images/speedrecharge.webp')",
+        'payment-bg': "url('/images/tiger-fur.webp')",
       },
+
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
