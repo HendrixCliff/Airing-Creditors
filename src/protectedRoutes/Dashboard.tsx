@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
             </header>
 
             {/* Cards */}
-            <section className="flex ml-[16em] max-md:mt-[2em] transition-transform hover:scale-[1.02] max-md:w-full mt-[6em] max-md:ml-[.2em] items-start gap-[1em] max-md:flex-col-reverse">
+            <section className="flex ml-[16em] max-md:mt-[2em] transition-transform hover:scale-[1.02] max-md:w-full mt-[6em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
               <section className="bg-white bg-payment-bg bg-cover bg-center w-[45%] max-[500px]:w-[80%] mt-[6em] shadow-2xl max-[500px]:ml-[auto] max-[500px]:mr-[auto]  max-md:mt-[0em] h-[23em] max-[500px]:h-[27em] max-[500px]:mb-[2em] rounded-lg">
                 <PaymentVerification />
               </section>

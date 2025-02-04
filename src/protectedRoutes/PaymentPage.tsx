@@ -136,22 +136,22 @@ const PaymentPage: React.FC = () => {
 
  return (
   <section className="w-full flex  justify-center">
-      <section className="w-full max-w-lg max-[500px]:w-[80%]">
+      <section className="w-full max-w-[100%] max-[500px]:w-[100%]">
         {loading && <p>Processing payment...</p>}
-        {error && <p className="text-red-500">Error: {error}</p>}
+        {error && <p className="text-red-500">Error: {  error}</p>}
 
         <h2 className="ml-[auto] mr-[auto] text-center w-[40%] max-[500px]:w-[100%] bg-[white] text-xl font-semibold mb-[1em]">Initiate Payment</h2>
         <form
-          className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[100%] p-6 rounded-md shadow-md"
+          className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[100%] max-[500px]:px-[.5em] max-[500px]:pb-[.9em] rounded-md shadow-md"
           onSubmit={handleInitiatePayment}
         >
           {/* Email */}
-          <label className="flex flex-col col-span-2">
+          <label className="flex flex-col max-[500px]:w-[100%] col-span-2">
             Email
             <input
               type="email"
               name="email"
-              className="border border-gray-300  p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border max-[500px]:w-[100%] border-gray-300  p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={paymentDetails.email}
               onChange={handleChange}
               required
