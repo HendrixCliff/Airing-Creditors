@@ -136,13 +136,13 @@ const PaymentPage: React.FC = () => {
 
  return (
   <section className="w-full flex  justify-center">
-      <section className="w-full max-w-lg">
+      <section className="w-full max-w-lg max-[500px]:w-[80%]">
         {loading && <p>Processing payment...</p>}
         {error && <p className="text-red-500">Error: {error}</p>}
 
-        <h2 className="ml-[auto] mr-[auto] text-center w-[40%] max-[500px]:w-[70%] bg-[white] text-xl font-semibold mb-4">Initiate Payment</h2>
+        <h2 className="ml-[auto] mr-[auto] text-center w-[40%] max-[500px]:w-[100%] bg-[white] text-xl font-semibold mb-[1em]">Initiate Payment</h2>
         <form
-          className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[95%] p-6 rounded-md shadow-md"
+          className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[100%] p-6 rounded-md shadow-md"
           onSubmit={handleInitiatePayment}
         >
           {/* Email */}
@@ -234,7 +234,7 @@ const PaymentPage: React.FC = () => {
           <button
             type="submit"
             disabled={!token || loading || !paymentDetails.email || !paymentDetails.amount || !paymentDetails.phone}
-            className="col-span-2 bg-gray-400 max-[500px]:w-[60%] w-[40%] text-white font-semibold py-2 rounded-md  transition duration-200 mx-auto  hover:bg-blue-600  disabled:bg-purple-500"
+            className="col-span-2 bg-gray-400 max-[500px]:w-[100%] w-[40%] text-white font-semibold py-2 rounded-md  transition duration-200 mx-auto  hover:bg-blue-600  disabled:bg-purple-500"
           >
             {loading ? "Processing..." : "Initiate Payment"}
           </button>

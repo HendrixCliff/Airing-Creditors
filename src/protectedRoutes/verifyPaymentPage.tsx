@@ -78,7 +78,7 @@ const PaymentVerification: React.FC = () => {
           {/* Verify Button */}
           <button
             type="button"
-            className="col-span-2 bg-purple-500 text-white max-[500px]:w-[60%] font-semibold py-2 w-[40%] rounded-md hover:bg-purple-600 transition duration-200 mx-auto"
+            className="col-span-2 bg-purple-500 text-white max-[500px]:w-[100%] font-semibold py-2 w-[40%] rounded-md hover:bg-purple-600 transition duration-200 mx-auto"
             onClick={handleVerifyPayment}
             disabled={loading}
           >
