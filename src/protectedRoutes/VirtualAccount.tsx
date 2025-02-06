@@ -17,7 +17,7 @@ const VirtualAccount: React.FC = () => {
   };
 
   return (
-    <section className="max-w-md mx-auto mt-[1em] p-[3em] bg-white shadow-md rounded-lg">
+    <form className="max-[500px]:max-w-[100%] mx-[.1em] mt-[.9em] max-[500px]:px-[.5em] max-[500px]:py-[3em] bg-white shadow-md rounded-lg">
       <h2 className="text-xl font-bold w-[100%] text-center mb-4">Fund Your Wallet via a Virtual Account</h2>
 <h4 className="text-center w-[100%] max-[500px]:text-[.7rem] text-[1rem] text-gray-700">
   Generate a virtual account, transfer funds to it, and enjoy seamless automatic recharges.
@@ -34,7 +34,7 @@ const VirtualAccount: React.FC = () => {
       <button
         onClick={handleCreateAccount}
         disabled={loading}
-        className={`w-full mt-4 py-2 text-white font-semibold rounded-md transition ${
+        className={`max-[500px]:w-[100%] w-[80%]  mt-4 py-2 text-white font-semibold rounded-md transition ${
           loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
         }`}
       >
@@ -52,7 +52,7 @@ const VirtualAccount: React.FC = () => {
           <p className="font-semibold">Created At: <span className="font-normal">{virtualAccount.createdAt}</span></p>
         </section>
       )}
-    </section>
+    </form>
   );
 };
 
