@@ -140,9 +140,9 @@ const PaymentPage: React.FC = () => {
         {loading && <p>Processing payment...</p>}
         {error && <p className="text-red-500">Error: {  error}</p>}
 
-        <h2 className="ml-[auto] mr-[auto] text-center w-[40%] max-[500px]:w-[100%] bg-[white] text-xl font-semibold mb-[1em]">Initiate Payment</h2>
+        <h2 className="ml-[auto] mr-[auto] text-center w-[40%] max-[500px]:w-[100%] bg-[white] text-xl font-semibold mb-[1em]">Initiate Card Payment</h2>
         <form
-          className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[100%] max-[500px]:px-[.5em] max-[500px]:pb-[.9em] rounded-md shadow-md"
+          className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[100%] max-[500px]:px-[.5em] px-[.8em] rounded-md shadow-md"
           onSubmit={handleInitiatePayment}
         >
           {/* Email */}

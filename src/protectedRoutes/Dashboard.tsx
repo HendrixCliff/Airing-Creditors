@@ -5,7 +5,7 @@ import { useAppSelector } from './../hooks/useAppSelector';
 import { useNavigate, Link } from 'react-router-dom'; 
 import PaymentPage from './../protectedRoutes/PaymentPage';
 import PaymentVerification from './../protectedRoutes/verifyPaymentPage';
-
+import VirtualAccount from './../protectedRoutes/VirtualAccount'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -57,7 +57,7 @@ const Dashboard: React.FC = () => {
       <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen max-h-fit relative overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] backdrop-blur-lg shadow-2xl bg-payment-bg bg-cover bg-center py-[.6em] absolute left-[1em] max-[500px]:top-[7.1em] max-[480px]:top-[6.9] max-[720px]:top-[6.2em] max-[450px]:left-[14.2em] max-[480px]:left-[14.2em] max-[500px]:left-[19.8em] max-[530px]:left-[19.8em]  max-[580px]:left-[19.8em] max-[590px]:left-[19.8em] max-[600px]:left-[19.8em] max-[650px]:left-[21.8em] max-[720px]:left-[24.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]   max-sm:w-[34%] px-[.5em] bg-white">
+          <aside className="w-[15%] backdrop-blur-lg shadow-2xl bg-payment-bg bg-cover bg-center py-[.6em] absolute left-[1em] max-[500px]:top-[5em] max-[480px]:top-[6.9] max-[720px]:top-[6.2em] max-[450px]:left-[14.2em] max-[480px]:left-[14.2em] max-[500px]:left-[19.8em] max-[530px]:left-[19.8em]  max-[580px]:left-[19.8em] max-[590px]:left-[19.8em] max-[600px]:left-[19.8em] max-[650px]:left-[21.8em] max-[720px]:left-[24.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]   max-sm:w-[34%] px-[.5em] bg-white">
             <section className="p-[.4em] w-[95%] bg-[white] max-sm:w-[95%] mt-[.5em]  border">
               <img
                 src="./images/airtimelogo.webp"
@@ -109,7 +109,7 @@ const Dashboard: React.FC = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="w-full max-md:w-full">
+          <main className="w-full max-md:w-full relative">
             <header className="mb-[.5em]">
               {!isLoggedIn ? (
                 <section className="flex gap-[3em] max-md:mt-[1em] w-[20%] max-md:w-[60%] max-md:gap-[.5em] ml-auto">
@@ -124,15 +124,19 @@ const Dashboard: React.FC = () => {
             </header>
 
             {/* Cards */}
-            <section className="flex ml-[16em] max-md:mt-[2em] transition-transform hover:scale-[1.02] max-md:w-full mt-[6em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
+            <section>
+            <section className="absolute max-[500px]:h-[19em] max-[500px]:w-[65%]  max-[500px]:left-[.1em] max-[500px]:top-[13em] top-[5.5em] left-[60em] h-[17em] px-[.8em] bg-payment-bg bg-cover bg-center">
+                <VirtualAccount/>
+              </section>
+            <section className="flex  ml-[16em] max-md:mt-[32em] transition-transform hover:scale-[1.02] max-md:w-full mt-[18em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
+             
               <section className="bg-white bg-payment-bg bg-cover bg-center w-[45%] max-[500px]:w-[80%] mt-[6em] shadow-2xl max-[500px]:ml-[auto] max-[500px]:mr-[auto]  max-md:mt-[0em] h-[23em] max-[500px]:h-[27em] max-[500px]:mb-[2em] rounded-lg">
                 <PaymentVerification />
               </section>
-              <section className="bg-payment-bg bg-cover bg-center bg-white/60 mt-[1em] backdrop-blur-lg shadow-2xl p-6 max-[500px]:w-[65%] w-[50%] mb-[2em] rounded-[.3em] border border-dotted border-gray-300">
+              <section className="bg-payment-bg bg-cover bg-center bg-white/60 mt-[1em] ml-[auto] mr-[auto] backdrop-blur-lg shadow-[2em] p-6 max-[500px]:w-[65%] w-[50%] mb-[2em] rounded-[.3em] border border-dotted border-gray-300">
               <PaymentPage />
             </section>
-
-
+            </section>
             </section>
           </main>
         </>
