@@ -18,7 +18,10 @@ const VirtualAccount: React.FC = () => {
 
   return (
     <section className="max-w-md mx-auto mt-[1em] p-[3em] bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold text-center mb-4">Create Virtual Account</h2>
+      <h2 className="text-xl font-bold text-center mb-4">Fund Your Wallet via a Virtual Account</h2>
+<h4 className="text-center text-gray-700">
+  Generate a virtual account, transfer funds to it, and enjoy seamless automatic recharges.
+</h4>
 
       <input
         type="text"

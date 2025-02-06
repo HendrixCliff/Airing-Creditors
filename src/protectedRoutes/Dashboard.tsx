@@ -125,10 +125,10 @@ const Dashboard: React.FC = () => {
 
             {/* Cards */}
             <section>
-            <section className="absolute max-[500px]:h-[19em] max-[500px]:w-[65%]  max-[500px]:left-[.1em] max-[500px]:top-[13em] top-[5.5em] left-[60em] h-[17em] px-[.8em] bg-payment-bg bg-cover bg-center">
+            <section className="absolute max-[500px]:h-[19em] max-[500px]:w-[65%]  max-[500px]:left-[.1em] max-[500px]:top-[13em] top-[5.5em] left-[60em] h-[23em] px-[.8em] bg-payment-bg bg-cover bg-center">
                 <VirtualAccount/>
               </section>
-            <section className="flex  ml-[16em] max-md:mt-[32em] transition-transform hover:scale-[1.02] max-md:w-full mt-[18em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
+            <section className="flex  ml-[16em] max-md:mt-[32em] transition-transform hover:scale-[1.02] max-md:w-full mt-[23em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
              
               <section className="bg-white bg-payment-bg bg-cover bg-center w-[45%] max-[500px]:w-[80%] mt-[6em] shadow-2xl max-[500px]:ml-[auto] max-[500px]:mr-[auto]  max-md:mt-[0em] h-[23em] max-[500px]:h-[27em] max-[500px]:mb-[2em] rounded-lg">
                 <PaymentVerification />
