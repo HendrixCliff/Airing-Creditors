@@ -6,6 +6,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import PaymentPage from './../protectedRoutes/PaymentPage';
 import PaymentVerification from './../protectedRoutes/verifyPaymentPage';
 import VirtualAccount from './../protectedRoutes/VirtualAccount'
+import { useWebhookListener } from "./../hooks/useWebhookListener";
+import TransactionAction from './../protectedRoutes/TransactionAction';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +21,7 @@ import {
 } from './../components/ui/alert-dialog';
 
 const Dashboard: React.FC = () => {
+  useWebhookListener(); 
   const dispatch = useAppDispatch();
   const navigate = useNavigate(); 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
@@ -125,8 +129,13 @@ const Dashboard: React.FC = () => {
 
             {/* Cards */}
             <section>
-            <section className="absolute max-[500px]:h-[24em] max-[500px]:w-[65%] max-[480px]:w-[62%] max-[500px]:left-[.1em] max-[500px]:top-[7.6em] top-[5.5em] left-[60em] h-[23em] px-[.8em] bg-payment-bg bg-cover bg-center">
-                <VirtualAccount/>
+              <section className="flex">
+                <section className="absolute max-[500px]:h-[24em] max-[500px]:w-[65%] max-[480px]:w-[62%] max-[500px]:left-[.1em] max-[500px]:top-[7.6em] top-[5.5em] left-[60em] h-[23em] px-[.8em] bg-payment-bg bg-cover bg-center">
+                    <VirtualAccount/>
+                  </section>
+                  <section>
+                    <TransactionAction/>
+                  </section>
               </section>
             <section className="flex  ml-[16em] max-md:mt-[30em] transition-transform hover:scale-[1.02] max-md:w-full mt-[23em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
              

@@ -174,7 +174,7 @@ const PaymentPage: React.FC = () => {
 
           {/* Phone Number */}
           <label className="flex flex-col col-span-2">
-            Phone Number (No Zero)
+            Phone Number (No Zero and Country Code)
             <input
               type="text"
               name="phone"

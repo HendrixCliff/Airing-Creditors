@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { login, signup, protectedData, forgotPassword, resetPassword } from './fetchData';
+import { login, signup, forgotPassword, resetPassword } from './fetchData';
 
 interface AuthState {
   user: { name: string } | null;
@@ -93,21 +93,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = typeof action.payload === 'string' ? action.payload : 'Signup failed';
       });
-
-    builder
-      .addCase(protectedData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(protectedData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.protectedMessage = action.payload.message;
-      })
-      .addCase(protectedData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = typeof action.payload === 'string' ? action.payload : 'Request failed';
-      });
-
     builder
       .addCase(forgotPassword.pending, (state) => {
         state.loading = true;

@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
-import { useAppDispatch } from './../hooks/useAppDispatch'
-import { useAppSelector } from './../hooks/useAppSelector'
+import { useAppDispatch } from './../hooks/useAppDispatch';
+import { useAppSelector } from './../hooks/useAppSelector';
 import { login } from '../redux/fetchData';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -20,23 +20,21 @@ const LoginComponent: React.FC = () => {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
-
-    // Check if form and its elements are correctly accessed
-    const usernameElement = form.elements.namedItem('username') as HTMLInputElement;
+    const identifierElement = form.elements.namedItem('identifier') as HTMLInputElement;
     const passwordElement = form.elements.namedItem('password') as HTMLInputElement;
 
-    if (!usernameElement || !passwordElement) {
-      console.error('Username or password input not found');
+    if (!identifierElement || !passwordElement) {
+      console.error('Identifier or password input not found');
       return;
     }
 
-    const username = usernameElement.value;
+    const identifier = identifierElement.value;
     const password = passwordElement.value;
 
-    console.log('Logging in with:', { username, password });
+    console.log('Logging in with:', { identifier, password });
 
     try {
-      await dispatch(login({ username, password })).unwrap();
+      await dispatch(login({ identifier, password })).unwrap();
       navigate('/');
     } catch (err) {
       console.error('Login failed:', err);
@@ -49,13 +47,14 @@ const LoginComponent: React.FC = () => {
       {error && <p>Error: {error}</p>}
       {!isLoggedIn ? (
         <form className="flex flex-col gap-[1em] max-md:gap-[.3em]" onSubmit={handleLogin}>
+          {/* Updated label and input to "Username or Email" */}
           <label className="text-[1.3rem] max-md:text-[1.3rem] mt-[1.1em] flex flex-col max-md:gap-[.3em] gap-[.7em]">
-            Username
+            Username or Email
             <input
               className="w-[100%] max-md:w-[90%] rounded-[.1em] p-[.3em] border-[.2em] border-solid bg-[#f1fffc] border-[#f1fffc]"
               type="text"
-              name="username"
-              placeholder="Enter your Username"
+              name="identifier"
+              placeholder="Enter your Username or Email"
               required
             />
           </label>
@@ -96,7 +95,7 @@ const LoginComponent: React.FC = () => {
           </label>
 
           <button
-            className="ml-[auto] mr-[auto] max-md:mt-[1.5em]  text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.7rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[50%] max-md:w-[70%]"
+            className="ml-[auto] mr-[auto] max-md:mt-[1.5em] text-center font-bold rounded-[1em] max-md:p-[.4em] text-[1.7rem] max-md:text-[1rem] text-[#f1fffc] border-solid bg-[#1f1915] w-[50%] max-md:w-[70%]"
             type="submit"
           >
             Login

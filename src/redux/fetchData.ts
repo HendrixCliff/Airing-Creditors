@@ -40,10 +40,6 @@ interface AuthResponse {
   token: string;
 }
 
-interface ProtectedResponse {
-  message: string;
-}
-
 interface ForgotPasswordPayload {
   email: string;
 }
@@ -51,8 +47,6 @@ interface ForgotPasswordPayload {
 interface ForgotPasswordResponse {
   message: string;
 }
-
-
 
 export interface FetchUserResponse {
   _id: string;
@@ -62,32 +56,14 @@ export interface FetchUserResponse {
   country: string;
 }
 
-export const protectedData = createAsyncThunk<
-  ProtectedResponse,
-  void,
-  { rejectValue: string; state: RootState }
->('auth/fetchProtectedData', async (_, { rejectWithValue, getState }) => {
-  try {
-    const token = getState().auth.token;
-    const response = await axios.get(`https://caf6-105-112-73-185.ngrok-free.app/api/v1/auth/protected`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error instanceof Error ? error.message : 'Access denied');
-  }
-});
-
-
 
 export const login = createAsyncThunk<AuthResponse, LoginPayload>(
   'auth/login',
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ identifier, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `https://caf6-105-112-73-185.ngrok-free.app/api/v1/auth/login`, // Use environment variable
-        { username, password }, // Request payload
+        { identifier, password }, // Request payload
         { withCredentials: true } // Enable credentials (cookies/sessions)
       );
       return response.data;

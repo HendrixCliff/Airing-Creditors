@@ -4,7 +4,12 @@ import { useAppSelector } from './../hooks/useAppSelector';
 import { createVirtualAccountThunk } from "../redux/transferPaymentSlice";
 
 const VirtualAccount: React.FC = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumberVirtual, setPhoneNumberVirtual] = useState(
+    {
+       countryCode: '+234',
+       phone: '',
+       phoneNumber: '',
+    });
   const dispatch = useAppDispatch();
 
   const { loading, virtualAccount, error } = useAppSelector(
@@ -12,29 +17,44 @@ const VirtualAccount: React.FC = () => {
   );
 
   const handleCreateAccount = () => {
-    if (phoneNumber.trim() === "") return;
-    dispatch(createVirtualAccountThunk(phoneNumber));
+    if (phoneNumberVirtual.phoneNumber.trim() === "") return;
+    dispatch(createVirtualAccountThunk(phoneNumberVirtual.phoneNumber));
   };
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target;
+    setPhoneNumberVirtual((prev) => {
+        let updatedValue: string | number = value;
 
+        const updatedDetails = { ...prev, [name]: updatedValue };
+        if (name === 'countryCode' || name === 'phone') {
+          updatedDetails.phone = updatedDetails.phone.replace(/^0+/, ''); // Remove leading zeros
+          updatedDetails.phoneNumber = `${updatedDetails.countryCode}${updatedDetails.phone}`;
+        }
+        return updatedDetails;
+    })
+}
   return (
-    <form className="max-[500px]:max-w-[100%] mx-[.1em] mt-[.9em] max-[500px]:px-[.5em] max-[500px]:py-[3em] bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold w-[100%] text-center mb-4">Fund Your Wallet via a Virtual Account</h2>
+    <form className="max-[500px]:max-w-[100%] h-[21em] mx-[.1em] mt-[.9em] max-[500px]:px-[.5em] max-[500px]:py-[3em] bg-white shadow-md rounded-lg">
+<h2 className="text-xl font-bold w-full text-center mb-4">Recharge Your Airtime Instantly with a Virtual Account</h2>
 <h4 className="text-center w-[100%] max-[500px]:text-[.7rem] text-[1rem] text-gray-700">
   Generate a virtual account, transfer funds to it, and enjoy seamless automatic recharges.
 </h4>
-
+    <label className="flex flex-col max-[500px]:w-[100%] col-span-2">
+      Phone Number  (No Zero and Country Code)
       <input
         type="text"
-        placeholder="Enter phone number"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        name="phone"
+        placeholder="Enter Recharge phone number"
+        value={phoneNumberVirtual.phone}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+         required
       />
-
+     </label>
       <button
         onClick={handleCreateAccount}
         disabled={loading}
-        className={`max-[500px]:w-[100%] w-[80%]  mt-4 py-2 text-white font-semibold rounded-md transition ${
+        className={`max-[500px]:w-[100%] w-[70%] ml-[auto] mt-4 py-2 text-white font-semibold rounded-md transition ${
           loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
         }`}
       >
