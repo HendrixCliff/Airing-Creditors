@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { logout } from './../redux/authSlice';
 import { useAppDispatch } from './../hooks/useAppDispatch';
 import { useAppSelector } from './../hooks/useAppSelector';
-import { useNavigate, Link } from 'react-router-dom'; 
+import { useNavigate, Link, NavLink } from 'react-router-dom'; 
 import PaymentPage from './../protectedRoutes/PaymentPage';
 import PaymentVerification from './../protectedRoutes/verifyPaymentPage';
 import VirtualAccount from './../protectedRoutes/VirtualAccount'
@@ -58,10 +58,10 @@ const Dashboard: React.FC = () => {
         </AlertDialog>
       )}
 
-      <section className="w-full bg-dashboard-bg bg-cover bg-center bg-no-repeat min-h-screen max-h-fit relative overflow-hidden bg-gray-100">
+      <section className="w-full bg-dashboard-bg bg-cover bg-center max-[500px]:bg-[100%]  bg-no-repeat min-h-screen max-h-fit relative overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] backdrop-blur-lg shadow-2xl bg-payment-bg bg-cover bg-center py-[.6em] absolute left-[1em] max-[500px]:top-[5em] max-[480px]:top-[6.9] max-[720px]:top-[6.2em] max-[450px]:left-[14.2em] max-[480px]:left-[14.2em] max-[500px]:left-[19.8em] max-[530px]:left-[19.8em]  max-[580px]:left-[19.8em] max-[590px]:left-[19.8em] max-[600px]:left-[19.8em] max-[650px]:left-[21.8em] max-[720px]:left-[24.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]   max-sm:w-[34%] px-[.5em] bg-white">
+          <aside className="w-[15%] shadow-2xl bg-payment-bg bg-cover bg-center py-[.6em] absolute left-[1em] max-[500px]:top-[5em] max-[480px]:top-[6.9] max-[720px]:top-[6.2em] max-[450px]:left-[14.2em] max-[480px]:left-[14.2em] max-[500px]:left-[19.8em] max-[530px]:left-[19.8em]  max-[580px]:left-[19.8em] max-[590px]:left-[19.8em] max-[600px]:left-[19.8em] max-[650px]:left-[21.8em] max-[720px]:left-[24.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]   max-sm:w-[34%] px-[.5em] bg-white">
             <section className="p-[.4em] w-[95%] bg-[white] max-sm:w-[95%] mt-[.5em]  border">
               <img
                 src="./images/airtimelogo.webp"
@@ -77,16 +77,15 @@ const Dashboard: React.FC = () => {
                   </a>
                 </li>
                 <li>
-                  {isLoggedIn ? (
-                    <Link to="/profile" className="block border-l-[.3em] border-r-[.3em] py-2 px-4 rounded-md hover:bg-gray-200 transition">
-                      Profile
-                    </Link>
-                  ) : (
-                    <span className="block border-l-[.3em] border-r-[.3em] py-2 px-4 rounded-md hover:bg-gray-200 transition">
-                      Profile
-                    </span>
-                  )}
-                </li>
+                <NavLink 
+                  to="/profile" 
+                  className="cursor-pointer block border-l-[.3em] border-r-[.3em] py-2 px-4 rounded-md hover:bg-gray-200 transition"
+                >
+                  Profile
+                </NavLink>
+              
+            </li>
+
                 <li>
                   {isLoggedIn ? (
                     <Link to="/airtime-response" className="block border-l-[.3em] border-r-[.3em] py-2 px-4 rounded-md hover:bg-gray-200 transition">
@@ -114,40 +113,53 @@ const Dashboard: React.FC = () => {
 
           {/* Main Content */}
           <main className="w-full max-md:w-full relative">
-            <header className="mb-[.5em]">
-              {!isLoggedIn ? (
-                <section className="flex gap-[3em] max-md:mt-[1em] w-[20%] max-md:w-[60%] max-md:gap-[.5em] ml-auto">
-                  <Link to="/authenticate" className="text-center w-full max-md:w-[90%] ml-auto mt-[2em] p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]">
-                    Login
-                  </Link>
-                  <Link to="/signup" className="text-center w-full max-md:w-[90%] ml-auto mt-[2em] mr-[.5em] p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]">
-                    Signup
-                  </Link>
-                </section>
-              ) : null}
-            </header>
+        <header className="mb-[.5em]">
+          {!isLoggedIn ? (
+            <section className="flex gap-[3em] max-md:mt-[1em] w-[20%] max-md:w-[60%] max-md:gap-[.5em] ml-auto">
+              <Link
+                to="/authenticate"
+                className="text-center w-full max-md:w-[90%] ml-auto mt-[2em] p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="text-center w-full max-md:w-[90%] ml-auto mt-[2em] mr-[.5em] p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]"
+              >
+                Signup
+                    </Link>
+                  </section>
+                ) : null}
+              </header>
 
-            {/* Cards */}
-            <section>
-              <section className="flex">
-                <section className="absolute max-[500px]:h-[24em] max-[500px]:w-[65%] max-[480px]:w-[62%] max-[500px]:left-[.1em] max-[500px]:top-[7.6em] top-[5.5em] left-[60em] h-[23em] px-[.8em] bg-payment-bg bg-cover bg-center">
-                    <VirtualAccount/>
+              {/* Cards */}
+              <section>
+                {/* Container for VirtualAccount & TransactionAction */}
+                <section className="flex max-[500px]:flex-col max-[500px]:gap-[.5em] max-[500px]:mt-[1em] max-[500px]:items-start ">
+                  {/* VirtualAccount */}
+                  <section className="absolute max-[500px]:static max-[500px]:h-[24em] max-[500px]:w-[65%] max-[480px]:w-[62%] max-[500px]:left-[.1em] max-[500px]:top-[6em] top-[0.6em] left-[60em] h-[23em] px-[.8em] bg-payment-bg bg-cover bg-center">
+                    <VirtualAccount />
                   </section>
-                  <section>
-                    <TransactionAction/>
+
+                  {/* TransactionAction (Now Below VirtualAccount in Small Screens) */}
+                  <section className="absolute left-[15em] max-[500px]:w-[65%] max-[500px]:static max-[500px]:order-1 max-md:right-[6em] max-md:left-[.0em]">
+                    <TransactionAction />
                   </section>
+                </section>
+
+                <section className="flex ml-[16em]  max-md:mt-[0em] transition-transform hover:scale-[1.02] max-md:w-full mt-[23em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
+                  {/* Payment Verification */}
+                  <section className="bg-white bg-payment-bg bg-cover bg-center w-[45%] max-[500px]:w-[80%] mt-[6em] shadow-2xl max-[500px]:ml-[auto] max-[500px]:mr-[auto] max-md:mt-[-2.5em] h-[23em] max-[500px]:h-[27em]  rounded-lg">
+                    <PaymentVerification />
+                  </section>
+
+                  {/* Payment Page */}
+                  <section className="bg-payment-bg bg-cover bg-center bg-white/60 mt-[1em] ml-[auto] mr-[auto] backdrop-blur-lg shadow-[2em] p-6 max-[500px]:w-[85%] w-[50%] mb-[2em] rounded-[.3em] border border-dotted border-gray-300">
+                    <PaymentPage />
+                  </section>
+                </section>
               </section>
-            <section className="flex  ml-[16em] max-md:mt-[30em] transition-transform hover:scale-[1.02] max-md:w-full mt-[23em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
-             
-              <section className="bg-white bg-payment-bg bg-cover bg-center w-[45%] max-[500px]:w-[80%] mt-[6em] shadow-2xl max-[500px]:ml-[auto] max-[500px]:mr-[auto]  max-md:mt-[0em] h-[23em] max-[500px]:h-[27em] max-[500px]:mb-[2em] rounded-lg">
-                <PaymentVerification />
-              </section>
-              <section className="bg-payment-bg bg-cover bg-center bg-white/60 mt-[1em] ml-[auto] mr-[auto] backdrop-blur-lg shadow-[2em] p-6 max-[500px]:w-[85%] w-[50%] mb-[2em] rounded-[.3em] border border-dotted border-gray-300">
-              <PaymentPage />
-            </section>
-            </section>
-            </section>
-          </main>
+      </main>
         </>
       </section>
     </>

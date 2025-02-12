@@ -18,10 +18,6 @@ const Profile: React.FC = () => {
             Back to Home
           </Link>
 
-          {/* Profile Header */}
-          
-
-          {/* Profile Details */}
           <ProfileDetails />
 
           {/* Edit Modal */}

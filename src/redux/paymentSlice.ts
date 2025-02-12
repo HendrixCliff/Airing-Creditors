@@ -69,7 +69,7 @@ export const initiatePayment = createAsyncThunk<
 
     try {
       const response = await axios.post(
-        `https://caf6-105-112-73-185.ngrok-free.app/api/v1/payment/initiatePayment`,
+        `http://localhost:7000/api/v1/payment/initiatePayment`,
         payload,
         {
           headers: {
@@ -94,7 +94,7 @@ export const verifyPayment = createAsyncThunk<VerifyPaymentResponse, VerifyPayme
   async (payload, { rejectWithValue, getState }) => {
     try {
       const token = getState().auth.token;
-      const response = await axios.get(`https://caf6-105-112-73-185.ngrok-free.app/api/v1/payment/verifyPayment`, {
+      const response = await axios.get(`http://localhost:7000/api/v1/payment/verifyPayment`, {
         headers: { Authorization: `Bearer ${token}` },
         params: payload,
       });

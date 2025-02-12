@@ -34,45 +34,60 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     })
 }
   return (
-    <form className="max-[500px]:max-w-[100%] h-[21em] mx-[.1em] mt-[.9em] max-[500px]:px-[.5em] max-[500px]:py-[3em] bg-white shadow-md rounded-lg">
-<h2 className="text-xl font-bold w-full text-center mb-4">Recharge Your Airtime Instantly with a Virtual Account</h2>
-<h4 className="text-center w-[100%] max-[500px]:text-[.7rem] text-[1rem] text-gray-700">
-  Generate a virtual account, transfer funds to it, and enjoy seamless automatic recharges.
-</h4>
-    <label className="flex flex-col max-[500px]:w-[100%] col-span-2">
-      Phone Number  (No Zero and Country Code)
-      <input
-        type="text"
-        name="phone"
-        placeholder="Enter Recharge phone number"
-        value={phoneNumberVirtual.phone}
-        onChange={handleChange}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-         required
-      />
-     </label>
-      <button
-        onClick={handleCreateAccount}
-        disabled={loading}
-        className={`max-[500px]:w-[100%] w-[70%] ml-[auto] mt-4 py-2 text-white font-semibold rounded-md transition ${
-          loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-        }`}
-      >
-        {loading ? "Creating..." : "Create Account"}
-      </button>
+    <form className="bg-white shadow-md rounded-lg max-w-[500px]:w-full h-[21em] mx-[.1em] mt-[.9em] px-[1em] py-[2em] max-[500px]:px-[.5em] max-[500px]:py-[3em]">
+  {/* Heading */}
+  <h2 className="text-xl font-bold text-center w-full mb-4">
+    Recharge Your Airtime Instantly with a Virtual Account
+  </h2>
 
-      {error && <p className="text-red-500 text-center mt-3">{error}</p>}
+  {/* Subtext */}
+  <h4 className="text-center text-gray-700 text-[1rem] max-[500px]:text-[.7rem]">
+    Generate a virtual account, transfer funds to it, and enjoy seamless automatic recharges.
+  </h4>
 
-      {virtualAccount && (
-        <section className="mt-6 p-4 bg-green-100 rounded-md">
-          <p className="font-semibold">Account ID: <span className="font-normal">{virtualAccount.id}</span></p>
-          <p className="font-semibold">Account Number: <span className="font-normal">{virtualAccount.accountNumber}</span></p>
-          <p className="font-semibold">Bank Name: <span className="font-normal">{virtualAccount.bankName}</span></p>
-          <p className="font-semibold">Phone Number: <span className="font-normal">{virtualAccount.phoneNumber}</span></p>
-          <p className="font-semibold">Created At: <span className="font-normal">{virtualAccount.createdAt}</span></p>
-        </section>
-      )}
-    </form>
+  {/* Phone Number Input */}
+  <label className="flex flex-col w-full mt-4">
+    <span className="text-sm font-medium">Phone Number (No Zero and Country Code)</span>
+    <input
+      type="text"
+      name="phone"
+      placeholder="Enter Recharge phone number"
+      value={phoneNumberVirtual.phone}
+      onChange={handleChange}
+      className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      required
+    />
+  </label>
+
+  {/* Submit Button (Centered) */}
+  <div className="flex justify-center">
+    <button
+      onClick={handleCreateAccount}
+      disabled={loading}
+      className={`w-[70%] max-[500px]:w-full mt-4 py-2 text-white font-semibold rounded-md transition ${
+        loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+      }`}
+    >
+      {loading ? "Creating..." : "Create Account"}
+    </button>
+  </div>
+
+  {/* Error Message */}
+  {error && <p className="text-red-500 text-center mt-3">{error}</p>}
+
+  {/* Virtual Account Details */}
+  {virtualAccount && (
+    <section className="mt-6 p-4 bg-green-100 rounded-md">
+      <p className="font-semibold">Account ID: <span className="font-normal">{virtualAccount.id}</span></p>
+      <p className="font-semibold">Account Number: <span className="font-normal">{virtualAccount.accountNumber}</span></p>
+      <p className="font-semibold">Bank Name: <span className="font-normal">{virtualAccount.bankName}</span></p>
+      <p className="font-semibold">Phone Number: <span className="font-normal">{virtualAccount.phoneNumber}</span></p>
+      <p className="font-semibold">Created At: <span className="font-normal">{virtualAccount.createdAt}</span></p>
+    </section>
+  )}
+</form>
+
+  
   );
 };
 

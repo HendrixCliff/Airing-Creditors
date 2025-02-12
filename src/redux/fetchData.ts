@@ -62,7 +62,7 @@ export const login = createAsyncThunk<AuthResponse, LoginPayload>(
   async ({ identifier, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `https://caf6-105-112-73-185.ngrok-free.app/api/v1/auth/login`, // Use environment variable
+        `http://localhost:7000/api/v1/auth/login`, // Use environment variable
         { identifier, password }, // Request payload
         { withCredentials: true } // Enable credentials (cookies/sessions)
       );
@@ -79,7 +79,7 @@ export const signup = createAsyncThunk<AuthResponse, SignupPayload>(
   async (payload, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `https://caf6-105-112-73-185.ngrok-free.app/api/v1/auth/signup`,
+        `http://localhost:7000/api/v1/auth/signup`,
         payload,
         { withCredentials: true }
         
@@ -95,7 +95,7 @@ export const forgotPassword = createAsyncThunk<ForgotPasswordResponse, ForgotPas
   'auth/forgotPassword',
   async ({ email }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`https://caf6-105-112-73-185.ngrok-free.app/api/v1/auth/forgotPassword`, { email });
+      const response = await axios.post(`http://localhost:7000/api/v1/auth/forgotPassword`, { email });
       return response.data;
     } catch (error) {
       return rejectWithValue(error instanceof Error ? error.message : 'Failed to request password reset');
@@ -108,7 +108,7 @@ export const resetPassword = createAsyncThunk<ResetPasswordResponse, ResetPasswo
   async (payload, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        ` https://caf6-105-112-73-185.ngrok-free.app/api/v1/auth/resetPassword/${payload.token}`,
+        ` http://localhost:7000/api/v1/auth/resetPassword/${payload.token}`,
         { password: payload.password, confirmPassword: payload.confirmPassword },  
       );
       return response.data;
@@ -126,7 +126,7 @@ export const fetchLoggedInUser = createAsyncThunk<FetchUserResponse, void, { rej
       if (!token) return rejectWithValue('Authentication token not found');
 
       const response = await axios.get<FetchUserResponse>(
-        `https://caf6-105-112-73-185.ngrok-free.app/api/v1/users/userProfile`,
+        `http://localhost:7000/api/v1/users/userProfile`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -156,7 +156,7 @@ export const updatePassword = createAsyncThunk<
 
     try {
       const response = await axios.post(
-        `https://caf6-105-112-73-185.ngrok-free.app/api/v1/users/updatePassword`,
+        `http://localhost:7000/api/v1/users/updatePassword`,
         { newPassword },
         {
           headers: { Authorization: `Bearer ${token}` }, // ✅ Send JWT token in header
