@@ -21,11 +21,19 @@ import {
 } from './../components/ui/alert-dialog';
 
 const Dashboard: React.FC = () => {
-  useWebhookListener(); 
   const dispatch = useAppDispatch();
   const navigate = useNavigate(); 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // ✅ Define webhookData (fetch from API, state, or use dummy data)
+  const webhookData = {
+    transactionId: '12345',
+    status: 'successful',
+  };
+
+  // ✅ Pass webhookData to useWebhookListener
+  useWebhookListener(webhookData);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -40,7 +48,7 @@ const Dashboard: React.FC = () => {
   }, [isLoggedIn]);
 
   return (
-    <>
+    <section className="max-h-full overflow-hidden">
       {!isLoggedIn && (
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <AlertDialogContent className="bg-[#2f5951] text-[#ffb927]">
@@ -58,10 +66,10 @@ const Dashboard: React.FC = () => {
         </AlertDialog>
       )}
 
-      <section className="w-full bg-dashboard-bg bg-cover bg-center max-[500px]:bg-[100%]  bg-no-repeat min-h-screen max-h-fit relative overflow-hidden bg-gray-100">
+      <section className="w-full h-full bg-dashboard-bg bg-cover bg-center max-[500px]:bg-[center] bg-no-repeat min-h-screen relative overflow-hidden bg-gray-100">
         <>
           {/* Sidebar */}
-          <aside className="w-[15%] shadow-2xl bg-payment-bg bg-cover bg-center py-[.6em] absolute left-[1em] max-[500px]:top-[5em] max-[480px]:top-[6.9] max-[720px]:top-[6.2em] max-[450px]:left-[14.2em] max-[480px]:left-[14.2em] max-[500px]:left-[19.8em] max-[530px]:left-[19.8em]  max-[580px]:left-[19.8em] max-[590px]:left-[19.8em] max-[600px]:left-[19.8em] max-[650px]:left-[21.8em] max-[720px]:left-[24.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%]   max-sm:w-[34%] px-[.5em] bg-white">
+          <aside className="w-[15%] shadow-2xl bg-payment-bg bg-cover bg-center py-[.6em] absolute left-[1em] max-[900px]:left-[] max-[500px]:top-[5em] max-[480px]:top-[6.9] max-[720px]:top-[6.2em] max-[450px]:left-[14.2em] max-[480px]:left-[14.2em] max-[500px]:left-[19.8em] max-[530px]:left-[21.8em]  max-[580px]:left-[24.8em] max-[590px]:left-[25.8em] max-[600px]:left-[19.8em] max-[650px]:left-[29.8em] max-[720px]:left-[29.8em] max-md:top-[5em] max-md:left-[21em] top-[2em] max-md:w-[30%] max-[720px]:w-[40%] max-sm:w-[34%] px-[.5em] bg-white">
             <section className="p-[.4em] w-[95%] bg-[white] max-sm:w-[95%] mt-[.5em]  border">
               <img
                 src="./images/airtimelogo.webp"
@@ -112,57 +120,57 @@ const Dashboard: React.FC = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="w-full max-md:w-full relative">
-        <header className="mb-[.5em]">
-          {!isLoggedIn ? (
-            <section className="flex gap-[3em] max-md:mt-[1em] w-[20%] max-md:w-[60%] max-md:gap-[.5em] ml-auto">
-              <Link
-                to="/authenticate"
-                className="text-center w-full max-md:w-[90%] ml-auto mt-[2em] p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="text-center w-full max-md:w-[90%] ml-auto mt-[2em] mr-[.5em] p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]"
-              >
-                Signup
-                    </Link>
-                  </section>
-                ) : null}
-              </header>
+          <main className="w-full max-md:w-full relative min-h-screen overflow-auto">
+  <header className="mb-[.5em]">
+    {!isLoggedIn ? (
+      <section className="flex gap-[3em] max-md:mt-[1em] w-[20%] max-md:w-[60%] max-md:gap-[.5em] ml-auto">
+        <Link
+          to="/authenticate"
+          className="text-center w-full max-md:w-[90%] ml-auto mt-[2em] p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]"
+        >
+          Login
+        </Link>
+        <Link
+          to="/signup"
+          className="text-center w-full max-md:w-[90%] ml-auto mt-[2em] mr-[.5em] p-[.2em] font-semibold rounded-[1em] text-[#f1fffc] bg-[#736dff] max-md:text-[.9em] max-sm:text-[.8em] text-[1.2rem]"
+        >
+          Signup
+        </Link>
+      </section>
+    ) : null}
+  </header>
 
-              {/* Cards */}
-              <section>
-                {/* Container for VirtualAccount & TransactionAction */}
-                <section className="flex max-[500px]:flex-col max-[500px]:gap-[.5em] max-[500px]:mt-[1em] max-[500px]:items-start ">
-                  {/* VirtualAccount */}
-                  <section className="absolute max-[500px]:static max-[500px]:h-[24em] max-[500px]:w-[65%] max-[480px]:w-[62%] max-[500px]:left-[.1em] max-[500px]:top-[6em] top-[0.6em] left-[60em] h-[23em] px-[.8em] bg-payment-bg bg-cover bg-center">
-                    <VirtualAccount />
-                  </section>
+  {/* Cards */}
+  <section className="relative min-h-screen flex flex-col gap-8">
+    <section className="flex max-[500px]:flex-col max-[500px]:gap-[.5em] max-[500px]:mt-[1em] items-start">
+      {/* VirtualAccount */}
+      <section className="relative left-[40em] max-[500px]:h-[24em] max-[500px]:w-[65%] max-[480px]:w-[62%] max-[500px]:left-[.1em] max-[500px]:top-[6em] top-[0.6em]  h-[23em] px-[.8em] bg-payment-bg bg-cover bg-center">
+        <VirtualAccount />
+      </section>
 
-                  {/* TransactionAction (Now Below VirtualAccount in Small Screens) */}
-                  <section className="absolute left-[15em] max-[500px]:w-[65%] max-[500px]:static max-[500px]:order-1 max-md:right-[6em] max-md:left-[.0em]">
-                    <TransactionAction />
-                  </section>
-                </section>
+      {/* TransactionAction */}
+      <section className="relative right-[22em] max-[500px]:w-[65%] max-[500px]:static max-[500px]:order-1 max-md:right-[6em] max-md:left-[.0em]">
+        <TransactionAction />
+      </section>
+    </section>
 
-                <section className="flex ml-[16em]  max-md:mt-[0em] transition-transform hover:scale-[1.02] max-md:w-full mt-[23em] max-[500px]:ml-[.1em] items-start gap-[1em] max-md:flex-col-reverse">
-                  {/* Payment Verification */}
-                  <section className="bg-white bg-payment-bg bg-cover bg-center w-[45%] max-[500px]:w-[80%] mt-[6em] shadow-2xl max-[500px]:ml-[auto] max-[500px]:mr-[auto] max-md:mt-[-2.5em] h-[23em] max-[500px]:h-[27em]  rounded-lg">
-                    <PaymentVerification />
-                  </section>
+    <section className="relative flex flex-col items-center gap-8">
+      {/* Payment Verification */}
+      <section className="bg-white bg-payment-bg bg-cover bg-center w-[45%] max-[500px]:w-[80%] mt-[.3em] shadow-2xl max-[500px]:ml-[auto] max-[500px]:mr-[auto] max-md:mt-[-2.5em] h-[23em] max-[500px]:h-[27em] rounded-lg">
+        <PaymentVerification />
+      </section>
 
-                  {/* Payment Page */}
-                  <section className="bg-payment-bg bg-cover bg-center bg-white/60 mt-[1em] ml-[auto] mr-[auto] backdrop-blur-lg shadow-[2em] p-6 max-[500px]:w-[85%] w-[50%] mb-[2em] rounded-[.3em] border border-dotted border-gray-300">
-                    <PaymentPage />
-                  </section>
-                </section>
-              </section>
-      </main>
+      {/* Payment Page */}
+      <section className="bg-payment-bg bg-cover bg-center bg-white/60 mt-[1em] ml-[auto] mr-[auto] backdrop-blur-lg shadow-[2em] p-6 max-[500px]:w-[85%] w-[50%] mb-[2em] rounded-[.3em] border border-dotted border-gray-300">
+        <PaymentPage />
+      </section>
+    </section>
+  </section>
+</main>
+
         </>
       </section>
-    </>
+    </section>
   );
 };
 

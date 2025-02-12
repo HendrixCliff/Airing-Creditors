@@ -21,15 +21,24 @@ const initialState: TransactionState = {
 
 // ✅ Async thunk for handling webhook data (Polling method)
 export const handleFlutterwaveWebhook = createAsyncThunk<
-  any, // Response type
-  any, // Payload type
+  any, // Return type
+  any, // Argument type (expected input)
   { rejectValue: string }
->("transaction/handleWebhook", async (payload, { rejectWithValue }) => {
+>('webhook/handleFlutterwave', async (arg, { rejectWithValue }) => {
   try {
-    const response = await axios.post("/api/webhook", payload); // Adjust API URL
-    return response.data;
+    const response = await fetch('/api/webhook/flutterwave', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(arg), // 🚀 `arg` is required here
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to process webhook');
+    }
+
+    return await response.json();
   } catch (error: any) {
-    return rejectWithValue(error.response?.data?.error || "Failed to process webhook");
+    return rejectWithValue(error.message);
   }
 });
 

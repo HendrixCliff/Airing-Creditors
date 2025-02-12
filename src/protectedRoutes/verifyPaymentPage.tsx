@@ -23,7 +23,7 @@ const PaymentVerification: React.FC = () => {
   return (
     <section className="w-full  flex justify-center">
       <section className="w-full  max-w-lg p-6">
-        <h1 className="text-xl font-semibold mb-[.7em] bg-[white] ml-[auto] mr-[auto] w-[60%] text-center">Verify Card Payment</h1>      
+        <h1 className="text-xl font-semibold mb-[.7em] bg-[white] ml-[auto] mr-[auto] w-[60%] text-center">Verify 💳 Payment</h1>      
         {loading && <p className="text-center bg-[white] text-blue-500">Verifying payment...</p>}
         {error && <p className="text-bg-[white]  text-red-500">Error: {error}</p>}
         

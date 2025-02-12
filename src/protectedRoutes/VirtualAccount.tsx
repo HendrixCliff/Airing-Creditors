@@ -44,6 +44,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   <h4 className="text-center text-gray-700 text-[1rem] max-[500px]:text-[.7rem]">
     Generate a virtual account, transfer funds to it, and enjoy seamless automatic recharges.
   </h4>
+  <h4 className="text-center text-gray-700 text-[1rem] max-[500px]:text-[.7rem]">
+    Choose the purpose of transaction when you confirm the payment from your bank.
+  </h4>
 
   {/* Phone Number Input */}
   <label className="flex flex-col w-full mt-4">

@@ -6,6 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'; 
 
+interface LoginPayload {
+  identifier: string;
+  password: string;
+}
+
 const LoginComponent: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -18,28 +23,31 @@ const LoginComponent: React.FC = () => {
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+  
     const form = event.target as HTMLFormElement;
     const identifierElement = form.elements.namedItem('identifier') as HTMLInputElement;
     const passwordElement = form.elements.namedItem('password') as HTMLInputElement;
-
+  
     if (!identifierElement || !passwordElement) {
       console.error('Identifier or password input not found');
       return;
     }
-
-    const identifier = identifierElement.value;
-    const password = passwordElement.value;
-
-    console.log('Logging in with:', { identifier, password });
-
+  
+    const payload: LoginPayload = {
+      identifier: identifierElement.value,
+      password: passwordElement.value,
+    };
+  
+    console.log('Logging in with:', payload);
+  
     try {
-      await dispatch(login({ identifier, password })).unwrap();
+      await dispatch(login(payload)).unwrap();
       navigate('/');
     } catch (err) {
       console.error('Login failed:', err);
     }
   };
+  
 
   return (
     <section className="overflow-hidden max-md:w-[99%] mr-[1em]">

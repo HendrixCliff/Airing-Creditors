@@ -22,9 +22,10 @@ interface UpdatePasswordResponse {
 
 
 interface LoginPayload {
-  username: string;
+  identifier: string; // Ensure this matches LoginComponent
   password: string;
 }
+
 
 interface SignupPayload {
   username: string;
@@ -57,22 +58,28 @@ export interface FetchUserResponse {
 }
 
 
-export const login = createAsyncThunk<AuthResponse, LoginPayload>(
+export const login = createAsyncThunk(
   'auth/login',
-  async ({ identifier, password }, { rejectWithValue }) => {
+  async (payload: LoginPayload, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `http://localhost:7000/api/v1/auth/login`, // Use environment variable
-        { identifier, password }, // Request payload
-        { withCredentials: true } // Enable credentials (cookies/sessions)
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : 'Login failed');
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload), // Ensure identifier is sent, not username
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      return await response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
   }
 );
-
 
 export const signup = createAsyncThunk<AuthResponse, SignupPayload>(
   'auth/signup',

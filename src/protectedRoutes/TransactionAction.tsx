@@ -37,7 +37,7 @@ const TransactionAction: React.FC = () => {
 
   return (
 <section className="max-w-[100%] max-[500px]:w-[100%] mx-auto bg-white shadow-md rounded-lg p-6 space-y-4">
-  <h2 className="text-xl font-semibold text-gray-700">Choose Transaction Action</h2>
+  <h2 className="text-xl font-semibold text-gray-700">Select Transaction Type</h2>
 
   {status && <h3 className="text-gray-600 font-medium">{status}</h3>}
   {amount && <h3 className="text-gray-600 font-medium">Amount: {amount}</h3>}

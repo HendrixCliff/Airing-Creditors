@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { useAppDispatch } from './../hooks/useAppDispatch';
-import { useAppSelector } from './../hooks/useAppSelector';
-import { initiatePayment } from '../redux/paymentSlice';
+import React, { useState } from "react";
+import { useAppDispatch } from "./../hooks/useAppDispatch";
+import { useAppSelector } from "./../hooks/useAppSelector";
+import { initiatePayment } from "../redux/paymentSlice";
 
 const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error, status } = useAppSelector((state) => state.payment);
-  const { token } = useAppSelector((state) => state.auth); // ✅ Added `token`
+  const { token } = useAppSelector((state) => state.auth);
+
+  // State to toggle form visibility
+  const [showForm, setShowForm] = useState(false);
 
   interface PaymentDetails {
     email: string;
@@ -24,138 +27,104 @@ const PaymentPage: React.FC = () => {
   }
 
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
-    email: '',
+    email: "",
     amount: 0,
-    phone: '',
-    phoneNumber: '',
-    currency: 'NGN',
-    payment_option: 'card',
+    phone: "",
+    phoneNumber: "",
+    currency: "NGN",
+    payment_option: "card",
     tx_ref: `txn_${new Date().getTime()}`,
-    card_number: '',
-    expiry_date: '',
-    cvv: '',
-    countryCode: '+234',
-    card_type: '',
+    card_number: "",
+    expiry_date: "",
+    cvv: "",
+    countryCode: "+234",
+    card_type: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-  const { name, value } = e.target;
+    const { name, value } = e.target;
 
-  setPaymentDetails((prev) => {
-    let updatedValue: string | number = value;
+    setPaymentDetails((prev) => {
+      let updatedValue: string | number = value;
 
-    // Limit CVV input to only three numeric characters
-    if (name === 'cvv') {
-      updatedValue = value.replace(/\D/g, '').slice(0, 3); // Remove non-numeric chars & limit to 3 digits
-    }
+      if (name === "cvv") {
+        updatedValue = value.replace(/\D/g, "").slice(0, 3); // Allow only 3 numeric digits
+      }
 
-    // Convert amount to number
-    if (name === 'amount') {
-      updatedValue = value === '' ? '' : parseFloat(value) || 0;
-    }
+      if (name === "amount") {
+        updatedValue = value === "" ? "" : parseFloat(value) || 0;
+      }
 
-    const updatedDetails = { ...prev, [name]: updatedValue };
+      const updatedDetails = { ...prev, [name]: updatedValue };
 
-    // Handle phone number updates dynamically
-    if (name === 'countryCode' || name === 'phone') {
-      updatedDetails.phone = updatedDetails.phone.replace(/^0+/, ''); // Remove leading zeros
-      updatedDetails.phoneNumber = `${updatedDetails.countryCode}${updatedDetails.phone}`;
-    }
+      if (name === "countryCode" || name === "phone") {
+        updatedDetails.phone = updatedDetails.phone.replace(/^0+/, "");
+        updatedDetails.phoneNumber = `${updatedDetails.countryCode}${updatedDetails.phone}`;
+      }
 
-    return updatedDetails;
-  });
-};
-
-
-
- 
-  const validateExpiryDate = (expiryDate: string) => {
-    const [month, year] = expiryDate.split('/').map(Number);
-    const currentYear = new Date().getFullYear() % 100;
-    const currentMonth = new Date().getMonth() + 1;
-
-    return month && year && month >= 1 && month <= 12 && (year > currentYear || (year === currentYear && month >= currentMonth));
+      return updatedDetails;
+    });
   };
-
-  const handleExpiryDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/\D/g, '');
-    const formattedInput = input.length > 2 ? `${input.slice(0, 2)}/${input.slice(2, 4)}` : input;
-    
-    if (formattedInput.length <= 5) {
-      setPaymentDetails((prev) => ({ ...prev, expiry_date: formattedInput }));
-    }
-  };
-
-  const detectCardType = (cardNumber: string) => {
-    if (/^4/.test(cardNumber)) return 'Visa';
-    if (/^5[1-5]/.test(cardNumber)) return 'Mastercard';
-    if (/^506[0-9]|^507[0-9]|^650[0-9]/.test(cardNumber)) return 'Verve';
-    if (/^3[47]/.test(cardNumber)) return 'American Express';
-    if (/^6(?:011|5)/.test(cardNumber)) return 'Discover';
-    return 'Unknown';
-  };
-
-  const handleCardDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/\D/g, '');
-    
-    if (input.length <= 16) {
-      setPaymentDetails((prev) => ({
-        ...prev,
-        card_number: input,
-        card_type: detectCardType(input),
-      }));
-    }
-  };
-
 
   const handleInitiatePayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-
     if (!paymentDetails.email || !paymentDetails.amount || !paymentDetails.phoneNumber) {
-      alert('Please fill in all required fields.');
-      return;
-    }
-    if (!validateExpiryDate(paymentDetails.expiry_date)) {
-      alert('Invalid expiry date. Please enter a valid MM/YY.');
+      alert("Please fill in all required fields.");
       return;
     }
 
     try {
       const paymentPayload = {
         ...paymentDetails,
-        amount: parseFloat(paymentDetails.amount.toString()) || 0, // ✅ Ensure amount is a number
+        amount: parseFloat(paymentDetails.amount.toString()) || 0,
       };
 
       await dispatch(initiatePayment(paymentPayload));
-      console.log('Payment initiated successfully');
+      console.log("Payment initiated successfully");
     } catch (err) {
-      console.error('Payment initiation failed:', err);
+      console.error("Payment initiation failed:", err);
     }
   };
 
- return (
-  <section className="w-full flex  justify-center">
-      <section className="w-full max-w-[100%] max-[500px]:w-[100%]">
-        {loading && <p>Processing payment...</p>}
-        {error && <p className="text-red-500">Error: {  error}</p>}
+  return (
+    <section className="w-full flex flex-col items-center justify-center">
+      {/* Toggle Form Button */}
+      <button
+        onClick={() => setShowForm(!showForm)}
+        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+      >
+        {showForm ? "Hide Payment Form" : "Show Payment Form"}
+      </button>
 
-        <h2 className="ml-[auto] mr-[auto] text-center w-[40%] max-[500px]:w-[100%] bg-[white] text-xl font-semibold mb-[1em]">Initiate Card Payment</h2>
+      {/* Form Container (Maintains Size Even When Hidden) */}
+      <section
+        className={`w-full max-w-[100%] mt-4 transition-opacity duration-500 ease-in-out ${
+          showForm ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+        style={{ height: "500px" }} // Set a fixed height to maintain space
+      >
+        {loading && <p>Processing payment...</p>}
+        {error && <p className="text-red-500">Error: {error}</p>}
+
+        <h2 className="text-center w-[90%] mx-[auto] bg-white text-xl font-semibold mb-[1em]">
+          Initiate 💳 Payment 
+        </h2>
+
         <form
-          className="grid grid-cols-1 md:grid-cols-2 bg-[white] gap-4 border-2 border-gray-300 w-full max-[500px]:w-[100%] max-[500px]:px-[.5em] px-[.8em] rounded-md shadow-md"
+          className="grid grid-cols-1 md:grid-cols-2 bg-white gap-4 border-2 border-gray-300 w-full px-[.8em] rounded-md shadow-md"
           onSubmit={handleInitiatePayment}
         >
           {/* Email */}
-          <label className="flex flex-col max-[500px]:w-[100%] col-span-2">
+          <label className="flex flex-col col-span-2">
             Email
             <input
               type="email"
               name="email"
-              className="border max-[500px]:w-[100%] border-gray-300  p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-300 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={paymentDetails.email}
               onChange={handleChange}
               required
-  
             />
           </label>
 
@@ -165,10 +134,10 @@ const PaymentPage: React.FC = () => {
             <input
               type="number"
               name="amount"
+              className="border p-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
               value={paymentDetails.amount}
               onChange={handleChange}
               required
-              className="border p-2  border-gray-300   rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
             />
           </label>
 
@@ -178,7 +147,7 @@ const PaymentPage: React.FC = () => {
             <input
               type="text"
               name="phone"
-              className="border border-gray-300  p-2  w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-300 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={paymentDetails.phone}
               onChange={handleChange}
               required
@@ -191,11 +160,10 @@ const PaymentPage: React.FC = () => {
             <input
               type="text"
               name="card_number"
-              className="border p-2  w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border p-2 w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={paymentDetails.card_number}
-              onChange={handleCardDetails}
+              onChange={handleChange}
               required
-              
             />
           </label>
 
@@ -204,12 +172,11 @@ const PaymentPage: React.FC = () => {
             Expiry Date
             <input
               type="text"
-              className="border p-2 w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border p-2 w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               name="expiry_date"
               value={paymentDetails.expiry_date}
-              onChange={handleExpiryDate}
+              onChange={handleChange}
               required
-              
             />
           </label>
 
@@ -217,7 +184,7 @@ const PaymentPage: React.FC = () => {
           <label className="flex flex-col col-span-2 md:col-span-1">
             CVV
             <input
-              className="border p-2  border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  w-full"
+              className="border p-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
               type="text"
               name="cvv"
               value={paymentDetails.cvv}
@@ -234,15 +201,14 @@ const PaymentPage: React.FC = () => {
           <button
             type="submit"
             disabled={!token || loading || !paymentDetails.email || !paymentDetails.amount || !paymentDetails.phone}
-            className="col-span-2 bg-gray-400 max-[500px]:w-[100%] w-[40%] text-white font-semibold py-2 rounded-md  mb-[1em] transition duration-200 mx-auto  hover:bg-blue-600  disabled:bg-purple-500"
+            className="col-span-2 bg-gray-400 w-[40%] text-white font-semibold py-2 rounded-md mb-[1em] transition duration-200 mx-auto hover:bg-blue-600 disabled:bg-purple-500"
           >
             {loading ? "Processing..." : "Initiate Payment"}
           </button>
         </form>
       </section>
-  </section>
-);
-
+    </section>
+  );
 };
 
 export default PaymentPage;
